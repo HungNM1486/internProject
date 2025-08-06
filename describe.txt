@@ -1,0 +1,40 @@
+Xây dựng Website Bán Sách trực tuyến 
+1. Giới thiệu 
+Bài tập cuối khóa học CPL.FE này tập trung vào việc phát triển một trang web bán sách trực tuyến cơ bản, mô phỏng các tính năng và bố cục của các trang thương mại điện tử phổ biến tại Việt Nam 
+2. Yêu cầu chức năng (8 điểm) 
+Hiển thị danh sách sản phẩm (1 điểm): 
+Lấy dữ liệu sách từ docker local (hoặc có thể chủ động xây dựng backend): Mỗi đối tượng đại diện cho một cuốn sách với các thuộc tính như id, title, author, images (đường dẫn đến ảnh bìa), price, sale-off price và description… 
+Sắp xếp theo các tiêu chí được bán chạy nhất, rate cao nhất 
+Lọc sản phẩm theo danh mục sản phẩm 
+Tìm kiếm theo các trường dữ liệu tên, mô tả ngắn , mô tả dài 
+Các component liên quan: BookList (component cha), BookCard (con) 
+ 
+Trang Chi tiết Sản phẩm (1 điểm): 
+Tạo một trang hiển thị thông tin chi tiết về một cuốn sách 
+Triển khai điều hướng đến trang này từ danh sách sản phẩm: Người dùng có thể nhấp vào một cuốn sách trong danh sách và được chuyển đến trang BookDetails của cuốn sách đó.  
+Chi tiết sách chứa các thông tin như: tác giả, nhà xuất bản, thông tin chi tiết sách, hiển thị nhiều ảnh của sách 
+Hiện thị danh sách sách tương tự cùng danh mục 
+Chức năng Mua hàng (1 điểm): 
+Triển khai tính năng “Mua hàng”, người dùng có thể trực tiếp mua hàng mà không cần thêm sản phẩm vào giỏ hàng. 
+Người dùng có thể xem đơn hàng của mình gồm những sản phẩm gì. Chọn phương tiện thanh toán và hình thức giao hàng. 
+Đơn hàng sau khi được đặt hàng thành công sẽ hiển thị thông báo, người dùng có thể xem lại đơn hàng của mình đã mua 
+Chức năng giỏ hàng (1 điểm) 
+Người dùng có thể thêm sản phẩm vào giỏ hàng và quản lý thông tin trong giỏ hàng bao gồm các sản phẩm và số lượng sản phẩm 
+Người dùng có thể thêm, tăng số lượng và xóa sản phẩm khỏi giỏ hàng. 
+Chức năng xác thực người dùng (1 điểm): Người dùng yêu cầu phải đăng nhập mới được phép mua hàng, quản trị viên cần đăng nhập với role quản trị mới truy cập vào trang quản trị và thao tác với dữ liệu 
+Chức năng quản lý lịch sử đơn hàng 
+Sau khi mua hàng người dùng có thể xem lại lịch sử đơn mua hàng của mình và kiểm tra trạng thái bao gồm (Đã xác nhận ,Đang giao hàng, đã giao hàng, Đã hủy) 
+Người dùng có thể Hủy đơn hàng nếu đơn hàng ở trạng thái “Đã xác nhận” 
+Chức năng Quản trị (2 điểm) 
+Học viên chủ động tính năng quản lý sản phẩm theo bất kỳ framework hoặc template nào 
+Trang quản tri sử dụng layout riêng, không cần chú trọng responsive, người dùng thường không thể truy cập thông qua đường dẫn 
+Chức năng quản trị bao gồm quản lý sản phẩm, quản trị danh mục,  quản lý người dùng, đơn hàng. Cho phép CRUD (bao gồm validating và error handling) các thực thể cũng như các chức năng sắp xếp, tìm kiếm 
+Chức năng dashboard (Optional) 
+Xây dựng API server cho hệ thống quản lý sách - Học viên có thể tự xây dựng hệ thống backend để quản lý (+1 điểm) 
+3. Yêu cầu phi chức năng (2 điểm): 
+Dự án sử dụng tech stack React.JS và Typescript 
+Cấu trúc thư mục theo tiêu chuẩn React.JS và dễ dàng scale 
+Styling sử dụng ít nhất một FE Framework để thực hiện dự án 
+Responsive trên toàn bộ các trang người dùng  
+Sử dụng ít nhất một State management toàn cục (context API, Zustand, Redux Toolkits Query) 
+Tối ưu hóa sử dụng Memorization, Lazy load code spliting 

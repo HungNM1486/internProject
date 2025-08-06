@@ -1,0 +1,119 @@
+.header {
+  @apply bg-white shadow-md sticky top-0 z-50;
+}
+
+.topBanner {
+  @apply bg-primary-600 text-white py-2;
+}
+
+.topBannerText {
+  @apply container-custom text-center text-sm;
+}
+
+.mainHeader {
+  @apply container-custom py-4;
+}
+
+.headerContent {
+  @apply flex items-center justify-between;
+}
+
+.logo {
+  @apply flex items-center space-x-2;
+}
+
+.logoIcon {
+  @apply w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center;
+}
+
+.logoText {
+  @apply font-display text-2xl font-bold text-gray-900;
+}
+
+.searchContainer {
+  @apply hidden md:flex flex-1 max-w-2xl mx-8;
+}
+
+.searchWrapper {
+  @apply relative w-full;
+}
+
+.searchInput {
+  @apply w-full pl-4 pr-12 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+}
+
+.searchButton {
+  @apply absolute right-3 top-1/2 transform -translate-y-1/2;
+}
+
+.searchIcon {
+  @apply w-5 h-5 text-gray-400;
+}
+
+.actions {
+  @apply flex items-center space-x-4;
+}
+
+.mobileSearchBtn {
+  @apply md:hidden p-2 hover:bg-gray-100 rounded-lg;
+}
+
+.cartLink {
+  @apply relative p-2 hover:bg-gray-100 rounded-lg group;
+}
+
+.cartIcon {
+  @apply w-6 h-6 text-gray-600 group-hover:text-primary-600;
+}
+
+.cartBadge {
+  @apply absolute -top-1 -right-1 bg-accent-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center;
+}
+
+.userMenu {
+  @apply relative;
+}
+
+.loginLink {
+  @apply hidden sm:flex items-center space-x-2 px-4 py-2 text-gray-700 hover:text-primary-600;
+}
+
+.userIcon {
+  @apply w-5 h-5;
+}
+
+.loginText {
+  @apply font-medium;
+}
+
+.mobileMenuBtn {
+  @apply md:hidden p-2 hover:bg-gray-100 rounded-lg;
+}
+
+.menuIcon {
+  @apply w-6 h-6 text-gray-600;
+}
+
+.mobileSearch {
+  @apply md:hidden mt-4;
+}
+
+.navigation {
+  @apply border-t border-gray-200 bg-gray-50;
+}
+
+.navContainer {
+  @apply container-custom;
+}
+
+.navList {
+  @apply flex flex-col md:flex-row md:space-x-8 py-2;
+}
+
+.navItem {
+  @apply block px-4 py-3 md:py-2 text-gray-700 hover:text-primary-600 font-medium;
+}
+
+.mobileNavItem {
+  @apply md:hidden block px-4 py-3 text-gray-700 hover:text-primary-600 font-medium;
+}
