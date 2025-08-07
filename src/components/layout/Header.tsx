@@ -1,17 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Header.module.css';
+
+// API service
+const fetchTopProducts = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/products?_sort=quantity_sold.value&_order=desc&_limit=10');
+    return await response.json();
+  } catch (error) {
+    console.error('Failed to fetch top products:', error);
+    return [];
+  }
+};
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [topProducts, setTopProducts] = useState<{ id: string; name: string }[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  useEffect(() => {
+    fetchTopProducts().then(setTopProducts);
+  }, []);
 
   return (
     <header className={styles.header}>
       {/* Top banner */}
       <div className={styles.topBanner}>
-        <div className={styles.topBannerText}>
-          📚 Miễn phí vận chuyển cho đơn hàng từ 200.000đ
+        <div className={`${styles.topBannerText} font-bold`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <span style={{ fontSize: '12px', color: '#00AB56' }}>Freeship đơn từ 45k, giảm nhiều hơn với</span>
+          <img 
+            src="/header_freeship.png" 
+            alt="Freeship Extra" 
+            style={{ height: '16px', width: 'auto', marginLeft: '4px' }}
+          />
         </div>
       </div>
 
@@ -20,102 +42,135 @@ const Header: React.FC = () => {
         <div className={styles.headerContent}>
           {/* Logo */}
           <Link to="/" className={styles.logo}>
-            <div className={styles.logoIcon}>
-              <span className="text-white font-bold text-xl">📖</span>
-            </div>
-            <span className={styles.logoText}>BookStore</span>
+            <img 
+              src="/logo.png" 
+              alt="Tiki Logo" 
+              style={{ width: '96px', height: '40px' }}
+            />
+            <span className={styles.logoText}>Tốt & Nhanh</span>
           </Link>
 
-          {/* Search bar - Desktop */}
-          <div className={styles.searchContainer}>
-            <div className={styles.searchWrapper}>
-              <input
-                type="text"
-                placeholder="Tìm kiếm sách, tác giả..."
-                className={styles.searchInput}
-              />
-              <button className={styles.searchButton}>
-                <svg className={styles.searchIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          {/* Search section */}
+          <div className={styles.searchSection}>
+            {/* Search box và actions cùng hàng */}
+            <div className={styles.searchRow}>
+              {/* Search bar */}
+              <div className={styles.searchBox}>
+                <svg className={styles.searchIconLeft} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
-              </button>
+                
+                <input
+                  type="text"
+                  placeholder="Tìm kiếm sách, tác giả..."
+                  className={styles.searchInput}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                
+                <div className={styles.searchDivider}></div>
+                
+                <button className={styles.searchSubmitBtn}>
+                  Tìm kiếm
+                </button>
+              </div>
+
+              {/* Actions */}
+              <div className={styles.actions}>
+                {/* Home button */}
+                <Link to="/" className={styles.actionBtn}>
+                <img 
+                    src="/header_home.png" 
+                    alt="Trang chủ" 
+                    className={styles.actionIcon}
+                  />
+                  <span style={{ color: '#0a68ff' }}>Trang chủ</span>
+                </Link>
+
+                {/* Account button */}
+                <Link to="/account" className={styles.actionBtn}>
+                  <img 
+                    src="/header_account.png" 
+                    alt="Account" 
+                    className={styles.actionIcon}
+                  />
+                  <span style={{ color: '#808089' }}>Tài khoản</span>
+                </Link>
+
+                {/* Divider */}
+                <div className={styles.actionDivider}></div>
+
+                {/* Cart */}
+                <Link to="/cart" className={styles.cartBtn}>
+                <img 
+                    src="/header_cart.png" 
+                    alt="Giỏ hàng" 
+                    className={styles.actionIcon}
+                  />
+                  <span className={styles.cartBadge}>3</span>
+                </Link>
+              </div>
             </div>
-          </div>
-
-          {/* Actions */}
-          <div className={styles.actions}>
-            {/* Search button - Mobile */}
-            <button 
-              className={styles.mobileSearchBtn}
-              onClick={() => setIsSearchOpen(!isSearchOpen)}
-            >
-              <svg className={styles.searchIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </button>
-
-            {/* Cart */}
-            <Link to="/cart" className={styles.cartLink}>
-              <svg className={styles.cartIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6.5-5v8m0-8H7" />
-              </svg>
-              <span className={styles.cartBadge}>3</span>
-            </Link>
-
-            {/* User menu */}
-            <div className={styles.userMenu}>
-              <Link to="/login" className={styles.loginLink}>
-                <svg className={styles.userIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-                <span className={styles.loginText}>Đăng nhập</span>
-              </Link>
+            
+            {/* Top products - nằm dưới search box */}
+            <div className={styles.topProducts}>
+              {topProducts.map((product) => (
+                <span key={product.id} className={styles.topProductItem}>
+                  {product.name.length > 25 ? product.name.substring(0, 25) + '...' : product.name}
+                </span>
+              ))}
             </div>
-
-            {/* Mobile menu button */}
-            <button 
-              className={styles.mobileMenuBtn}
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              <svg className={styles.menuIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
           </div>
         </div>
-
-        {/* Mobile search */}
-        {isSearchOpen && (
-          <div className={styles.mobileSearch}>
-            <div className={styles.searchWrapper}>
-              <input
-                type="text"
-                placeholder="Tìm kiếm sách, tác giả..."
-                className={styles.searchInput}
-              />
-              <button className={styles.searchButton}>
-                <svg className={styles.searchIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </button>
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Navigation */}
       <nav className={styles.navigation}>
         <div className={styles.navContainer}>
-          <div className={`${isMenuOpen ? 'block' : 'hidden'} md:block`}>
-            <ul className={styles.navList}>
-              <li><Link to="/" className={styles.navItem}>Trang chủ</Link></li>
-              <li><Link to="/books" className={styles.navItem}>Tất cả sách</Link></li>
-              <li><Link to="/category/van-hoc" className={styles.navItem}>Văn học</Link></li>
-              <li><Link to="/category/kinh-te" className={styles.navItem}>Kinh tế</Link></li>
-              <li><Link to="/category/khoa-hoc" className={styles.navItem}>Khoa học</Link></li>
-              <li><Link to="/category/giao-duc" className={styles.navItem}>Giáo dục</Link></li>
-              <li className="md:hidden"><Link to="/login" className={styles.mobileNavItem}>Đăng nhập</Link></li>
-            </ul>
+          <div className={styles.commitmentSection}>
+            <Link to="/commitment" className={styles.commitmentText}>Cam kết</Link>
+            
+            <div className={styles.featuresSection}>
+              <Link to="/guarantee" className={styles.featureItem}>
+                <img src="/nav1.png" alt="100% hàng thật" className={styles.featureIcon} />
+                <span className={styles.featureText}>100% hàng thật</span>
+              </Link>
+              
+              <div className={styles.featureDivider}></div>
+              
+              <Link to="/shipping" className={styles.featureItem}>
+                <img src="/nav2.png" alt="Freeship mọi nơi" className={styles.featureIcon} />
+                <span className={styles.featureText}>Freeship mọi nơi</span>
+              </Link>
+              
+              <div className={styles.featureDivider}></div>
+              
+              <Link to="/refund" className={styles.featureItem}>
+                <img src="/nav3.png" alt="Hoàn 200% nếu hàng giả" className={styles.featureIcon} />
+                <span className={styles.featureText}>Hoàn 200% nếu hàng giả</span>
+              </Link>
+
+              <div className={styles.featureDivider}></div>
+              
+              <Link to="/return" className={styles.featureItem}>
+                <img src="/nav4.png" alt="30 ngày đổi trả" className={styles.featureIcon} />
+                <span className={styles.featureText}>30 ngày đổi trả</span>
+              </Link>
+
+              <div className={styles.featureDivider}></div>
+              
+              <Link to="/fast-delivery" className={styles.featureItem}>
+                <img src="/nav5.png" alt="Giao nhanh 2h" className={styles.featureIcon} />
+                <span className={styles.featureText}>Giao nhanh 2h</span>
+              </Link>
+
+              <div className={styles.featureDivider}></div>
+              
+              <Link to="/cheap-price" className={styles.featureItem}>
+                <img src="/nav6.png" alt="Giá siêu rẻ" className={styles.featureIcon} />
+                <span className={styles.featureText}>Giá siêu rẻ</span>
+              </Link>
+            </div>
           </div>
         </div>
       </nav>
