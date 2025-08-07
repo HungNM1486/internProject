@@ -59,11 +59,23 @@
 }
 
 .cartLink {
-  @apply relative p-2 hover:bg-gray-100 rounded-lg group;
+  position: relative;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.cartLink:hover {
+  background-color: rgb(243 244 246);
 }
 
 .cartIcon {
-  @apply w-6 h-6 text-gray-600 group-hover:text-primary-600;
+  width: 1.5rem;
+  height: 1.5rem;
+  color: rgb(75 85 99);
+}
+
+.cartLink:hover .cartIcon {
+  color: rgb(37 99 235);
 }
 
 .cartBadge {

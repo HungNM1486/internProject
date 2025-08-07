@@ -6,10 +6,7 @@ interface LoginResponse {
   user: User;
 }
 
-interface RegisterRequest {
-  email: string;
-  password: string;
-}
+// RegisterRequest interface removed as it's not used
 
 export const authService = {
   async login(email: string, password: string): Promise<LoginResponse> {

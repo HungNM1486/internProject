@@ -1,25 +1,24 @@
 // src/router/index.tsx
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Outlet } from 'react-router-dom';
 import { lazy } from 'react';
-import Layout from '../components/layout/Layout';
-import ProtectedRoute from '../components/auth/ProtectedRoute';
+import { MainLayout } from '../components/layout/MainLayout';
 
 // Lazy load pages for better performance
-const Home = lazy(() => import('../pages/Home/Home'));
-const Books = lazy(() => import('../pages/Books/Books'));
-const BookDetail = lazy(() => import('../pages/Books/BookDetail'));
-const Login = lazy(() => import('../pages/Auth/Login'));
-const Register = lazy(() => import('../pages/Auth/Register'));
-const Profile = lazy(() => import('../pages/Profile/Profile'));
-const Cart = lazy(() => import('../pages/Cart/Cart'));
-const Orders = lazy(() => import('../pages/Orders/Orders'));
-const Admin = lazy(() => import('../pages/Admin/Admin'));
-const NotFound = lazy(() => import('../pages/NotFound/NotFound'));
+const Home = lazy(() => import('../pages/Home'));
+const Books = lazy(() => import('../pages/Books'));
+const BookDetail = lazy(() => import('../pages/BookDetail'));
+const Login = lazy(() => import('../pages/Login'));
+const Register = lazy(() => import('../pages/Register'));
+const Profile = lazy(() => import('../pages/Profile'));
+const Cart = lazy(() => import('../pages/Cart'));
+const Orders = lazy(() => import('../pages/Orders'));
+const Admin = lazy(() => import('../pages/Admin'));
+const NotFound = lazy(() => import('../pages/NotFound'));
 
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <Layout />,
+    element: <MainLayout><Outlet /></MainLayout>,
     errorElement: <NotFound />,
     children: [
       // Public routes
@@ -47,37 +46,21 @@ export const router = createBrowserRouter([
       // Protected routes
       {
         path: 'profile',
-        element: (
-          <ProtectedRoute>
-            <Profile />
-          </ProtectedRoute>
-        )
+        element: <Profile />
       },
       {
         path: 'cart',
-        element: (
-          <ProtectedRoute>
-            <Cart />
-          </ProtectedRoute>
-        )
+        element: <Cart />
       },
       {
         path: 'orders',
-        element: (
-          <ProtectedRoute>
-            <Orders />
-          </ProtectedRoute>
-        )
+        element: <Orders />
       },
       
       // Admin routes
       {
         path: 'admin',
-        element: (
-          <ProtectedRoute requireAdmin>
-            <Admin />
-          </ProtectedRoute>
-        )
+        element: <Admin />
       }
     ]
   }
