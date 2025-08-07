@@ -1,0 +1,95 @@
+.footer {
+  @apply bg-gray-900 text-gray-300;
+}
+
+.mainContent {
+  @apply container-custom py-12;
+}
+
+.grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8;
+}
+
+.companySection {
+  @apply space-y-4;
+}
+
+.companyLogo {
+  @apply flex items-center space-x-2;
+}
+
+.companyLogoIcon {
+  @apply w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center;
+}
+
+.companyLogoText {
+  @apply font-display text-xl font-bold text-white;
+}
+
+.companyDescription {
+  @apply text-sm leading-relaxed;
+}
+
+.socialLinks {
+  @apply flex space-x-4;
+}
+
+.socialLink {
+  @apply hover:text-primary-400 transition-colors;
+}
+
+.socialIcon {
+  @apply w-5 h-5;
+}
+
+.sectionTitle {
+  @apply font-semibold text-white mb-4;
+}
+
+.linkList {
+  @apply space-y-2 text-sm;
+}
+
+.footerLink {
+  @apply hover:text-primary-400 transition-colors;
+}
+
+.contactInfo {
+  @apply space-y-3 text-sm;
+}
+
+.contactItem {
+  @apply flex items-start space-x-3;
+}
+
+.contactItemCenter {
+  @apply flex items-center space-x-3;
+}
+
+.contactIcon {
+  @apply w-4 h-4 mt-1 text-primary-400;
+}
+
+.contactIconCenter {
+  @apply w-4 h-4 text-primary-400;
+}
+
+.copyright {
+  @apply border-t border-gray-800;
+}
+
+.copyrightContent {
+  @apply container-custom py-4;
+}
+
+.copyrightFlex {
+  @apply flex flex-col md:flex-row justify-between items-center text-sm;
+}
+
+.copyrightLinks {
+  @apply flex space-x-6 mt-2 md:mt-0;
+}
+
+.copyrightLink {
+  @apply hover:text-primary-400 transition-colors;
+}
