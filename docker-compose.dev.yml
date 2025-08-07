@@ -1,0 +1,16 @@
+# docker-compose.dev.yml - Development setup
+services:
+  # Frontend React App - Development
+  frontend-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: bookstore-frontend-dev
+    ports:
+      - '3002:5173'
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_URL=http://localhost:3000
+    command: npm run dev
