@@ -1,19 +1,28 @@
-import { RouterProvider } from 'react-router-dom';
+// src/App.tsx
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Suspense } from 'react';
-import { router } from './router';
-import LoadingSpinner from './components/common/LoadingSpinner';
 import { MainLayout } from './components/layout/MainLayout';
 
+// Import your pages (create these if not exist)
+const HomePage = () => <div>Home Page</div>;
+const BooksPage = () => <div>Books Page</div>;
+const BookDetailPage = () => <div>Book Detail</div>;
+const CartPage = () => <div>Cart Page</div>;
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <Suspense fallback={<LoadingSpinner />}>
-        <RouterProvider router={router} />
-      </Suspense>
-    </div>
+    <Router>
+      <MainLayout>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/books" element={<BooksPage />} />
+          <Route path="/books/:id" element={<BookDetailPage />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/category/:categoryId" element={<BooksPage />} />
+        </Routes>
+      </MainLayout>
+    </Router>
   );
-}
+};
 
 export default App;

@@ -1,5 +1,5 @@
 import { apiClient } from './api';
-import { User } from '../types';
+import type { User } from '../types';
 
 interface LoginResponse {
   accessToken: string;
@@ -32,3 +32,5 @@ export const authService = {
     return response.data;
   }
 };
+
+export default authService;
