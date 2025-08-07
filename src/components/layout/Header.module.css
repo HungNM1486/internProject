@@ -1,9 +1,15 @@
 .header {
-  @apply bg-white shadow-md sticky top-0 z-50;
+  @apply bg-white sticky top-0 z-50;
+  font-family: Inter, Arial, sans-serif;
+  font-weight: 400;
+  color: #808089;
 }
 
 .topBanner {
-  @apply bg-primary-600 text-white py-2;
+  @apply text-green-700;
+  background-color: #effff4;
+  padding: 12px 16px;
+  height: 42px;
 }
 
 .topBannerText {
@@ -12,22 +18,86 @@
 
 .mainHeader {
   @apply container-custom py-4;
+  height: px;
 }
 
 .headerContent {
-  @apply flex items-center justify-between;
+  @apply flex items-start px-2 gap-3;
 }
 
 .logo {
-  @apply flex items-center space-x-2;
-}
-
-.logoIcon {
-  @apply w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center;
+  @apply flex-shrink-0 w-32 flex flex-col items-center;
 }
 
 .logoText {
-  @apply font-display text-2xl font-bold text-gray-900;
+  @apply text-center w-24 h-4 text-[#003ea1] text-sm font-bold mt-2;
+  font-family: Inter, Arial, sans-serif;
+}
+
+.searchSection {
+  @apply flex-1 min-w-0 h-16;
+}
+
+.searchRow {
+  @apply flex items-center gap-4 w-full h-10;
+}
+
+.searchBox {
+  @apply flex items-center h-10 border border-gray-300 rounded-lg px-3 min-w-0 flex-1;
+}
+
+.searchIconLeft {
+  @apply w-5 h-5 text-gray-400 mr-3 flex-shrink-0;
+}
+
+.searchInput {
+  @apply flex-1 bg-transparent outline-none text-sm min-w-0 h-10; /* min-w-0 */
+}
+
+.searchDivider {
+  @apply w-px h-6 bg-gray-300 mx-3 flex-shrink-0;
+}
+
+.searchSubmitBtn {
+  @apply text-blue-600 font-normal px-4 py-1 text-sm hover:bg-blue-50 rounded flex-shrink-0;
+}
+
+.actions {
+  @apply flex items-center space-x-3 h-12 flex-shrink-0 pl-9;
+}
+.actionBtn {
+  @apply flex items-center space-x-2 font-medium px-3 py-2;
+  font-size: 14px;
+}
+
+.actionIcon {
+  @apply w-6 h-6;
+}
+
+.actionDivider {
+  @apply w-px h-8 bg-gray-300;
+}
+
+.cartBtn {
+  @apply relative flex items-center text-gray-400 hover:text-blue-600 px-3 py-2;
+}
+
+.cartIcon {
+  @apply w-7 h-7;
+}
+
+.cartBadge {
+  @apply absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center;
+}
+
+.topProducts {
+  @apply flex gap-3 mt-2 overflow-x-auto;
+  font-weight: 400;
+}
+
+.topProductItem {
+  @apply text-sm font-normal text-gray-400 hover:text-blue-600 cursor-pointer whitespace-nowrap py-0.5;
+  color: #808089;
 }
 
 .searchContainer {
@@ -38,20 +108,12 @@
   @apply relative w-full;
 }
 
-.searchInput {
-  @apply w-full pl-4 pr-12 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
-}
-
 .searchButton {
   @apply absolute right-3 top-1/2 transform -translate-y-1/2;
 }
 
 .searchIcon {
   @apply w-5 h-5 text-gray-400;
-}
-
-.actions {
-  @apply flex items-center space-x-4;
 }
 
 .mobileSearchBtn {
@@ -76,10 +138,6 @@
 
 .cartLink:hover .cartIcon {
   color: rgb(37 99 235);
-}
-
-.cartBadge {
-  @apply absolute -top-1 -right-1 bg-accent-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center;
 }
 
 .userMenu {
@@ -111,21 +169,52 @@
 }
 
 .navigation {
-  @apply border-t border-gray-200 bg-gray-50;
+  @apply border-t border-b border-gray-200;
+  height: 47px;
 }
 
 .navContainer {
-  @apply container-custom;
+  @apply container-custom h-full;
 }
 
-.navList {
-  @apply flex flex-col md:flex-row md:space-x-8 py-2;
+.commitmentSection {
+  @apply flex items-center h-full px-6;
 }
 
-.navItem {
-  @apply block px-4 py-3 md:py-2 text-gray-700 hover:text-primary-600 font-medium;
+.commitmentText {
+  @apply mr-6;
+  font-size: 14px;
+  color: #003ea1;
+  font-weight: 600;
 }
 
-.mobileNavItem {
-  @apply md:hidden block px-4 py-3 text-gray-700 hover:text-primary-600 font-medium;
+.commitmentText:hover {
+  color: rgb(98, 135, 235);
+}
+
+.featuresSection {
+  @apply flex items-center space-x-4;
+}
+
+.featureItem:hover .featureText {
+  @apply text-blue-400;
+}
+
+.featureItem {
+  @apply flex items-center space-x-1;
+}
+
+.featureIcon {
+  @apply w-5 h-5;
+}
+
+.featureText {
+  @apply text-sm text-gray-600;
+  font-size: 12px;
+  color: #27272a;
+  font-weight: 550;
+}
+
+.featureDivider {
+  @apply w-px h-5 bg-gray-300;
 }
