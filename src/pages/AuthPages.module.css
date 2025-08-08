@@ -1,0 +1,65 @@
+.pageContainer {
+@apply min-h-screen flex relative bg-gradient-to-br from-blue-50 to-indigo-100;
+}
+
+.backgroundPattern {
+@apply absolute inset-0 opacity-20;
+background-image: radial-gradient(circle at 2px 2px, rgba(59, 130, 246, 0.3) 1px, transparent 0);
+background-size: 32px 32px;
+}
+
+.contentWrapper {
+@apply flex-1 flex;
+}
+
+.brandSection {
+@apply hidden lg:flex lg:flex-1 relative overflow-hidden;
+background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.brandContent {
+@apply flex flex-col justify-center items-center h-full px-12 text-white relative z-10;
+}
+
+.brandLogo {
+@apply h-16 w-auto mb-8;
+filter: brightness(0) invert(1);
+}
+
+.brandTitle {
+@apply text-4xl font-bold mb-4 text-center;
+}
+
+.brandSubtitle {
+@apply text-xl text-center mb-12 text-blue-100;
+}
+
+.featuresList {
+@apply space-y-6;
+}
+
+.featureItem {
+@apply flex items-center space-x-4;
+}
+
+.featureIcon {
+@apply h-6 w-6 text-green-300;
+}
+
+.formSection {
+@apply flex-1 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8;
+}
+
+.formContainer {
+@apply w-full max-w-md;
+}
+
+/* Override modal styles for page version */
+.formContainer .overlay {
+@apply static bg-transparent;
+backdrop-filter: none;
+}
+
+.formContainer .modal {
+@apply shadow-xl;
+}

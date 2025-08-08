@@ -1,14 +1,31 @@
 // src/components/layout/MobileSidebar.tsx
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { authStore } from '../../store/authStore';
 import styles from './MobileSidebar.module.css';
 
 interface MobileSidebarProps {
   isOpen: boolean;
   onClose: () => void;
+  onLoginClick?: () => void;
 }
 
-const MobileSidebar: React.FC<MobileSidebarProps> = ({ isOpen, onClose }) => {
+const MobileSidebar: React.FC<MobileSidebarProps> = ({ isOpen, onClose, onLoginClick }) => {
+  const { user, isAuthenticated, logout } = authStore();
+
+  const handleLoginClick = () => {
+    if (onLoginClick) {
+      onLoginClick();
+    } else {
+      onClose();
+    }
+  };
+
+  const handleLogout = () => {
+    logout();
+    onClose();
+  };
+
   return (
     <div className={`${styles.sidebar} ${isOpen ? styles.sidebarOpen : ''}`}>
       {/* Header Section */}
@@ -16,18 +33,30 @@ const MobileSidebar: React.FC<MobileSidebarProps> = ({ isOpen, onClose }) => {
         <div className={styles.userSection}>
           <div className={styles.avatar}>
             <svg className={styles.avatarIcon} fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
             </svg>
           </div>
           <div className={styles.userInfo}>
-            <div className={styles.loginText}>Đăng nhập</div>
-            <div className={styles.promoText}>Nhận nhiều ưu đãi hơn</div>
+            <div className={styles.loginText}>
+              {isAuthenticated ? (user?.fullName || user?.email) : 'Đăng nhập'}
+            </div>
+            <div className={styles.promoText}>
+              {isAuthenticated ? user?.role === 'admin' ? 'Quản trị viên' : 'Khách hàng' : 'Nhận nhiều ưu đãi hơn'}
+            </div>
           </div>
-          <button className={styles.arrowBtn}>
-            <svg className={styles.arrowIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
+          {isAuthenticated ? (
+            <button onClick={handleLogout} className={styles.arrowBtn} title="Đăng xuất">
+              <svg className={styles.arrowIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+            </button>
+          ) : (
+            <button onClick={handleLoginClick} className={styles.arrowBtn}>
+              <svg className={styles.arrowIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          )}
         </div>
       </div>
 
@@ -52,15 +81,15 @@ const MobileSidebar: React.FC<MobileSidebarProps> = ({ isOpen, onClose }) => {
           <Link to="/account" className={styles.navItem} onClick={onClose}>
             <div className={styles.smallAvatar}>
               <svg className={styles.smallAvatarIcon} fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
               </svg>
             </div>
-            <span>Quản lý tài khoản</span>
+            <span>{isAuthenticated ? 'Hồ sơ của tôi' : 'Quản lý tài khoản'}</span>
           </Link>
 
           <Link to="/notifications" className={styles.navItem} onClick={onClose}>
             <svg className={styles.navIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-5 5-5-5h5v-8a4 4 0 118 0v8z" />
             </svg>
             <span>Thông báo</span>
           </Link>

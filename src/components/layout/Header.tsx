@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Header.module.css';
 import MobileSidebar from './MobileSidebar';
+import AuthModal from '../auth/AuthModal';
+import { authStore } from '../../store/authStore';
 
 // API service
 const fetchTopProducts = async () => {
@@ -22,6 +24,9 @@ const Header: React.FC = () => {
   const [topProducts, setTopProducts] = useState<{ id: string; name: string }[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [isMobile, setIsMobile] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  
+  const { user, isAuthenticated } = authStore();
 
   useEffect(() => {
     fetchTopProducts().then(setTopProducts);
@@ -43,6 +48,22 @@ const Header: React.FC = () => {
 
   const closeSidebar = () => {
     setIsSidebarOpen(false);
+  };
+
+  const handleAccountClick = () => {
+    if (isAuthenticated) {
+      window.location.href = '/profile';
+    } else {
+      setIsAuthModalOpen(true);
+    }
+  };
+
+  const handleCartClick = () => {
+    if (isAuthenticated) {
+      window.location.href = '/cart';
+    } else {
+      setIsAuthModalOpen(true);
+    }
   };
 
   // Mobile Header Component
@@ -78,7 +99,7 @@ const Header: React.FC = () => {
         </div>
 
         {/* Cart Button */}
-        <button className={styles.mobileCartBtn}>
+        <button onClick={handleCartClick} className={styles.mobileCartBtn}>
           <img 
             src="/header/header_cart.png" 
             alt="Giỏ hàng" 
@@ -153,25 +174,27 @@ const Header: React.FC = () => {
                   <span style={{ color: '#0a68ff' }}>Trang chủ</span>
                 </Link>
                 {/* Account button */}
-                <Link to="/account" className={styles.actionBtn}>
+                <button onClick={handleAccountClick} className={styles.actionBtn}>
                   <img 
                     src="/header/header_account.png" 
                     alt="Account" 
                     className={styles.actionIcon}
                   />
-                  <span style={{ color: '#808089' }}>Tài khoản</span>
-                </Link>
+                  <span style={{ color: '#808089' }}>
+                    {isAuthenticated ? 'Tài khoản' : 'Đăng nhập'}
+                  </span>
+                </button>
                 {/* Divider */}
                 <div className={styles.actionDivider}></div>
                 {/* Cart */}
-                <Link to="/cart" className={styles.cartBtn}>
+                <button onClick={handleCartClick} className={styles.cartBtn}>
                 <img 
                     src="/header/header_cart.png" 
                     alt="Giỏ hàng" 
                     className={styles.actionIcon}
                   />
                   <span className={styles.cartBadge}>3</span>
-                </Link>
+                </button>
               </div>
             </div>
 
@@ -250,6 +273,10 @@ const Header: React.FC = () => {
       <MobileSidebar 
         isOpen={isSidebarOpen} 
         onClose={closeSidebar}
+        onLoginClick={() => {
+          closeSidebar();
+          setIsAuthModalOpen(true);
+        }}
       />
       
       {/* Overlay */}
@@ -259,6 +286,13 @@ const Header: React.FC = () => {
           onClick={closeSidebar}
         />
       )}
+
+      {/* Auth Modal */}
+      <AuthModal 
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        initialMode="login"
+      />
     </>
   );
 };

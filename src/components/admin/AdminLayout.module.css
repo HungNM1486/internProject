@@ -1,0 +1,156 @@
+.adminLayout {
+@apply flex h-screen bg-gray-100;
+}
+
+.sidebar {
+@apply flex flex-col bg-white shadow-lg transition-all duration-300 z-30;
+width: 280px;
+}
+
+.sidebar.collapsed {
+width: 80px;
+}
+
+.sidebar.mobileOpen {
+@apply fixed inset-y-0 left-0;
+}
+
+.sidebarHeader {
+@apply flex items-center px-6 py-4 border-b border-gray-200;
+}
+
+.logo {
+@apply flex items-center space-x-3 no-underline;
+}
+
+.logoImage {
+@apply w-8 h-8;
+}
+
+.logoText {
+@apply text-xl font-bold text-gray-900;
+}
+
+.sidebarNav {
+@apply flex-1 py-4;
+}
+
+.navItem {
+@apply flex items-center px-6 py-3 text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200 no-underline;
+}
+
+.navItem.active {
+@apply bg-blue-50 text-blue-700 border-r-2 border-blue-700;
+}
+
+.menuIcon {
+@apply w-5 h-5 flex-shrink-0;
+}
+
+.navLabel {
+@apply ml-3 font-medium;
+}
+
+.sidebarFooter {
+@apply border-t border-gray-200 p-4;
+}
+
+.backToSite {
+@apply flex items-center px-2 py-2 text-gray-600 hover:text-gray-900 transition-colors duration-200 no-underline;
+}
+
+.mobileOverlay {
+@apply fixed inset-0 bg-black bg-opacity-50 z-20 lg:hidden;
+}
+
+.mainContent {
+@apply flex-1 flex flex-col overflow-hidden;
+}
+
+.topBar {
+@apply flex items-center justify-between px-6 py-4 bg-white border-b border-gray-200;
+}
+
+.topBarLeft {
+@apply flex items-center space-x-4;
+}
+
+.sidebarToggle {
+@apply p-2 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500;
+}
+
+.sidebarToggle.desktop {
+@apply hidden lg:block;
+}
+
+.sidebarToggle.mobile {
+@apply block lg:hidden;
+}
+
+.pageTitle {
+@apply text-xl font-semibold text-gray-900;
+}
+
+.topBarRight {
+@apply flex items-center space-x-4;
+}
+
+.userMenu {
+@apply relative;
+}
+
+.userInfo {
+@apply flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer;
+}
+
+.userAvatar {
+@apply w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-medium text-sm;
+}
+
+.userDetails {
+@apply flex flex-col;
+}
+
+.userName {
+@apply text-sm font-medium text-gray-900;
+}
+
+.userRole {
+@apply text-xs text-gray-500;
+}
+
+.userActions {
+@apply absolute right-0 top-full mt-2 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50;
+transform: translateY(4px);
+}
+
+.userAction {
+@apply flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left border-none bg-transparent cursor-pointer no-underline;
+}
+
+.userAction svg {
+@apply mr-3;
+}
+
+.content {
+@apply flex-1 overflow-auto;
+}
+
+/* Mobile responsive */
+@media (max-width: 1023px) {
+.sidebar {
+    @apply transform -translate-x-full fixed inset-y-0 left-0;
+}
+
+.sidebar.mobileOpen {
+    @apply translate-x-0;
+}
+
+.sidebar.collapsed {
+    width: 280px;
+}
+
+.mainContent {
+    @apply w-full;
+}
+}

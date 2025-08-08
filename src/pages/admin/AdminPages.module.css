@@ -1,0 +1,100 @@
+.headerActions {
+@apply flex items-center space-x-3;
+}
+
+.secondaryButton {
+@apply inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition-colors duration-200 border-none cursor-pointer;
+}
+
+.errorContainer {
+@apply text-center py-12;
+}
+
+.errorContainer h2 {
+@apply text-xl font-semibold text-red-600 mb-2;
+}
+
+.errorContainer p {
+@apply text-gray-600 mb-4;
+}
+
+.statChange {
+@apply text-xs font-medium mt-1;
+}
+
+.statChange.up {
+@apply text-green-600;
+}
+
+.statChange.down {
+@apply text-red-600;
+}
+
+.recentActivity {
+@apply bg-white rounded-lg shadow p-6 mb-8;
+}
+
+.sectionHeader {
+@apply flex justify-between items-center mb-4;
+}
+
+.viewAllButton {
+@apply text-blue-600 hover:text-blue-800 text-sm font-medium border-none bg-transparent cursor-pointer;
+}
+
+.activityLoading {
+@apply flex justify-center py-8;
+}
+
+.activityList {
+@apply space-y-4;
+}
+
+.activityItem {
+@apply flex items-start space-x-3 p-3 hover:bg-gray-50 rounded-lg;
+}
+
+.activityIcon {
+@apply text-2xl;
+}
+
+.activityContent {
+@apply flex-1;
+}
+
+.activityText {
+@apply text-sm text-gray-900 mb-1;
+}
+
+.activityTime {
+@apply text-xs text-gray-500;
+}
+
+.noActivity {
+@apply text-center py-8 text-gray-500;
+}
+
+.chartSection {
+@apply bg-white rounded-lg shadow p-6;
+}
+
+.chartContainer {
+@apply mt-4;
+}
+
+.simpleChart {
+@apply flex items-end space-x-2 h-64;
+}
+
+.chartBar {
+@apply flex-1 flex flex-col items-center;
+}
+
+.bar {
+@apply w-full bg-blue-500 rounded-t;
+min-height: 4px;
+}
+
+.chartLabel {
+@apply text-xs text-gray-600 mt-2;
+}
