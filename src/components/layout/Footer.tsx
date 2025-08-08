@@ -1,104 +1,180 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styles from './Footer.module.css';
 
 const Footer: React.FC = () => {
+  const brands = [
+    'vascara', 'dior', 'esteelauder', 'th-truemilk', 'barbie', 'owen', 'ensure', 'durex', 
+    'bioderma', 'elly', 'milo', 'skechers', 'aldo', 'triumph', 'nutifood', 'kindle', 
+    'nerman', 'wacom', 'anessa', 'yoosee', 'olay', 'similac', 'comfort', 'bitas', 
+    'shiseido', 'langfarm', 'hukan', 'vichy', 'fila', 'tsubaki'
+  ];
+
+  const paymentMethods = [
+    // Row 1
+    ['visa', 'mastercard', 'jcb', 'amex', 'cod'],
+    // Row 2
+    ['vnpay', 'momo', 'zalopay', 'airpay', 'fundiin'],
+    // Row 3
+    ['kredivo']
+  ];
+
+  let globalIndex = 0;
+
   return (
     <footer className={styles.footer}>
-      {/* Main footer content */}
+      {/* Hàng đầu - 5 cột */}
       <div className={styles.mainContent}>
-        <div className={styles.grid}>
-          {/* Company info */}
-          <div className={styles.companySection}>
-            <div className={styles.companyLogo}>
-              <div className={styles.companyLogoIcon}>
-                <span className="text-white font-bold">📖</span>
+        <div className={styles.footerContainer}>
+          <div className={styles.gridContainer}>
+            {/* Cột 1: Hỗ trợ khách hàng */}
+            <div className={styles.column}>
+              <h3 className={styles.sectionTitle}>Hỗ trợ khách hàng</h3>
+              <div className={styles.hotlineInfo}>
+                <div className={styles.hotline}>
+                  <span className={styles.hotlineLabel}>Hotline: </span>
+                  <span className={styles.hotlineNumber}>1900-6035</span>
+                </div>
+                <p className={styles.hotlineNote}>(1000 đ/phút, 8-21h kể cả T7, CN)</p>
               </div>
-              <span className={styles.companyLogoText}>BookStore</span>
+              <ul className={styles.linkList}>
+                <li><a href="/faq" className={styles.footerLink}>Các câu hỏi thường gặp</a></li>
+                <li><a href="/support-request" className={styles.footerLink}>Gửi yêu cầu hỗ trợ</a></li>
+                <li><a href="/order-guide" className={styles.footerLink}>Hướng dẫn đặt hàng</a></li>
+                <li><a href="/shipping-methods" className={styles.footerLink}>Phương thức vận chuyển</a></li>
+                <li><a href="/inspection-policy" className={styles.footerLink}>Chính sách kiểm hàng</a></li>
+                <li><a href="/return-policy" className={styles.footerLink}>Chính sách đổi trả</a></li>
+                <li><a href="/installment-guide" className={styles.footerLink}>Hướng dẫn trả góp</a></li>
+                <li><a href="/import-policy" className={styles.footerLink}>Chính sách hàng nhập khẩu</a></li>
+                <li className={styles.footerLink}>Hỗ trợ khách hàng: <a href="mailto:hotro@tiki.vn">hotro@tiki.vn</a></li>
+                <li className={styles.footerLink}>Báo lỗi bảo mật: <a href="mailto:security@tiki.vn">security@tiki.vn</a></li>
+              </ul>
             </div>
-            <p className={styles.companyDescription}>
-              Cửa hàng sách trực tuyến hàng đầu Việt Nam, mang đến cho bạn những cuốn sách hay nhất với giá cả hợp lý.
-            </p>
-            <div className={styles.socialLinks}>
-              <a href="#" className={styles.socialLink}>
-                <svg className={styles.socialIcon} fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
-                </svg>
-              </a>
-              <a href="#" className={styles.socialLink}>
-                <svg className={styles.socialIcon} fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
-                </svg>
-              </a>
-              <a href="#" className={styles.socialLink}>
-                <svg className={styles.socialIcon} fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.042-3.441.219-.937 1.404-5.965 1.404-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.097.118.112.219.085.339-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.754-1.378 0 0-.603 2.290-.751 2.853-.271 1.056-1.009 2.378-1.495 3.182C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001.012.017z.001"/>
-                </svg>
-              </a>
+
+            {/* Cột 2: Về Tiki */}
+            <div className={styles.column}>
+              <h3 className={styles.sectionTitle}>Về Tiki</h3>
+              <ul className={styles.linkList}>
+                <li><a href="/about" className={styles.footerLink}>Giới thiệu Tiki</a></li>
+                <li><a href="/blog" className={styles.footerLink}>Tiki Blog</a></li>
+                <li><a href="/careers" className={styles.footerLink}>Tuyển dụng</a></li>
+                <li><a href="/payment-security" className={styles.footerLink}>Chính sách bảo mật thanh toán</a></li>
+                <li><a href="/privacy-policy" className={styles.footerLink}>Chính sách bảo mật thông tin cá nhân</a></li>
+                <li><a href="/complaint-policy" className={styles.footerLink}>Chính sách giải quyết khiếu nại</a></li>
+                <li><a href="/terms" className={styles.footerLink}>Điều khoản sử dụng</a></li>
+                <li><a href="/tiki-xu" className={styles.footerLink}>Giới thiệu Tiki Xu</a></li>
+                <li><a href="/affiliate" className={styles.footerLink}>Tiếp thị liên kết cùng Tiki</a></li>
+                <li><a href="/business-sales" className={styles.footerLink}>Bán hàng doanh nghiệp</a></li>
+                <li><a href="/shipping-terms" className={styles.footerLink}>Điều kiện vận chuyển</a></li>
+              </ul>
             </div>
-          </div>
 
-          {/* Quick links */}
-          <div>
-            <h3 className={styles.sectionTitle}>Liên kết nhanh</h3>
-            <ul className={styles.linkList}>
-              <li><Link to="/about" className={styles.footerLink}>Giới thiệu</Link></li>
-              <li><Link to="/contact" className={styles.footerLink}>Liên hệ</Link></li>
-              <li><Link to="/shipping" className={styles.footerLink}>Chính sách giao hàng</Link></li>
-              <li><Link to="/return" className={styles.footerLink}>Chính sách đổi trả</Link></li>
-              <li><Link to="/privacy" className={styles.footerLink}>Chính sách bảo mật</Link></li>
-            </ul>
-          </div>
-
-          {/* Categories */}
-          <div>
-            <h3 className={styles.sectionTitle}>Danh mục</h3>
-            <ul className={styles.linkList}>
-              <li><Link to="/category/van-hoc" className={styles.footerLink}>Văn học</Link></li>
-              <li><Link to="/category/kinh-te" className={styles.footerLink}>Kinh tế</Link></li>
-              <li><Link to="/category/khoa-hoc" className={styles.footerLink}>Khoa học</Link></li>
-              <li><Link to="/category/giao-duc" className={styles.footerLink}>Giáo dục</Link></li>
-              <li><Link to="/category/thieu-nhi" className={styles.footerLink}>Thiếu nhi</Link></li>
-            </ul>
-          </div>
-
-          {/* Contact info */}
-          <div>
-            <h3 className={styles.sectionTitle}>Thông tin liên hệ</h3>
-            <div className={styles.contactInfo}>
-              <div className={styles.contactItem}>
-                <svg className={styles.contactIcon} fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                </svg>
-                <span>123 Đường ABC, Quận XYZ, TP. Hồ Chí Minh</span>
+            {/* Cột 3: Hợp tác và liên kết */}
+            <div className={styles.column}>
+              <h3 className={styles.sectionTitle}>Hợp tác và liên kết</h3>
+              <ul className={styles.linkList}>
+                <li><a href="/marketplace-regulations" className={styles.footerLink}>Quy chế hoạt động Sàn GDTMĐT</a></li>
+                <li><a href="/sell-on-tiki" className={styles.footerLink}>Bán hàng cùng Tiki</a></li>
+              </ul>
+              
+              <div className={styles.certifications}>
+                <h4 className={styles.sectionTitle}>Chứng nhận bởi</h4>
+                <div className={styles.certificationLogos}>
+                  <img src="/footer/bo-cong-thuong-2.png" alt="Bộ Công Thương" className={styles.certificationImg} />
+                  <img src="/footer/bo-cong-thuong.svg" alt="DMCA" className={styles.certificationImg} />
+                  <img src="/footer/dmca_protected_sml_120y.png" alt="Norton Secured" className={styles.certificationImg} />
+                </div>
               </div>
-              <div className={styles.contactItemCenter}>
-                <svg className={styles.contactIconCenter} fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-                </svg>
-                <span>0123 456 789</span>
+            </div>
+
+            {/* Cột 4: Phương thức thanh toán và giao hàng */}
+            <div className={styles.column}>
+              <div className={styles.paymentSection}>
+                <h3 className={styles.sectionTitle}>Phương thức thanh toán</h3>
+                <div className={styles.paymentMethods}>
+                  {paymentMethods.map((row, rowIndex) => (
+                    <div key={rowIndex} className={styles.paymentRow}>
+                      {row.map((method, methodIndex) => {
+                        globalIndex++;
+                        return (
+                          <img
+                            key={methodIndex}
+                            src={`/footer/${globalIndex}.png`}
+                            alt={method}
+                            className={styles.paymentImg}
+                          />
+                        );
+                      })}
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div className={styles.contactItemCenter}>
-                <svg className={styles.contactIconCenter} fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                  <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-                </svg>
-                <span>contact@bookstore.com</span>
+              
+              <div>
+                <h3 className={styles.sectionTitle}>Dịch vụ giao hàng</h3>
+                <img src="/footer/tikinow.png" alt="Tiki Delivery" className={styles.shippingImg} />
+              </div>
+            </div>
+
+            {/* Cột 5: Kết nối và ứng dụng */}
+            <div className={styles.column}>
+              <div className={styles.socialSection}>
+                <h3 className={styles.sectionTitle}>Kết nối với chúng tôi</h3>
+                <div className={styles.socialLinks}>
+                  <a href="#" className={styles.socialLink}>
+                    <img src={`/footer/fb.png`} alt="facebook" className={styles.socialIcon}/>
+                  </a>
+                  <a href="#" className={styles.socialLink}>
+                    <img src={`/footer/yt.png`} alt="youtube" className={styles.socialIcon}/>
+                  </a>
+                  <a href="#" className={styles.socialLink}>
+                    <img src={`/footer/zalo.png`} alt="zalo" className={styles.socialIcon}/>
+                  </a>
+                </div>
+              </div>
+              
+              <div className={styles.appSection}>
+                <h3 className={styles.sectionTitle}>Tải ứng dụng điện thoại</h3>
+                <div className={styles.appDownload}>
+                  <img src="/footer/qrcode.png" alt="QR Code" className={styles.qrCode} />
+                  <div className={styles.appStores}>
+                    <img src="/footer/appstore.png" alt="App Store" className={styles.storeImg} />
+                    <img src="/footer/playstore.png" alt="Google Play" className={styles.storeImg} />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Copyright */}
-      <div className={styles.copyright}>
-        <div className={styles.copyrightContent}>
-          <div className={styles.copyrightFlex}>
-            <p>&copy; 2024 BookStore. Tất cả quyền được bảo lưu.</p>
-            <div className={styles.copyrightLinks}>
-              <Link to="/terms" className={styles.copyrightLink}>Điều khoản sử dụng</Link>
-              <Link to="/privacy" className={styles.copyrightLink}>Bảo mật</Link>
-            </div>
+      {/* Hàng hai - Thông tin công ty */}
+      <div className={styles.companyInfo}>
+        <div className={styles.footerContainer}>
+          <div className={styles.companyDetails}>
+            <h4 className={styles.companyName}>Công ty TNHH TI KI</h4>
+            <p className={styles.companyAddress}>Tòa nhà số 52 đường Út Tịch, Phường 4, Quận Tân Bình, Thành phố Hồ Chí Minh</p>
+            <p className={styles.companyLicense}>Giấy chứng nhận đăng ký doanh nghiệp số 0309532909 do Sở Kế Hoạch và Đầu Tư Thành phố Hồ Chí Minh cấp lần đầu vào ngày 06/01/2010.</p>
+            <p className={styles.companyHotline}> Hotline: <a href="tel:19006035" className={styles.hotlineNumber}>1900 6035</a></p>          
+          </div>
+        </div>
+      </div>
+
+      {/* Hàng ba - Thương hiệu nổi bật */}
+      <div className={styles.brandsSection}>
+        <div className={styles.footerContainer}>
+          <h3 className={styles.sectionTitle}>Thương Hiệu Nổi Bật</h3>
+          <div className={styles.brandsList}>
+            {brands.map((brand, index) => (
+              <React.Fragment key={brand}>
+                <a 
+                  href={`https://tiki.vn/thuong-hieu/${brand}.html`}
+                  className={styles.brandLink}
+                >
+                  {brand}
+                </a>
+                {index < brands.length - 1 && <span className={styles.brandSeparator}>/</span>}
+              </React.Fragment>
+            ))}
           </div>
         </div>
       </div>
