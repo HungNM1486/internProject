@@ -1,6 +1,8 @@
+// src/components/layout/Header.tsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Header.module.css';
+import MobileSidebar from './MobileSidebar';
 
 // API service
 const fetchTopProducts = async () => {
@@ -15,16 +17,82 @@ const fetchTopProducts = async () => {
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [topProducts, setTopProducts] = useState<{ id: string; name: string }[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     fetchTopProducts().then(setTopProducts);
+    
+    // Check if mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  return (
-    <header className={styles.header}>
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
+  };
+
+  // Mobile Header Component
+  const MobileHeader = () => (
+    <div className={styles.mobileHeader}>
+      <div className={styles.mobileHeaderContent}>
+        {/* Back Button */}
+        <button className={styles.mobileBackBtn}>
+          <svg className={styles.backIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+
+        {/* Hamburger Menu */}
+        <button className={styles.mobileMenuBtn} onClick={toggleSidebar}>
+          <svg className={styles.hamburgerIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+
+        {/* Search Bar */}
+        <div className={styles.mobileSearchBox}>
+          <svg className={styles.mobileSearchIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input
+            type="text"
+            placeholder="Tìm kiếm sách, tác giả..."
+            className={styles.mobileSearchInput}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+
+        {/* Cart Button */}
+        <button className={styles.mobileCartBtn}>
+          <img 
+            src="/header_cart.png" 
+            alt="Giỏ hàng" 
+            className={styles.mobileCartIcon}
+          />
+          <span className={styles.mobileCartBadge}>3</span>
+        </button>
+      </div>
+    </div>
+  );
+
+  // Desktop Header Component  
+  const DesktopHeader = () => (
+    <>
       {/* Top banner */}
       <div className={styles.topBanner}>
         <div className={`${styles.topBannerText} font-bold`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -52,9 +120,7 @@ const Header: React.FC = () => {
 
           {/* Search section */}
           <div className={styles.searchSection}>
-            {/* Search box và actions cùng hàng */}
             <div className={styles.searchRow}>
-              {/* Search bar */}
               <div className={styles.searchBox}>
                 <svg className={styles.searchIconLeft} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -86,7 +152,6 @@ const Header: React.FC = () => {
                   />
                   <span style={{ color: '#0a68ff' }}>Trang chủ</span>
                 </Link>
-
                 {/* Account button */}
                 <Link to="/account" className={styles.actionBtn}>
                   <img 
@@ -96,10 +161,8 @@ const Header: React.FC = () => {
                   />
                   <span style={{ color: '#808089' }}>Tài khoản</span>
                 </Link>
-
                 {/* Divider */}
                 <div className={styles.actionDivider}></div>
-
                 {/* Cart */}
                 <Link to="/cart" className={styles.cartBtn}>
                 <img 
@@ -111,12 +174,12 @@ const Header: React.FC = () => {
                 </Link>
               </div>
             </div>
-            
-            {/* Top products - nằm dưới search box */}
+
             <div className={styles.topProducts}>
               {topProducts.map((product) => (
                 <span key={product.id} className={styles.topProductItem}>
-                  {product.name.length > 25 ? product.name.substring(0, 25) + '...' : product.name}
+                  {product.name.length > 25 ? 
+                    product.name.substring(0, 25) + '...' : product.name}
                 </span>
               ))}
             </div>
@@ -174,7 +237,29 @@ const Header: React.FC = () => {
           </div>
         </div>
       </nav>
-    </header>
+    </>
+  );
+
+  return (
+    <>
+      <header className={styles.header}>
+        {isMobile ? <MobileHeader /> : <DesktopHeader />}
+      </header>
+      
+      {/* Mobile Sidebar */}
+      <MobileSidebar 
+        isOpen={isSidebarOpen} 
+        onClose={closeSidebar}
+      />
+      
+      {/* Overlay */}
+      {isSidebarOpen && (
+        <div 
+          className={styles.overlay} 
+          onClick={closeSidebar}
+        />
+      )}
+    </>
   );
 };
 
