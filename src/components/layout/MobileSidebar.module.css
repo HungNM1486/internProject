@@ -1,0 +1,160 @@
+/* src/components/layout/MobileSidebar.module.css */
+.sidebar {
+  @apply fixed top-0 left-0 h-full bg-white z-50 transform transition-transform duration-300 ease-in-out md:hidden;
+  width: 60vw; /* 3/5 của màn hình */
+  transform: translateX(-100%);
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebarOpen {
+  transform: translateX(0);
+}
+
+/* Header Section */
+.sidebarHeader {
+  background-color: rgb(27 168 255); 
+  height: 56px;
+  @apply flex items-center px-4;
+  color: white;
+}
+
+.userSection {
+  @apply flex items-center w-full;
+}
+
+.avatar {
+    @apply w-10 h-10 border border-white rounded-full flex items-center justify-center mr-3 flex-shrink-0 bg-transparent;
+  }
+
+.avatarIcon {
+  @apply text-white w-6 h-6;
+}
+
+.userInfo {
+  @apply flex-1;
+}
+
+.loginText {
+  @apply font-medium text-gray-800 py-1;
+  font-size: 14px;
+  line-height: 18px;
+  color: white;
+}
+
+.promoText {
+  @apply text-gray-600;
+  font-size: 12px;
+  line-height: 16px;
+  color: white;
+}
+
+.arrowBtn {
+  @apply p-1 hover:bg-blue-100 rounded flex-shrink-0;
+}
+
+.arrowIcon {
+  @apply w-5 h-5;
+  color:white;
+}
+
+/* Content Section */
+.sidebarContent {
+  @apply bg-white flex-1 overflow-y-auto;
+  height: calc(100vh - 56px);
+}
+
+.navGroup {
+  @apply py-4;
+}
+
+.groupTitle {
+  @apply px-4 pb-2 text-sm font-semibold text-gray-800 uppercase tracking-wide;
+  color: #374151;
+}
+
+.navItem {
+  @apply flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors duration-200 no-underline;
+  font-size: 14px;
+}
+
+.navItem:hover {
+  background-color: #f9fafb;
+  text-decoration: none;
+}
+
+.navIcon {
+  @apply w-5 h-5 mr-3 text-gray-600 flex-shrink-0;
+}
+
+.smallAvatar {
+  @apply w-5 h-5 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0;
+}
+
+.smallAvatarIcon {
+  @apply w-3 h-3 text-gray-600;
+}
+
+.navItem span {
+  @apply flex-1;
+}
+
+.navItem .arrowIcon {
+  @apply w-4 h-4 ml-auto text-gray-400;
+}
+
+/* Divider */
+.divider {
+  @apply h-px bg-gray-200 mx-4;
+}
+
+/* Support Section */
+.supportItem {
+  @apply px-4 py-3 flex items-center flex-wrap gap-1;
+  font-size: 14px;
+}
+
+.hotlineLabel {
+  @apply font-medium text-gray-700;
+}
+
+.hotlineNumber {
+  @apply text-blue-600 hover:text-blue-800 no-underline;
+  font-weight: 500;
+}
+
+.hotlineNumber:hover {
+  text-decoration: underline;
+}
+
+.hotlineRate {
+  @apply text-gray-500 text-xs;
+}
+
+/* Animation */
+@media (max-width: 767px) {
+  .sidebar {
+    width: 60vw;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    width: 75vw;
+  }
+}
+
+/* Focus states for accessibility */
+.navItem:focus,
+.arrowBtn:focus,
+.hotlineNumber:focus {
+  @apply outline-2 outline-blue-600 outline-offset-2;
+}
+
+/* Active state */
+.navItem.active {
+  @apply bg-blue-50 text-blue-600 border-r-2 border-blue-600;
+}
+
+.navItem.active .navIcon {
+  @apply text-blue-600;
+}

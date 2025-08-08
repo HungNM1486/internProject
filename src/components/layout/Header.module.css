@@ -1,3 +1,4 @@
+/* src/components/layout/Header.module.css */
 .header {
   @apply bg-white sticky top-0 z-50;
   font-family: Inter, Arial, sans-serif;
@@ -5,8 +6,9 @@
   color: #808089;
 }
 
+/* Desktop Styles */
 .topBanner {
-  @apply text-green-700;
+  @apply text-green-700 md:block hidden;
   background-color: #effff4;
   padding: 12px 16px;
   height: 42px;
@@ -17,7 +19,7 @@
 }
 
 .mainHeader {
-  @apply container-custom py-4;
+  @apply container-custom py-4 md:block hidden;
   height: px;
 }
 
@@ -51,7 +53,7 @@
 }
 
 .searchInput {
-  @apply flex-1 bg-transparent outline-none text-sm min-w-0 h-10; /* min-w-0 */
+  @apply flex-1 bg-transparent outline-none text-sm min-w-0 h-10;
 }
 
 .searchDivider {
@@ -65,6 +67,7 @@
 .actions {
   @apply flex items-center space-x-3 h-12 flex-shrink-0 pl-9;
 }
+
 .actionBtn {
   @apply flex items-center space-x-2 font-medium px-3 py-2;
   font-size: 14px;
@@ -100,6 +103,115 @@
   color: #808089;
 }
 
+.navigation {
+  @apply border-t border-b border-gray-200 md:block hidden;
+  height: 47px;
+}
+
+.navContainer {
+  @apply container-custom h-full;
+}
+
+.commitmentSection {
+  @apply flex items-center h-full px-6;
+}
+
+.commitmentText {
+  @apply mr-6 text-[14px] font-[600] text-[#003ea1] whitespace-nowrap;
+}
+
+.commitmentText:hover {
+  color: rgb(98, 135, 235);
+}
+
+.featuresSection {
+  @apply flex items-center space-x-4;
+}
+
+.featureItem:hover .featureText {
+  @apply text-blue-400;
+}
+
+.featureItem {
+  @apply flex items-center space-x-1;
+}
+
+.featureIcon {
+  @apply w-5 h-5;
+}
+
+.featureText {
+  @apply text-[12px] font-[550] text-[#27272a] whitespace-nowrap;
+}
+
+.featureDivider {
+  @apply w-px h-5 bg-gray-300;
+}
+
+/* Mobile Header Styles */
+.mobileHeader {
+  @apply md:hidden block bg-white border-b border-gray-200;
+  height: 56px;
+}
+
+.mobileHeaderContent {
+  @apply flex items-center h-full px-4 gap-3;
+}
+
+.mobileBackBtn {
+  @apply p-2 hover:bg-gray-100 rounded-lg flex-shrink-0;
+}
+
+.backIcon {
+  @apply w-5 h-5 text-gray-600;
+}
+
+.mobileMenuBtn {
+  @apply p-2 hover:bg-gray-100 rounded-lg flex-shrink-0;
+}
+
+.hamburgerIcon {
+  @apply w-5 h-5 text-gray-600;
+}
+
+.mobileSearchBox {
+  @apply flex items-center flex-1 h-9 border border-gray-300 rounded-lg px-3;
+  background-color: #f8f9fa;
+}
+
+.mobileSearchIcon {
+  @apply w-4 h-4 text-gray-400 mr-2 flex-shrink-0;
+}
+
+.mobileSearchInput {
+  @apply flex-1 bg-transparent outline-none text-sm;
+  font-size: 14px;
+}
+
+.mobileSearchInput::placeholder {
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+.mobileCartBtn {
+  @apply relative p-2 hover:bg-gray-100 rounded-lg flex-shrink-0;
+}
+
+.mobileCartIcon {
+  @apply w-6 h-6;
+}
+
+.mobileCartBadge {
+  @apply absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center;
+  font-size: 10px;
+}
+
+/* Overlay for sidebar */
+.overlay {
+  @apply fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden;
+}
+
+/* Legacy styles for compatibility */
 .searchContainer {
   @apply hidden md:flex flex-1 max-w-2xl mx-8;
 }
@@ -130,16 +242,6 @@
   background-color: rgb(243 244 246);
 }
 
-.cartIcon {
-  width: 1.5rem;
-  height: 1.5rem;
-  color: rgb(75 85 99);
-}
-
-.cartLink:hover .cartIcon {
-  color: rgb(37 99 235);
-}
-
 .userMenu {
   @apply relative;
 }
@@ -156,65 +258,10 @@
   @apply font-medium;
 }
 
-.mobileMenuBtn {
-  @apply md:hidden p-2 hover:bg-gray-100 rounded-lg;
-}
-
 .menuIcon {
   @apply w-6 h-6 text-gray-600;
 }
 
 .mobileSearch {
   @apply md:hidden mt-4;
-}
-
-.navigation {
-  @apply border-t border-b border-gray-200;
-  height: 47px;
-}
-
-.navContainer {
-  @apply container-custom h-full;
-}
-
-.commitmentSection {
-  @apply flex items-center h-full px-6;
-}
-
-.commitmentText {
-  @apply mr-6;
-  font-size: 14px;
-  color: #003ea1;
-  font-weight: 600;
-}
-
-.commitmentText:hover {
-  color: rgb(98, 135, 235);
-}
-
-.featuresSection {
-  @apply flex items-center space-x-4;
-}
-
-.featureItem:hover .featureText {
-  @apply text-blue-400;
-}
-
-.featureItem {
-  @apply flex items-center space-x-1;
-}
-
-.featureIcon {
-  @apply w-5 h-5;
-}
-
-.featureText {
-  @apply text-sm text-gray-600;
-  font-size: 12px;
-  color: #27272a;
-  font-weight: 550;
-}
-
-.featureDivider {
-  @apply w-px h-5 bg-gray-300;
 }
