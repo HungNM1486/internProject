@@ -1,6 +1,8 @@
+// src/components/layout/Header.tsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Header.module.css';
+import MobileSidebar from './MobileSidebar';
 
 // API service
 const fetchTopProducts = async () => {
@@ -15,22 +17,88 @@ const fetchTopProducts = async () => {
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [topProducts, setTopProducts] = useState<{ id: string; name: string }[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     fetchTopProducts().then(setTopProducts);
+    
+    // Check if mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  return (
-    <header className={styles.header}>
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
+  };
+
+  // Mobile Header Component
+  const MobileHeader = () => (
+    <div className={styles.mobileHeader}>
+      <div className={styles.mobileHeaderContent}>
+        {/* Back Button */}
+        <button className={styles.mobileBackBtn}>
+          <svg className={styles.backIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+
+        {/* Hamburger Menu */}
+        <button className={styles.mobileMenuBtn} onClick={toggleSidebar}>
+          <svg className={styles.hamburgerIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+
+        {/* Search Bar */}
+        <div className={styles.mobileSearchBox}>
+          <svg className={styles.mobileSearchIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input
+            type="text"
+            placeholder="Tìm kiếm sách, tác giả..."
+            className={styles.mobileSearchInput}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+
+        {/* Cart Button */}
+        <button className={styles.mobileCartBtn}>
+          <img 
+            src="/header/header_cart.png" 
+            alt="Giỏ hàng" 
+            className={styles.mobileCartIcon}
+          />
+          <span className={styles.mobileCartBadge}>3</span>
+        </button>
+      </div>
+    </div>
+  );
+
+  // Desktop Header Component  
+  const DesktopHeader = () => (
+    <>
       {/* Top banner */}
       <div className={styles.topBanner}>
         <div className={`${styles.topBannerText} font-bold`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <span style={{ fontSize: '12px', color: '#00AB56' }}>Freeship đơn từ 45k, giảm nhiều hơn với</span>
           <img 
-            src="/header_freeship.png" 
+            src="/header/header_freeship.png" 
             alt="Freeship Extra" 
             style={{ height: '16px', width: 'auto', marginLeft: '4px' }}
           />
@@ -43,7 +111,7 @@ const Header: React.FC = () => {
           {/* Logo */}
           <Link to="/" className={styles.logo}>
             <img 
-              src="/logo.png" 
+              src="/header/logo.png" 
               alt="Tiki Logo" 
               style={{ width: '96px', height: '40px' }}
             />
@@ -52,9 +120,7 @@ const Header: React.FC = () => {
 
           {/* Search section */}
           <div className={styles.searchSection}>
-            {/* Search box và actions cùng hàng */}
             <div className={styles.searchRow}>
-              {/* Search bar */}
               <div className={styles.searchBox}>
                 <svg className={styles.searchIconLeft} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -80,30 +146,27 @@ const Header: React.FC = () => {
                 {/* Home button */}
                 <Link to="/" className={styles.actionBtn}>
                 <img 
-                    src="/header_home.png" 
+                    src="/header/header_home.png" 
                     alt="Trang chủ" 
                     className={styles.actionIcon}
                   />
                   <span style={{ color: '#0a68ff' }}>Trang chủ</span>
                 </Link>
-
                 {/* Account button */}
                 <Link to="/account" className={styles.actionBtn}>
                   <img 
-                    src="/header_account.png" 
+                    src="/header/header_account.png" 
                     alt="Account" 
                     className={styles.actionIcon}
                   />
                   <span style={{ color: '#808089' }}>Tài khoản</span>
                 </Link>
-
                 {/* Divider */}
                 <div className={styles.actionDivider}></div>
-
                 {/* Cart */}
                 <Link to="/cart" className={styles.cartBtn}>
                 <img 
-                    src="/header_cart.png" 
+                    src="/header/header_cart.png" 
                     alt="Giỏ hàng" 
                     className={styles.actionIcon}
                   />
@@ -111,12 +174,12 @@ const Header: React.FC = () => {
                 </Link>
               </div>
             </div>
-            
-            {/* Top products - nằm dưới search box */}
+
             <div className={styles.topProducts}>
               {topProducts.map((product) => (
                 <span key={product.id} className={styles.topProductItem}>
-                  {product.name.length > 25 ? product.name.substring(0, 25) + '...' : product.name}
+                  {product.name.length > 25 ? 
+                    product.name.substring(0, 25) + '...' : product.name}
                 </span>
               ))}
             </div>
@@ -132,49 +195,71 @@ const Header: React.FC = () => {
             
             <div className={styles.featuresSection}>
               <Link to="/guarantee" className={styles.featureItem}>
-                <img src="/nav1.png" alt="100% hàng thật" className={styles.featureIcon} />
+                <img src="/header/nav1.png" alt="100% hàng thật" className={styles.featureIcon} />
                 <span className={styles.featureText}>100% hàng thật</span>
               </Link>
               
               <div className={styles.featureDivider}></div>
               
               <Link to="/shipping" className={styles.featureItem}>
-                <img src="/nav2.png" alt="Freeship mọi nơi" className={styles.featureIcon} />
+                <img src="/header/nav2.png" alt="Freeship mọi nơi" className={styles.featureIcon} />
                 <span className={styles.featureText}>Freeship mọi nơi</span>
               </Link>
               
               <div className={styles.featureDivider}></div>
               
               <Link to="/refund" className={styles.featureItem}>
-                <img src="/nav3.png" alt="Hoàn 200% nếu hàng giả" className={styles.featureIcon} />
+                <img src="/header/nav3.png" alt="Hoàn 200% nếu hàng giả" className={styles.featureIcon} />
                 <span className={styles.featureText}>Hoàn 200% nếu hàng giả</span>
               </Link>
 
               <div className={styles.featureDivider}></div>
               
               <Link to="/return" className={styles.featureItem}>
-                <img src="/nav4.png" alt="30 ngày đổi trả" className={styles.featureIcon} />
+                <img src="/header/nav4.png" alt="30 ngày đổi trả" className={styles.featureIcon} />
                 <span className={styles.featureText}>30 ngày đổi trả</span>
               </Link>
 
               <div className={styles.featureDivider}></div>
               
               <Link to="/fast-delivery" className={styles.featureItem}>
-                <img src="/nav5.png" alt="Giao nhanh 2h" className={styles.featureIcon} />
+                <img src="/header/nav5.png" alt="Giao nhanh 2h" className={styles.featureIcon} />
                 <span className={styles.featureText}>Giao nhanh 2h</span>
               </Link>
 
               <div className={styles.featureDivider}></div>
               
               <Link to="/cheap-price" className={styles.featureItem}>
-                <img src="/nav6.png" alt="Giá siêu rẻ" className={styles.featureIcon} />
+                <img src="/header/nav6.png" alt="Giá siêu rẻ" className={styles.featureIcon} />
                 <span className={styles.featureText}>Giá siêu rẻ</span>
               </Link>
             </div>
           </div>
         </div>
       </nav>
-    </header>
+    </>
+  );
+
+  return (
+    <>
+      <header className={styles.header}>
+        {isMobile ? <MobileHeader /> : <DesktopHeader />}
+      </header>
+      
+      {/* Mobile Sidebar */}
+      <MobileSidebar 
+        isOpen={isSidebarOpen} 
+        onClose={closeSidebar}
+      />
+      
+      {/* Overlay */}
+      {isSidebarOpen && (
+        <div 
+          className={styles.overlay} 
+          onClick={closeSidebar}
+        />
+      )}
+    </>
   );
 };
 
