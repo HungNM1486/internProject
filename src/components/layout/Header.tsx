@@ -80,7 +80,7 @@ const Header: React.FC = () => {
         {/* Cart Button */}
         <button className={styles.mobileCartBtn}>
           <img 
-            src="/header_cart.png" 
+            src="/header/header_cart.png" 
             alt="Giỏ hàng" 
             className={styles.mobileCartIcon}
           />
@@ -98,7 +98,7 @@ const Header: React.FC = () => {
         <div className={`${styles.topBannerText} font-bold`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <span style={{ fontSize: '12px', color: '#00AB56' }}>Freeship đơn từ 45k, giảm nhiều hơn với</span>
           <img 
-            src="/header_freeship.png" 
+            src="/header/header_freeship.png" 
             alt="Freeship Extra" 
             style={{ height: '16px', width: 'auto', marginLeft: '4px' }}
           />
@@ -111,7 +111,7 @@ const Header: React.FC = () => {
           {/* Logo */}
           <Link to="/" className={styles.logo}>
             <img 
-              src="/logo.png" 
+              src="/header/logo.png" 
               alt="Tiki Logo" 
               style={{ width: '96px', height: '40px' }}
             />
@@ -146,7 +146,7 @@ const Header: React.FC = () => {
                 {/* Home button */}
                 <Link to="/" className={styles.actionBtn}>
                 <img 
-                    src="/header_home.png" 
+                    src="/header/header_home.png" 
                     alt="Trang chủ" 
                     className={styles.actionIcon}
                   />
@@ -155,7 +155,7 @@ const Header: React.FC = () => {
                 {/* Account button */}
                 <Link to="/account" className={styles.actionBtn}>
                   <img 
-                    src="/header_account.png" 
+                    src="/header/header_account.png" 
                     alt="Account" 
                     className={styles.actionIcon}
                   />
@@ -166,7 +166,7 @@ const Header: React.FC = () => {
                 {/* Cart */}
                 <Link to="/cart" className={styles.cartBtn}>
                 <img 
-                    src="/header_cart.png" 
+                    src="/header/header_cart.png" 
                     alt="Giỏ hàng" 
                     className={styles.actionIcon}
                   />
@@ -195,42 +195,42 @@ const Header: React.FC = () => {
             
             <div className={styles.featuresSection}>
               <Link to="/guarantee" className={styles.featureItem}>
-                <img src="/nav1.png" alt="100% hàng thật" className={styles.featureIcon} />
+                <img src="/header/nav1.png" alt="100% hàng thật" className={styles.featureIcon} />
                 <span className={styles.featureText}>100% hàng thật</span>
               </Link>
               
               <div className={styles.featureDivider}></div>
               
               <Link to="/shipping" className={styles.featureItem}>
-                <img src="/nav2.png" alt="Freeship mọi nơi" className={styles.featureIcon} />
+                <img src="/header/nav2.png" alt="Freeship mọi nơi" className={styles.featureIcon} />
                 <span className={styles.featureText}>Freeship mọi nơi</span>
               </Link>
               
               <div className={styles.featureDivider}></div>
               
               <Link to="/refund" className={styles.featureItem}>
-                <img src="/nav3.png" alt="Hoàn 200% nếu hàng giả" className={styles.featureIcon} />
+                <img src="/header/nav3.png" alt="Hoàn 200% nếu hàng giả" className={styles.featureIcon} />
                 <span className={styles.featureText}>Hoàn 200% nếu hàng giả</span>
               </Link>
 
               <div className={styles.featureDivider}></div>
               
               <Link to="/return" className={styles.featureItem}>
-                <img src="/nav4.png" alt="30 ngày đổi trả" className={styles.featureIcon} />
+                <img src="/header/nav4.png" alt="30 ngày đổi trả" className={styles.featureIcon} />
                 <span className={styles.featureText}>30 ngày đổi trả</span>
               </Link>
 
               <div className={styles.featureDivider}></div>
               
               <Link to="/fast-delivery" className={styles.featureItem}>
-                <img src="/nav5.png" alt="Giao nhanh 2h" className={styles.featureIcon} />
+                <img src="/header/nav5.png" alt="Giao nhanh 2h" className={styles.featureIcon} />
                 <span className={styles.featureText}>Giao nhanh 2h</span>
               </Link>
 
               <div className={styles.featureDivider}></div>
               
               <Link to="/cheap-price" className={styles.featureItem}>
-                <img src="/nav6.png" alt="Giá siêu rẻ" className={styles.featureIcon} />
+                <img src="/header/nav6.png" alt="Giá siêu rẻ" className={styles.featureIcon} />
                 <span className={styles.featureText}>Giá siêu rẻ</span>
               </Link>
             </div>
