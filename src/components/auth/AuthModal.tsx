@@ -1,4 +1,3 @@
-// src/components/auth/AuthModal.tsx
 import React, { useState } from 'react';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';

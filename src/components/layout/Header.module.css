@@ -117,7 +117,10 @@
 }
 
 .commitmentText {
-  @apply mr-6 text-[14px] font-[600] text-[#003ea1] whitespace-nowrap;
+  @apply mr-6;
+  font-size: 14px;
+  color: #003ea1;
+  font-weight: 600;
 }
 
 .commitmentText:hover {
@@ -141,7 +144,10 @@
 }
 
 .featureText {
-  @apply text-[12px] font-[550] text-[#27272a] whitespace-nowrap;
+  @apply text-sm text-gray-600;
+  font-size: 12px;
+  color: #27272a;
+  font-weight: 550;
 }
 
 .featureDivider {

@@ -18,16 +18,17 @@ interface ChangePasswordRequest {
 
 export const authService = {
   async login(email: string, password: string): Promise<LoginResponse> {
-    const response = await apiClient.post('/login', { email, password });
+    const response = await apiClient.post('/login', { 
+      email, 
+      password 
+    });
     return response.data;
   },
 
   async register(email: string, password: string): Promise<RegisterResponse> {
     const response = await apiClient.post('/register', { 
       email, 
-      password,
-      // Add default role if backend expects it
-      role: 'user'
+      password
     });
     return response.data;
   },
@@ -76,7 +77,7 @@ export const authService = {
     });
     return response.data;
   },
-
+  
   async verifyEmail(token: string): Promise<void> {
     const response = await apiClient.post('/verify-email', { token });
     return response.data;

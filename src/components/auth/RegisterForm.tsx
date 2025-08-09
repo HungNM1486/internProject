@@ -1,4 +1,3 @@
-// src/components/auth/RegisterForm.tsx
 import React, { useState } from 'react';
 import { authStore } from '../../store/authStore';
 import { useFormValidation } from '../../hooks/useFormValidation';
@@ -151,7 +150,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onClose, onSwitchToLogin })
 
         <button
           type="submit"
-          disabled={isLoading || Object.keys(errors).length > 0 || !values.agreeToTerms}
+          disabled={isLoading || !values.email || !values.password || !values.fullName || !values.agreeToTerms}
           className={`${styles.submitButton} ${isLoading ? styles.loading : ''}`}
         >
           {isLoading ? (

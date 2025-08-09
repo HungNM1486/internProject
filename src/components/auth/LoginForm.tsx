@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { authStore } from '../../store/authStore';
 import { useFormValidation } from '../../hooks/useFormValidation';
@@ -89,7 +88,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onClose, onSwitchToRegister }) =>
 
         <button
           type="submit"
-          disabled={isLoading || Object.keys(errors).length > 0}
+          disabled={isLoading || !values.email || !values.password}
           className={`${styles.submitButton} ${isLoading ? styles.loading : ''}`}
         >
           {isLoading ? (
