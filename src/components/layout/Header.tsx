@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Header.module.css';
 import MobileSidebar from './MobileSidebar';
+import AuthModal from '../auth/AuthModal';
+import { authStore } from '../../store/authStore';
 
 // API service
 const fetchTopProducts = async () => {
@@ -22,6 +24,10 @@ const Header: React.FC = () => {
   const [topProducts, setTopProducts] = useState<{ id: string; name: string }[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [isMobile, setIsMobile] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  
+  const { user, isAuthenticated, logout } = authStore();
 
   useEffect(() => {
     fetchTopProducts().then(setTopProducts);
@@ -43,6 +49,57 @@ const Header: React.FC = () => {
 
   const closeSidebar = () => {
     setIsSidebarOpen(false);
+  };
+
+  const handleAccountClick = () => {
+    if (isAuthenticated) {
+      setIsUserMenuOpen(!isUserMenuOpen);
+    } else {
+      setIsAuthModalOpen(true);
+    }
+  };
+
+  const handleLogout = () => {
+    logout();
+    setIsUserMenuOpen(false);
+  };
+
+  const handleProfileClick = () => {
+    setIsUserMenuOpen(false);
+    window.location.href = '/profile';
+  };
+
+  const handleOrdersClick = () => {
+    setIsUserMenuOpen(false);
+    window.location.href = '/orders';
+  };
+
+  const handleAdminClick = () => {
+    setIsUserMenuOpen(false);
+    window.location.href = '/admin';
+  };
+
+  // Close user menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element;
+      if (isUserMenuOpen && !target.closest('.user-menu-container')) {
+        setIsUserMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isUserMenuOpen]);
+
+  const handleCartClick = () => {
+    if (isAuthenticated) {
+      window.location.href = '/cart';
+    } else {
+      setIsAuthModalOpen(true);
+    }
   };
 
   // Mobile Header Component
@@ -78,7 +135,7 @@ const Header: React.FC = () => {
         </div>
 
         {/* Cart Button */}
-        <button className={styles.mobileCartBtn}>
+        <button onClick={handleCartClick} className={styles.mobileCartBtn}>
           <img 
             src="/header/header_cart.png" 
             alt="Giỏ hàng" 
@@ -153,25 +210,95 @@ const Header: React.FC = () => {
                   <span style={{ color: '#0a68ff' }}>Trang chủ</span>
                 </Link>
                 {/* Account button */}
-                <Link to="/account" className={styles.actionBtn}>
-                  <img 
-                    src="/header/header_account.png" 
-                    alt="Account" 
-                    className={styles.actionIcon}
-                  />
-                  <span style={{ color: '#808089' }}>Tài khoản</span>
-                </Link>
+                <div className="user-menu-container" style={{ position: 'relative' }}>
+                  <button onClick={handleAccountClick} className={styles.actionBtn}>
+                    <img 
+                      src="/header/header_account.png" 
+                      alt="Account" 
+                      className={styles.actionIcon}
+                    />
+                    <span style={{ color: '#808089' }}>
+                      {isAuthenticated ? (user?.fullName || 'Tài khoản') : 'Đăng nhập'}
+                    </span>
+                    {isAuthenticated && (
+                      <svg 
+                        className={styles.dropdownIcon} 
+                        fill="none" 
+                        stroke="currentColor" 
+                        viewBox="0 0 24 24"
+                        style={{ 
+                          width: '16px', 
+                          height: '16px', 
+                          marginLeft: '4px',
+                          transform: isUserMenuOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                          transition: 'transform 0.2s'
+                        }}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    )}
+                  </button>
+
+                  {/* User Dropdown Menu */}
+                  {isAuthenticated && isUserMenuOpen && (
+                    <div className={styles.userDropdown}>
+                      <div className={styles.userInfo}>
+                        <div className={styles.userAvatar}>
+                          {user?.fullName?.charAt(0) || user?.email?.charAt(0) || 'U'}
+                        </div>
+                        <div className={styles.userDetails}>
+                          <div className={styles.userName}>{user?.fullName || user?.email}</div>
+                          <div className={styles.userRole}>{user?.role === 'admin' ? 'Quản trị viên' : 'Khách hàng'}</div>
+                        </div>
+                      </div>
+                      
+                      <div className={styles.menuDivider}></div>
+                      
+                      <button onClick={handleOrdersClick} className={styles.menuItem}>
+                        <svg className={styles.menuIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        <span>Hồ sơ của tôi</span>
+                      </button>
+                      
+                      <button onClick={handleProfileClick} className={styles.menuItem}>
+                        <svg className={styles.menuIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                        </svg>
+                        <span>Đơn hàng của tôi</span>
+                      </button>
+
+                      {user?.role === 'admin' && (
+                        <button onClick={handleAdminClick} className={styles.menuItem}>
+                          <svg className={styles.menuIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                          </svg>
+                          <span>Quản trị</span>
+                        </button>
+                      )}
+                      
+                      <div className={styles.menuDivider}></div>
+                      
+                      <button onClick={handleLogout} className={styles.menuItem}>
+                        <svg className={styles.menuIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                        <span>Đăng xuất</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
                 {/* Divider */}
                 <div className={styles.actionDivider}></div>
                 {/* Cart */}
-                <Link to="/cart" className={styles.cartBtn}>
+                <button onClick={handleCartClick} className={styles.cartBtn}>
                 <img 
                     src="/header/header_cart.png" 
                     alt="Giỏ hàng" 
                     className={styles.actionIcon}
                   />
                   <span className={styles.cartBadge}>3</span>
-                </Link>
+                </button>
               </div>
             </div>
 
@@ -250,6 +377,10 @@ const Header: React.FC = () => {
       <MobileSidebar 
         isOpen={isSidebarOpen} 
         onClose={closeSidebar}
+        onLoginClick={() => {
+          closeSidebar();
+          setIsAuthModalOpen(true);
+        }}
       />
       
       {/* Overlay */}
@@ -259,6 +390,13 @@ const Header: React.FC = () => {
           onClick={closeSidebar}
         />
       )}
+
+      {/* Auth Modal */}
+      <AuthModal 
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        initialMode="login"
+      />
     </>
   );
 };
