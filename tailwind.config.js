@@ -35,7 +35,7 @@ export default {
         },
       },
       fontFamily: {
-        display: ['Inter', 'system-ui', 'sans-serif'],
+        display: ['Inter', 'system-ui', 'Segoe UI'],
       },
       container: {
         center: true,

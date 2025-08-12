@@ -10,6 +10,7 @@ const BookDetailPage = () => <div>Book Detail</div>;
 const CartPage = () => <div>Cart Page</div>;
 
 import { Home } from './pages';
+import BookDetail from "./pages/BookDetail";
 
 const App: React.FC = () => {
   return (
@@ -18,7 +19,7 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/books" element={<BooksPage />} />
-          <Route path="/books/:id" element={<BookDetailPage />} />
+          <Route path="/books/:id" element={<BookDetail />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/category/:categoryId" element={<BooksPage />} />
         </Routes>
