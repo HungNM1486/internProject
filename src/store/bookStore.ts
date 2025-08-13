@@ -1,4 +1,3 @@
-// src/store/bookStore.ts
 import { create } from 'zustand';
 import { bookService } from '../services/bookService';
 import type { Book, PaginationParams } from '../types';

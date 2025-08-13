@@ -1,9 +1,7 @@
-// src/App.tsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { MainLayout } from './components/layout/MainLayout';
 
-// Import your pages (create these if not exist)
 const HomePage = () => <div>Home Page</div>;
 const BooksPage = () => <div>Books Page</div>;
 const BookDetailPage = () => <div>Book Detail</div>;

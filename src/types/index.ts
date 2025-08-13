@@ -1,4 +1,3 @@
-// src/types/index.ts - Updated User interface
 export interface User {
     id: string;
     email: string;
@@ -72,7 +71,6 @@ export interface AuthError {
     field?: string;
 }
 
-// Keep existing interfaces...
 export interface Book {
     id: string;
     title: string;
