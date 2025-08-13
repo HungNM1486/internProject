@@ -4,21 +4,21 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { MainLayout } from './components/layout/MainLayout';
 
 // Import your pages (create these if not exist)
-const HomePage = () => <div>Home Page</div>;
 const BooksPage = () => <div>Books Page</div>;
-const BookDetailPage = () => <div>Book Detail</div>;
 const CartPage = () => <div>Cart Page</div>;
 
 import { Home } from './pages';
 import BookDetail from "./pages/BookDetail";
+import Books from './pages/Books';
 
 const App: React.FC = () => {
   return (
     <Router>
       <MainLayout>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/books" element={<BooksPage />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Books />} />
+          <Route path="/books" element={<Books />} />
           <Route path="/books/:id" element={<BookDetail />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/category/:categoryId" element={<BooksPage />} />

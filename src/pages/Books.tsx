@@ -1,10 +1,26 @@
-import React from 'react';
+import React, { useState } from "react";
+import BookList from "@/components/books/BookList";
+import CategorySidebar from "@/components/filters/CategorySidebar";
 
 const Books: React.FC = () => {
+  const [category, setCategory] = useState<string | null>(null);
+  const [filters, setFilters] = useState<string[]>([]);
+  const [sortBy, setSortBy] = useState<string>("popular");
+
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-gray-900 mb-6">Danh sách sách</h1>
-      <p className="text-gray-600">Tìm kiếm và khám phá các cuốn sách hay.</p>
+    <div className="container mx-auto px-4 py-6 flex flex-col lg:flex-row gap-6">
+      {/* Sidebar danh mục */}
+      <div className="w-full lg:w-1/5">
+        <CategorySidebar selected={category} onSelect={setCategory} />
+      </div>
+
+      {/* Main content */}
+      <div className="flex-1">
+        <h1 className="text-2xl font-bold mb-4">Nhà sách Tiki</h1>
+
+        {/* Danh sách sách */}
+        <BookList />
+      </div>
     </div>
   );
 };
