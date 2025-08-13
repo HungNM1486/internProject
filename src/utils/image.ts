@@ -1,0 +1,1 @@
+export const coverOf = (images: string[]) => images?.[0] ?? "";

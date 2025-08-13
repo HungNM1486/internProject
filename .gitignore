@@ -7,18 +7,38 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# Dependency directories
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+build/
+
+# Local environment files
+.env.local
+.env.*.local
+.env            # nếu chứa thông tin nhạy cảm
+!.env.example   # giữ lại file mẫu
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
-.idea
+.idea/
 .DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Docker related
+**/docker-compose.override.yml
+**/docker-compose.override.*.yml
+
+# Optional cache
+.cache/
+.temp/

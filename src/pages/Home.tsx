@@ -1,10 +1,13 @@
 import React from 'react';
+import BookList from '@/components/books/BookList';
 
 const Home: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-gray-900 mb-6">Chào mừng đến với BookStore</h1>
-      <p className="text-gray-600">Khám phá bộ sưu tập sách đa dạng của chúng tôi.</p>
+      <h1 className="text-3xl font-bold text-gray-900 mb-6">Nhà sách Tiki</h1>
+      <section>
+        <BookList />
+      </section>
     </div>
   );
 };

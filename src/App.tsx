@@ -7,14 +7,17 @@ const BooksPage = () => <div>Books Page</div>;
 const BookDetailPage = () => <div>Book Detail</div>;
 const CartPage = () => <div>Cart Page</div>;
 
+import { Home } from './pages';
+import BookDetail from "./pages/BookDetail";
+
 const App: React.FC = () => {
   return (
     <Router>
       <MainLayout>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<Home />} />
           <Route path="/books" element={<BooksPage />} />
-          <Route path="/books/:id" element={<BookDetailPage />} />
+          <Route path="/books/:id" element={<BookDetail />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/category/:categoryId" element={<BooksPage />} />
         </Routes>
