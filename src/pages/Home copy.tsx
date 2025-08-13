@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import BookList from "@/components/books/BookList";
 import CategorySidebar from "@/components/filters/CategorySidebar";
 
-const Books: React.FC = () => {
+const Home: React.FC = () => {
+  const [category, setCategory] = useState<string | null>(null);
+  const [filters, setFilters] = useState<string[]>([]);
+  const [sortBy, setSortBy] = useState<string>("popular");
+
   return (
     <div className="container mx-auto px-4 py-6 flex flex-col lg:flex-row gap-6">
       {/* Sidebar danh mục */}
       <div className="w-full lg:w-1/5">
-        <CategorySidebar />
+        <CategorySidebar selected={category} onSelect={setCategory} />
       </div>
 
       {/* Main content */}
@@ -21,4 +25,4 @@ const Books: React.FC = () => {
   );
 };
 
-export default Books;
+export default Home;
