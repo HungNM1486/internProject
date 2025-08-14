@@ -6,13 +6,18 @@ import { adaptApiBook } from "@/utils/adapters";
 import ImageGallery from "@/components/books/details/ImageGallery";
 import RightSellerCard from "@/components/books/details/RightSellerCard";
 import {SpecsTable,  DescriptionBlock } from "@/components/books/details/InfoSections";
-
+import SimilarBooks from "@/components/books/details/SimilarBooks";
 
 export default function BookDetail() {
   const { id } = useParams<{ id: string }>();
   const [book, setBook] = useState<Book | null>(null);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState<string | null>(null);
+  
+  // Thêm state cho similarBooks
+  const [similarBooks, setSimilarBooks] = useState<Book[]>([]);
+  const [similarLoading, setSimilarLoading] = useState(false);
+  const [similarError, setSimilarError] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -28,6 +33,68 @@ export default function BookDetail() {
       }
     })();
   }, [id]);
+
+  // Thêm useEffect để load similar books
+  useEffect(() => {
+    if (!book) return;
+
+    (async () => {
+      try {
+        setSimilarError(null);
+        setSimilarLoading(true);
+        console.log('Loading similar books for book:', book);
+        
+        let response;
+        let adaptedList: Book[] = [];
+
+        // Thử lấy theo categoryId trước
+        if (book.categoryId) {
+          try {
+            console.log('Trying to load by categoryId:', book.categoryId);
+            response = await bookService.getBooksByCategory(book.categoryId);
+            if (response && response.data) {
+              adaptedList = response.data
+                .map(adaptApiBook)
+                .filter((b: Book) => b.id !== book.id)
+                // Đảm bảo sách có đầy đủ thông tin cần thiết
+                .filter((b: Book) => b.name && b.price)
+                .slice(0, 8);
+            }
+          } catch (categoryError) {
+            console.log('Category search failed:', categoryError);
+          }
+        }
+
+        // Nếu không có kết quả, thử lấy tất cả sách
+        if (adaptedList.length === 0) {
+          console.log('Fallback to general book list');
+          try {
+            response = await bookService.getBooks({ page: 1, limit: 20 });
+            if (response && response.data) {
+              adaptedList = response.data
+                .map(adaptApiBook)
+                .filter((b: Book) => b.id !== book.id)
+                // Đảm bảo sách có đầy đủ thông tin
+                .filter((b: Book) => b.name && b.price)
+                .slice(0, 8);
+            }
+          } catch (generalError) {
+            console.log('General search also failed:', generalError);
+          }
+        }
+
+        console.log('Final similar books:', adaptedList);
+        setSimilarBooks(adaptedList);
+        
+      } catch (e) {
+        console.error('Error loading similar books:', e);
+        setSimilarError('Không tải được sách tương tự');
+        setSimilarBooks([]);
+      } finally {
+        setSimilarLoading(false);
+      }
+    })();
+  }, [book?.id]); // Chỉ depend vào book.id
 
   if (loading) return <div className="p-8 text-center">Đang tải chi tiết…</div>;
   if (err) return <div className="p-8 text-center text-red-600">{err}</div>;
@@ -51,7 +118,6 @@ export default function BookDetail() {
             images={book.images.map((img: any) => img.large_url || img.medium_url || img.base_url)}
             title={book.name}
           />
-
         </section>
 
         <section className="col-span-12 lg:col-span-5">
@@ -103,11 +169,33 @@ export default function BookDetail() {
             <SpecsTable book={book} />
           </div>
 
-          {/* Mô tả có “Xem thêm” */}
+          {/* Mô tả có "Xem thêm" */}
           <div className="mt-3 rounded-lg border bg-white">
             <h2 className="px-4 pt-3 pb-2 text-[15px] font-semibold text-gray-900">Mô tả sản phẩm</h2>
             <DescriptionBlock text={book.description} />
           </div>
+
+          {/* THÊM PHẦN SIMILAR BOOKS */}
+          {similarLoading && (
+            <div className="mt-3 rounded-lg border bg-white p-4">
+              <div className="text-center text-gray-500">Đang tải sách tương tự...</div>
+            </div>
+          )}
+
+          {!similarLoading && similarBooks.length > 0 && (
+            <SimilarBooks books={similarBooks} />
+          )}
+
+          {!similarLoading && similarBooks.length === 0 && (
+            <div className="mt-3 rounded-lg border bg-white p-4">
+              <h2 className="px-4 pt-3 pb-2 text-[15px] font-semibold text-gray-900">
+                Sản phẩm tương tự
+              </h2>
+              <div className="text-center text-gray-500 py-8">
+                Đang cập nhật sách tương tự...
+              </div>
+            </div>
+          )}
         </section>
 
         <aside className="col-span-12 lg:col-span-3">
