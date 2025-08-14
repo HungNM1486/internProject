@@ -94,12 +94,12 @@ export default function BookDetail() {
           Nhà Sách Tiki
         </Link>
         <span className="mx-1.5">›</span>
-        <span className="text-gray-700">{book.title}</span>
+        <span className="text-gray-700">{book.name}</span>
       </nav>
 
       <div className="grid grid-cols-12 gap-4">
         <section className="col-span-12 lg:col-span-4">
-          <ImageGallery images={book.images || []} title={book.title} />
+          <ImageGallery images={book.images} title={book.title} />
         </section>
 
         <section className="col-span-12 lg:col-span-5">
@@ -108,10 +108,10 @@ export default function BookDetail() {
             <div className="text-[13px] text-gray-500">
               Tác giả:&nbsp;
               <span className="text-blue-600 hover:underline">
-                {book.author || 'Không rõ'}
+                {book.author || "Không rõ"}
               </span>
             </div>
-            <h1 className="mt-1 text-[22px] font-semibold text-gray-900">{book.title}</h1>
+            <h1 className="mt-1 text-[22px] font-semibold text-gray-900">{book.name}</h1>
 
             <div className="mt-1 flex items-center gap-2">
               <div className="flex items-center text-yellow-400">
