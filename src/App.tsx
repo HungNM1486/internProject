@@ -8,6 +8,7 @@ import { Home } from "./pages";
 import BookDetail from "./pages/BookDetail";
 import Books from "./pages/Books";
 import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
 
 const BooksPage = () => <div>Books Page</div>;
 
@@ -15,17 +16,24 @@ const App: React.FC = () => {
   return (
     <Router>
       <CartProvider>
-        <MainLayout>
-          <Routes>
-            <Route path="/home" element={<Home />} />
-            <Route path="/" element={<Books />} />
-            <Route path="/books" element={<Books />} />
-            <Route path="/books/:id" element={<BookDetail />} />
-            <Route path="/category/:categoryId" element={<BooksPage />} />
-
-            <Route path="/cart" element={<Cart />} />
-          </Routes>
-        </MainLayout>
+        <Routes>
+          {/* Route checkout riêng biệt - không qua MainLayout */}
+          <Route path="/checkout" element={<Checkout />} />
+          
+          {/* Các route khác vẫn qua MainLayout */}
+          <Route path="/*" element={
+            <MainLayout>
+              <Routes>
+                <Route path="/home" element={<Home />} />
+                <Route path="/" element={<Books />} />
+                <Route path="/books" element={<Books />} />
+                <Route path="/books/:id" element={<BookDetail />} />
+                <Route path="/category/:categoryId" element={<BooksPage />} />
+                <Route path="/cart" element={<Cart />} />
+              </Routes>
+            </MainLayout>
+          } />
+        </Routes>
       </CartProvider>
     </Router>
   );
