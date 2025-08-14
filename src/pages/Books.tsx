@@ -1,6 +1,6 @@
 import React from "react";
 import BookList from "@/components/books/BookList";
-import CategorySidebar from "@/components/filters/CategorySidebar";
+import CategorySidebar from "@/components/layout/CategorySidebar";
 
 const Books: React.FC = () => {
   return (

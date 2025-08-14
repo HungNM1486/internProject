@@ -151,13 +151,25 @@ export interface Book {
 }
 
 export interface Category {
-    id: string;
-    name: string;
-    description?: string;
-    slug: string;
-    parentId?: string;
-    createdAt: string;
+  id: number;
+  parent_id?: number | null;
+  name: string;
+  type?: string | null;
+  url_key?: string;
+  url_path?: string;
+  full_url_key?: string;
+  level?: number;
+  status?: string;
+  include_in_menu?: boolean | string;
+  product_count?: number;
+  is_leaf?: boolean;
+  meta_title?: string;
+  meta_description?: string;
+  meta_keywords?: string | null;
+  thumbnail_url?: string;
+  children?: Category[];
 }
+
 
 export interface CartItem {
     id: string;

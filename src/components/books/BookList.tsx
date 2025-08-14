@@ -90,16 +90,15 @@ export default function BookList(){
             ))}
         </div>
 
-        {/* Nút Xem thêm */}
         {!isEnd && (
             <div className="mt-6 flex justify-center">
-            <button
-                className="btn btn-outline"
-                onClick={handleLoadMore}
-                disabled={loadingMore}
-            >
-                {loadingMore ? "Đang tải..." : "Xem thêm"}
-            </button>
+                <button
+                    className="px-12 py-1.5 border border-blue-500 text-blue-500 font-regular rounded hover:bg-blue-50 transition-colors disabled:opacity-50"
+                    onClick={handleLoadMore}
+                    disabled={loadingMore}
+                >
+                    {loadingMore ? "Đang tải..." : "Xem thêm"}
+                </button>
             </div>
         )}
         </div>
