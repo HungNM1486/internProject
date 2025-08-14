@@ -1,12 +1,6 @@
-import React from 'react';
+import React from "react";
+import Books from "./Books";
 
-const Home: React.FC = () => {
-  return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-gray-900 mb-6">Chào mừng đến với BookStore</h1>
-      <p className="text-gray-600">Khám phá bộ sưu tập sách đa dạng của chúng tôi.</p>
-    </div>
-  );
-};
+const Home: React.FC = Books;
 
 export default Home;
