@@ -1,7 +1,6 @@
 import { useState } from "react";
 import type { Book } from "@/types";
 
-/* Mô tả có overlay + nút “Xem thêm/Thu gọn” giống mock */
 export function DescriptionBlock({ text }: { text: string }) {
   const [open, setOpen] = useState(false);
   const tooLong = (text?.length || 0) > 650;
@@ -28,21 +27,17 @@ export function DescriptionBlock({ text }: { text: string }) {
   );
 }
 
-/* Bảng thông tin chi tiết giống Tiki */
 export function SpecsTable({ book }: { book: Book }) {
-  const rows = [
-    { k: "Bookcare", v: "Có" },
-    { k: "Công ty phát hành", v: book.publisher },
-    { k: "Ngày xuất bản", v: book.publishedDate },
-    { k: "Kích thước", v: book.pageCount ? undefined : undefined }, // nếu có kích thước riêng thì map ở adapter
-    { k: "Dịch Giả", v: (book as any).translator },
-    { k: "Loại bìa", v: (book as any).coverType || "Bìa mềm" },
-    { k: "Số trang", v: book.pageCount ? `${book.pageCount}` : undefined },
-    { k: "Nhà xuất bản", v: book.publisher },
-  ].filter((r) => r.v);
+  
+  const attributes = book.specifications?.[0]?.attributes ?? [];
+
+  const rows = attributes.map(attr => ({
+    k: attr.name,
+    v: attr.value
+  })).filter(row => row.v?.trim() !== "");
 
   return (
-    <div className="overflow-hidden rounded-lg border">
+    <div className="overflow-hidden rounded-lg border mt-6">
       <table className="w-full text-[13px]">
         <tbody>
           {rows.length ? (

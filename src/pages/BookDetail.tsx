@@ -41,13 +41,17 @@ export default function BookDetail() {
         <span className="mx-1.5">›</span>
         <Link to="/books" className="hover:underline">Nhà Sách Tiki</Link>
         <span className="mx-1.5">›</span>
-        <span className="text-gray-700">{book.title}</span>
+        <span className="text-gray-700">{book.name}</span>
       </nav>
 
       {/* 3 cột giống mock: 4 | 5 | 3 */}
       <div className="grid grid-cols-12 gap-4">
         <section className="col-span-12 lg:col-span-4">
-          <ImageGallery images={book.images} title={book.title} />
+          <ImageGallery
+            images={book.images.map((img: any) => img.large_url || img.medium_url || img.base_url)}
+            title={book.name}
+          />
+
         </section>
 
         <section className="col-span-12 lg:col-span-5">
@@ -56,10 +60,10 @@ export default function BookDetail() {
             <div className="text-[13px] text-gray-500">
               Tác giả:&nbsp;
               <span className="text-blue-600 hover:underline">
-                {book.author || "Không rõ"}
+                {book.authors?.map((a) => a.name).join(", ") || "Không rõ"}
               </span>
             </div>
-            <h1 className="mt-1 text-[22px] font-semibold text-gray-900">{book.title}</h1>
+            <h1 className="mt-1 text-[22px] font-semibold text-gray-900">{book.name}</h1>
 
             <div className="mt-1 flex items-center gap-2">
               <div className="flex items-center text-yellow-400">

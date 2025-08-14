@@ -1,94 +1,92 @@
-import type { Book, Category } from "@/types";
-import { toNumber } from "@/utils/money";
+import type { Book } from "@/types";
 
-const API_BASE = import.meta.env.VITE_API_URL ?? "";
-
-function resolveImageUrl(u?: string | null): string | null {
-  if (!u) return null;
-  if (/^https?:\/\//i.test(u)) return u;
-  if (u.startsWith("//")) return window.location.protocol + u;
-  if (u.startsWith("/")) return API_BASE.replace(/\/$/, "") + u;
-  return u;
-}
-
-function stripHtml(html?: string): string {
-  if (!html) return "";
-  return html.replace(/<[^>]+>/g, "").trim();
-}
-
-function slugify(s: string): string {
+const slugify = (s: string): string => {
   return s
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)+/g, "");
-}
+};
 
-export function adaptApiBook(b: any): Book {
-  // ===== TITLE / AUTHOR =====
-  const title = b.title ?? b.name ?? "Chưa có tên";
-  const author =
-    (Array.isArray(b.authors) && b.authors[0]?.name) || b.author || "Không rõ";
+export function adaptApiBook(raw: any): Book {
+  const price = raw.current_seller?.price || raw.price || 0;
+  const original = raw.original_price || raw.list_price || price;
+  const discount = original > price ? Math.round(((original - price) / original) * 100) : undefined;
 
-  // ===== PRICE =====
-  let price = toNumber(b.price);
-  let original = toNumber(b.original_price ?? b.list_price);
-  if (price === 0 && original > 0) price = original; // tránh -100%
+  const images = Array.isArray(raw.images) ? raw.images : [];
 
-  const discount =
-    original > price && original > 0
-      ? Math.round(((original - price) / original) * 100)
-      : undefined;
-
-  // ===== IMAGES =====
-  let images: string[] = [];
-  if (Array.isArray(b.images) && b.images.length) {
-    images = b.images
-      .map(
-        (it: any) =>
-          resolveImageUrl(it.medium_url || it.large_url || it.base_url) as string
-      )
-      .filter(Boolean);
-  } else if (b.book_cover) {
-    const u = resolveImageUrl(b.book_cover);
-    if (u) images = [u];
-  }
-
-  // ===== CATEGORY  =====
-  let category: Category | undefined = undefined;
-  if (b.categories?.id && b.categories?.name) {
-    const name = String(b.categories.name);
-    category = {
-      id: String(b.categories.id),
-      name,
-      slug: slugify(name),            
-      description: undefined,
-      parentId: undefined,
-      createdAt: new Date().toISOString(),
-    };
-  }
+  const category = raw.categories?.id && raw.categories?.name
+    ? {
+        id: raw.categories.id,
+        name: raw.categories.name,
+        is_leaf: raw.categories.is_leaf ?? true,
+        slug: slugify(raw.categories.name)
+      }
+    : {
+        id: 0,
+        name: "Chưa rõ",
+        is_leaf: true,
+        slug: "chua-ro"
+      };
 
   return {
-    id: String(b.id ?? b.product_id ?? b._id ?? Math.random().toString(36).slice(2)),
-    title,
-    author,
-    description: stripHtml(b.description ?? b.short_description),
+    id: String(raw.product_id || raw.id || crypto.randomUUID()),
+    name: raw.name || "Không rõ tên",
+    short_description: raw.short_description || "",
+    description: stripHtml(raw.description || raw.short_description || ""),
     price,
-    originalPrice: original || undefined,
+    originalPrice: original,
     discount,
-    categoryId: String(b.categories?.id ?? b.category_id ?? ""),
-    category,                          
+    stock: raw.stock ?? 0,
+    rating: raw.rating_average || 0,
+    reviewCount: raw.review_count || raw.quantity_sold?.value || 0,
+    isbn: raw.isbn || "",
+    publisher: raw.publisher || "",
+    publishedDate: getAttr(raw, ["publication_date", "publishedDate"]),
+    pageCount: parseInt(getAttr(raw, ["number_of_page", "pages"]) || "0") || undefined,
+    language: raw.language || "Tiếng Việt",
+    authors: Array.isArray(raw.authors) ? raw.authors : [],
+    book_cover: raw.book_cover || null,
+    categories: category,
+    current_seller: raw.current_seller || {
+      id: 0,
+      sku: "",
+      name: "",
+      link: "",
+      logo: "",
+      price: 0,
+      product_id: "",
+      store_id: 0,
+      is_best_store: false,
+      is_offline_installment_supported: null
+    },
     images,
-    stock: toNumber(b.stock ?? b.quantity ?? 0), 
-    rating: toNumber(b.rating_average ?? 0),
-    reviewCount: toNumber(b.review_count ?? 0),
-    isbn: b.isbn ?? undefined,
-    publisher: b.publisher ?? undefined,
-    publishedDate: b.published_at ?? undefined,
-    pageCount: toNumber(b.pages ?? 0) || undefined,
-    language: b.language ?? undefined,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
+    list_price: raw.list_price || price,
+    original_price: raw.original_price || price,
+    quantity_sold: raw.quantity_sold || { text: "0", value: 0 },
+    rating_average: raw.rating_average || 0,
+    specifications: raw.specifications || [],
+    createdAt: raw.createdAt || new Date().toISOString(),
+    updatedAt: raw.updatedAt || new Date().toISOString()
   };
+}
+
+// === Helpers ===
+function stripHtml(html: string): string {
+  return html.replace(/<[^>]+>/g, "").trim();
+}
+
+function getAttr(raw: any, keys: string[]): string | undefined {
+  const attrs: any[] = raw?.specifications?.[0]?.attributes ?? [];
+  if (!Array.isArray(attrs)) return undefined;
+
+  for (const key of keys) {
+    const found = attrs.find((a) => {
+      const n = (a?.name || a?.code || "").toString().trim().toLowerCase();
+      return n === key.toLowerCase();
+    });
+    if (found?.value) return found.value;
+  }
+  return undefined;
 }
