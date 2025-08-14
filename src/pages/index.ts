@@ -4,6 +4,7 @@ export { default as Register } from './Register';
 export { default as Profile } from './Profile';
 export { default as Cart } from './Cart';
 export { default as Checkout } from './Checkout';
+export { default as OrderSuccess } from './OrderSuccess';
 export { default as Orders } from './Orders';
 export { default as Admin } from './Admin';
 export { default as Unauthorized } from './Unauthorized';
