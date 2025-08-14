@@ -1,4 +1,4 @@
-import styles from './MainLayout.module.css';
+import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
 
@@ -8,9 +8,9 @@ interface MainLayoutProps {
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (
-    <div className={styles.layout}>
+    <div className="min-h-screen flex flex-col">
       <Header />
-      <main className={styles.main}>
+      <main className="flex-grow bg-[#efefef]">
         {children}
       </main>
       <Footer />

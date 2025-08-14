@@ -1,8 +1,0 @@
-.layout {
-  @apply min-h-screen flex flex-col;
-}
-
-.main {
-  @apply flex-grow;
-  background-color: #efefef;
-}
