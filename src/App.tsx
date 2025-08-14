@@ -9,6 +9,8 @@ import BookDetail from "./pages/BookDetail";
 import Books from "./pages/Books";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
+import OrderSuccess from "./pages/OrderSuccess";
+
 
 const BooksPage = () => <div>Books Page</div>;
 
@@ -19,6 +21,8 @@ const App: React.FC = () => {
         <Routes>
           {/* Route checkout riêng biệt - không qua MainLayout */}
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/order-success" element={<OrderSuccess />} />
+
           
           {/* Các route khác vẫn qua MainLayout */}
           <Route path="/*" element={
