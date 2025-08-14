@@ -1,4 +1,3 @@
-// src/types/index.ts - Updated User interface
 export interface User {
     id: string;
     email: string;
