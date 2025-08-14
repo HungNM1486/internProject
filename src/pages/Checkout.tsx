@@ -1,6 +1,6 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { CartItem } from "@/types";
+import { CartItem } from "../types";
 
 const Checkout = () => {
   const { state } = useLocation();
