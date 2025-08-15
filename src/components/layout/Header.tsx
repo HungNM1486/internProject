@@ -369,7 +369,7 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <header className="bg-white sticky top-0 z-50" style={{fontFamily: 'Inter, Arial, sans-serif', fontWeight: '400', color: '#808089'}}>
+      <header className="bg-white z-50" style={{fontFamily: 'Inter, Arial, sans-serif', fontWeight: '400', color: '#808089'}}>
         {isMobile ? <MobileHeader /> : <DesktopHeader />}
       </header>
       

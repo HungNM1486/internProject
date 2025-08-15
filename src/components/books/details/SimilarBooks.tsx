@@ -47,7 +47,7 @@ export default function SimilarBooks({ books }: SimilarBooksProps) {
     const handleImageError = () => {
       setImageError(true);
       setImageLoading(false);
-      console.log('Image failed to load for book:', book.name || book.title);
+      console.log('Image failed to load for book:', book.name);
     };
 
     const handleImageLoad = () => {

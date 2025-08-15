@@ -118,7 +118,7 @@ export default function BookCard({ book, className }: Props) {
       <div className="px-3 pb-3 pt-5 flex flex-col flex-1">
         {/* Giá + % giảm */}
         <div className="flex items-center gap-2">
-          <span className="text-[18px] font-extrabold leading-none text-[#d70018]">
+          <span className="text-[18px] font-bold leading-none text-[#d70018]">
             {formatVND(price)}
           </span>
           {showDiscount && (
@@ -144,10 +144,7 @@ export default function BookCard({ book, className }: Props) {
           <span className="text-xs text-gray-500">Đã bán {formatSold(sold)}</span>
         </div>
 
-        {/* Giá gốc */}
-        {original > price && (
-          <div className="mt-1 text-xs text-gray-400 line-through">{formatVND(original)}</div>
-        )}
+        
 
         {/* lấp khoảng trống để đẩy “giao hàng” xuống đáy card */}
         <div className="flex-1" />
