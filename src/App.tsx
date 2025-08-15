@@ -10,6 +10,7 @@ import Books from "./pages/Books";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import OrderSuccess from "./pages/OrderSuccess";
+import Orders from "./pages/Orders";
 
 
 const BooksPage = () => <div>Books Page</div>;
@@ -34,6 +35,7 @@ const App: React.FC = () => {
                 <Route path="/books/:id" element={<BookDetail />} />
                 <Route path="/category/:categoryId" element={<BooksPage />} />
                 <Route path="/cart" element={<Cart />} />
+                <Route path="/orders" element={<Orders />} />
               </Routes>
             </MainLayout>
           } />
