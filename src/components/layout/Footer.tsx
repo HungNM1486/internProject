@@ -23,7 +23,7 @@ const Footer: React.FC = () => {
     <footer className="bg-white border-t border-gray-200 font-[Inter,Arial,sans-serif]">
       {/* Hàng đầu - 5 cột */}
       <div className="py-8 px-8">
-        <div className="container-custom">
+        <div className="">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
             {/* Cột 1: Hỗ trợ khách hàng */}
             <div className="space-y-4">

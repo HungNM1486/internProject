@@ -71,20 +71,10 @@ export default function BookList(){
     if (!books || books.length === 0) return <EmptyState onRefresh={() => location.reload()} />;
 
     return (
-        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
-        {/* Tiêu đề block (optional) */}
-        <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-lg font-semibold">Gợi ý hôm nay</h2>
-        </div>
-
+        <div className="max-w-7xl mx-auto">
         {/* GRID: đảm bảo 4 cột trên desktop để “đủ hàng 4 card” */}
         <div
-            className="
-            grid grid-cols-2 gap-3
-            sm:grid-cols-3 sm:gap-4
-            md:grid-cols-4
-            "
-        >
+            className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4" >
             {books.map((b) => (
             <BookCard key={b.id} book={b} />
             ))}

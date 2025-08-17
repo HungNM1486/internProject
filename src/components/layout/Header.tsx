@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import MobileSidebar from './MobileSidebar';
 import AuthModal from '../auth/AuthModal';
 import { authStore } from '../../store/authStore';
-
+import { ShoppingCart } from "lucide-react";
+import { useCart } from '../cart/CartContext';
 // API service
 const fetchTopProducts = async () => {
   try {
@@ -93,6 +94,8 @@ const Header: React.FC = () => {
     };
   }, [isUserMenuOpen]);
 
+  const { count } = useCart();
+
   const handleCartClick = () => {
     if (isAuthenticated) {
       window.location.href = '/cart';
@@ -135,14 +138,7 @@ const Header: React.FC = () => {
         </div>
 
         {/* Cart Button */}
-        <button onClick={handleCartClick} className="relative p-2 hover:bg-gray-100 rounded-lg flex-shrink-0">
-          <img 
-            src="/header/header_cart.png" 
-            alt="Giỏ hàng" 
-            className="w-6 h-6"
-          />
-          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center" style={{fontSize: '10px'}}>3</span>
-        </button>
+        
       </div>
     </div>
   );
@@ -153,7 +149,7 @@ const Header: React.FC = () => {
       {/* Top banner */}
       <div className="text-green-700 md:block hidden" style={{backgroundColor: '#effff4', padding: '12px 16px', height: '42px'}}>
         <div className="container-custom text-center text-sm font-bold" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <span style={{ fontSize: '12px', color: '#00AB56' }}>Freeship đơn từ 45k, giảm nhiều hơn với</span>
+          <span style={{ fontSize: '12px', color: '#00AB56' }}>Freeship đơn từ 45k, giảm nhiều hơn cùng</span>
           <img 
             src="/header/header_freeship.png" 
             alt="Freeship Extra" 
@@ -163,7 +159,7 @@ const Header: React.FC = () => {
       </div>
 
       {/* Main header */}
-      <div className="container-custom py-4 md:block hidden">
+      <div className=" py-4 md:block hidden">
         <div className="flex items-start px-2 gap-3">
           {/* Logo */}
           <Link to="/" className="flex-shrink-0 w-32 flex flex-col items-center">
@@ -291,14 +287,16 @@ const Header: React.FC = () => {
                 {/* Divider */}
                 <div className="w-px h-8 bg-gray-300"></div>
                 {/* Cart */}
-                <button onClick={handleCartClick} className="relative flex items-center text-gray-400 hover:text-blue-600 px-3 py-2">
-                <img 
-                    src="/header/header_cart.png" 
-                    alt="Giỏ hàng" 
-                    className="w-6 h-6"
-                  />
-                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
-                </button>
+                 <Link to="/cart" className="relative flex items-center gap-2 px-4 py-2 bg-white text-blue-600 rounded-2xl">
+                    <ShoppingCart className="w-5 h-5" />
+
+                    {/* Badge hiển thị số lượng */}
+                    {count > 0 && (
+                      <span className="absolute -top-1 -right-0 flex items-center justify-center w-5 h-5 text-xs font-medium text-white bg-red-600 rounded-full">
+                        {count}
+                      </span>
+                    )}
+                  </Link>
               </div>
             </div>
 
@@ -316,7 +314,7 @@ const Header: React.FC = () => {
 
       {/* Navigation */}
       <nav className="border-t border-b border-gray-200 md:block hidden" style={{height: '47px'}}>
-        <div className="container-custom h-full">
+        <div className="h-full">
           <div className="flex items-center h-full px-6">
             <Link to="/commitment" className="mr-6 hover:text-blue-400" style={{fontSize: '14px', color: '#003ea1', fontWeight: '600'}}>Cam kết</Link>
             
