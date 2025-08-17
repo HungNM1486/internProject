@@ -34,7 +34,7 @@ export function adaptApiBook(raw: any): Book {
     id: String(raw.product_id || raw.id || crypto.randomUUID()),
     name: raw.name || "Không rõ tên",
     short_description: raw.short_description || "",
-    description: stripHtml(raw.description || raw.short_description || ""),
+    description: raw.description || raw.short_description || "",
     price,
     originalPrice: original,
     discount,

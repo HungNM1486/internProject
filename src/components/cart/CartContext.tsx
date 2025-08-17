@@ -1,12 +1,5 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
-import type { Book } from "@/types";
-
-export type CartItem = {
-  bookId: string;
-  book: Book;
-  quantity: number;
-  price: number; // đơn giá tại thời điểm thêm
-};
+import type { Book, CartItem } from "@/types";
 
 type CartContextValue = {
   items: CartItem[];
@@ -71,7 +64,18 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       }
       // thêm mới
       const price = getUnitPrice(book);
-      return [...prev, { bookId, book, quantity: Math.min(99, qty), price }];
+      return [
+        ...prev,
+        {
+          id: crypto.randomUUID(), // tự sinh id local
+          userId: "guest", // hoặc lấy từ context user nếu có
+          createdAt: new Date().toISOString(),
+          bookId,
+          book,
+          quantity: Math.min(99, qty),
+          price,
+        } as CartItem,
+      ];
     });
   };
 
