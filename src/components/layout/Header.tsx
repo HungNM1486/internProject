@@ -3,9 +3,15 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import MobileSidebar from './MobileSidebar';
 import AuthModal from '../auth/AuthModal';
+<<<<<<< HEAD
 import { authStore } from '../../store/authStore';
 import { ShoppingCart } from "lucide-react";
 import { useCart } from '../cart/CartContext';
+=======
+import { SearchComponent } from '../search';
+import { authStore } from '../../store/authStore';
+
+>>>>>>> 40115e6 (cập nhật code mới)
 // API service
 const fetchTopProducts = async () => {
   try {
@@ -22,7 +28,10 @@ const Header: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [topProducts, setTopProducts] = useState<{ id: string; name: string }[]>([]);
+<<<<<<< HEAD
   const [searchQuery, setSearchQuery] = useState('');
+=======
+>>>>>>> 40115e6 (cập nhật code mới)
   const [isMobile, setIsMobile] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -94,8 +103,11 @@ const Header: React.FC = () => {
     };
   }, [isUserMenuOpen]);
 
+<<<<<<< HEAD
   const { count } = useCart();
 
+=======
+>>>>>>> 40115e6 (cập nhật code mới)
   const handleCartClick = () => {
     if (isAuthenticated) {
       window.location.href = '/cart';
@@ -123,6 +135,7 @@ const Header: React.FC = () => {
         </button>
 
         {/* Search Bar */}
+<<<<<<< HEAD
         <div className="flex items-center flex-1 h-9 border border-gray-300 rounded-lg px-3" style={{backgroundColor: '#f8f9fa'}}>
           <svg className="w-4 h-4 text-gray-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -134,11 +147,28 @@ const Header: React.FC = () => {
             style={{fontSize: '14px'}}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+=======
+        <div className="flex-1">
+          <SearchComponent 
+            placeholder="Tìm kiếm sách, tác giả..."
+            className="flex-1"
+>>>>>>> 40115e6 (cập nhật code mới)
           />
         </div>
 
         {/* Cart Button */}
+<<<<<<< HEAD
         
+=======
+        <button onClick={handleCartClick} className="relative p-2 hover:bg-gray-100 rounded-lg flex-shrink-0">
+          <img 
+            src="/header/header_cart.png" 
+            alt="Giỏ hàng" 
+            className="w-6 h-6"
+          />
+          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center" style={{fontSize: '10px'}}>3</span>
+        </button>
+>>>>>>> 40115e6 (cập nhật code mới)
       </div>
     </div>
   );
@@ -149,7 +179,11 @@ const Header: React.FC = () => {
       {/* Top banner */}
       <div className="text-green-700 md:block hidden" style={{backgroundColor: '#effff4', padding: '12px 16px', height: '42px'}}>
         <div className="container-custom text-center text-sm font-bold" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+<<<<<<< HEAD
           <span style={{ fontSize: '12px', color: '#00AB56' }}>Freeship đơn từ 45k, giảm nhiều hơn cùng</span>
+=======
+          <span style={{ fontSize: '12px', color: '#00AB56' }}>Freeship đơn từ 45k, giảm nhiều hơn với</span>
+>>>>>>> 40115e6 (cập nhật code mới)
           <img 
             src="/header/header_freeship.png" 
             alt="Freeship Extra" 
@@ -159,7 +193,11 @@ const Header: React.FC = () => {
       </div>
 
       {/* Main header */}
+<<<<<<< HEAD
       <div className=" py-4 md:block hidden">
+=======
+      <div className="container-custom py-4 md:block hidden">
+>>>>>>> 40115e6 (cập nhật code mới)
         <div className="flex items-start px-2 gap-3">
           {/* Logo */}
           <Link to="/" className="flex-shrink-0 w-32 flex flex-col items-center">
@@ -174,6 +212,7 @@ const Header: React.FC = () => {
           {/* Search section */}
           <div className="flex-1 min-w-0 h-16">
             <div className="flex items-center gap-4 w-full h-10">
+<<<<<<< HEAD
               <div className="flex items-center h-10 border border-gray-300 rounded-lg px-3 min-w-0 flex-1">
                 <svg className="w-5 h-5 text-gray-400 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -193,6 +232,12 @@ const Header: React.FC = () => {
                   Tìm kiếm
                 </button>
               </div>
+=======
+              <SearchComponent 
+                placeholder="Tìm kiếm sách, tác giả..."
+                className="flex-1 min-w-0"
+              />
+>>>>>>> 40115e6 (cập nhật code mới)
 
               {/* Actions */}
               <div className="flex items-center space-x-3 h-12 flex-shrink-0 pl-9">
@@ -287,6 +332,7 @@ const Header: React.FC = () => {
                 {/* Divider */}
                 <div className="w-px h-8 bg-gray-300"></div>
                 {/* Cart */}
+<<<<<<< HEAD
                  <Link to="/cart" className="relative flex items-center gap-2 px-4 py-2 bg-white text-blue-600 rounded-2xl">
                     <ShoppingCart className="w-5 h-5" />
 
@@ -297,6 +343,16 @@ const Header: React.FC = () => {
                       </span>
                     )}
                   </Link>
+=======
+                <button onClick={handleCartClick} className="relative flex items-center text-gray-400 hover:text-blue-600 px-3 py-2">
+                <img 
+                    src="/header/header_cart.png" 
+                    alt="Giỏ hàng" 
+                    className="w-6 h-6"
+                  />
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+                </button>
+>>>>>>> 40115e6 (cập nhật code mới)
               </div>
             </div>
 
@@ -314,7 +370,11 @@ const Header: React.FC = () => {
 
       {/* Navigation */}
       <nav className="border-t border-b border-gray-200 md:block hidden" style={{height: '47px'}}>
+<<<<<<< HEAD
         <div className="h-full">
+=======
+        <div className="container-custom h-full">
+>>>>>>> 40115e6 (cập nhật code mới)
           <div className="flex items-center h-full px-6">
             <Link to="/commitment" className="mr-6 hover:text-blue-400" style={{fontSize: '14px', color: '#003ea1', fontWeight: '600'}}>Cam kết</Link>
             
