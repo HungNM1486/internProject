@@ -18,7 +18,7 @@ const Checkout = () => {
   const payable = Math.max(0, total + shippingFee - savings);
 
   React.useEffect(() => {
-    if (!state && !items.length) {
+    if (!state || !items.length) {
       navigate("/cart");
     }
   }, [state, items, navigate]);
