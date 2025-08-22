@@ -1,16 +1,5 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
-<<<<<<< HEAD
 import type { Book, CartItem } from "@/types";
-=======
-import type { Book } from "@/types";
-
-export type CartItem = {
-  bookId: string;
-  book: Book;
-  quantity: number;
-  price: number; // đơn giá tại thời điểm thêm
-};
->>>>>>> 40115e6 (cập nhật code mới)
 
 type CartContextValue = {
   items: CartItem[];
@@ -75,7 +64,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       }
       // thêm mới
       const price = getUnitPrice(book);
-<<<<<<< HEAD
       return [
         ...prev,
         {
@@ -88,9 +76,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           price,
         } as CartItem,
       ];
-=======
-      return [...prev, { bookId, book, quantity: Math.min(99, qty), price }];
->>>>>>> 40115e6 (cập nhật code mới)
     });
   };
 
