@@ -10,18 +10,39 @@ const slugify = (s: string): string => {
 };
 
 export function adaptApiBook(raw: any): Book {
+<<<<<<< HEAD
   const price = raw.current_seller?.price || raw.price || 0;
   const original = raw.original_price || raw.list_price || price;
+=======
+  // console.log('adaptApiBook:', raw.title, raw.categories); // Debug log
+  
+  // Fix: use proper field names from Django API
+  const listPrice = parseFloat(raw.list_price) || 0;
+  const originalPrice = parseFloat(raw.original_price) || listPrice;
+  const price = originalPrice; // Use original_price as current price
+  const original = listPrice; // list_price is the higher original price
+>>>>>>> 40115e6 (cập nhật code mới)
   const discount = original > price ? Math.round(((original - price) / original) * 100) : undefined;
 
   const images = Array.isArray(raw.images) ? raw.images : [];
 
+<<<<<<< HEAD
   const category = raw.categories?.id && raw.categories?.name
     ? {
         id: raw.categories.id,
         name: raw.categories.name,
         is_leaf: raw.categories.is_leaf ?? true,
         slug: slugify(raw.categories.name)
+=======
+  // Fix: categories is array, get first one
+  const firstCategory = Array.isArray(raw.categories) ? raw.categories[0] : raw.categories;
+  const category = firstCategory?.id && firstCategory?.name
+    ? {
+        id: firstCategory.id,
+        name: firstCategory.name,
+        is_leaf: firstCategory.is_leaf ?? true,
+        slug: firstCategory.slug || slugify(firstCategory.name)
+>>>>>>> 40115e6 (cập nhật code mới)
       }
     : {
         id: 0,
@@ -31,6 +52,7 @@ export function adaptApiBook(raw: any): Book {
       };
 
   return {
+<<<<<<< HEAD
     id: String(raw.product_id || raw.id || crypto.randomUUID()),
     name: raw.name || "Không rõ tên",
     short_description: raw.short_description || "",
@@ -39,6 +61,16 @@ export function adaptApiBook(raw: any): Book {
     originalPrice: original,
     discount,
     stock: raw.stock ?? 0,
+=======
+    id: String(raw.id || crypto.randomUUID()),
+    name: raw.title || raw.name || "Không rõ tên",
+    short_description: raw.short_description || "",
+    description: stripHtml(raw.description || raw.short_description || ""),
+    price,
+    originalPrice: original,
+    discount,
+    stock: raw.stock_quantity ?? 0,
+>>>>>>> 40115e6 (cập nhật code mới)
     rating: raw.rating_average || 0,
     reviewCount: raw.review_count || raw.quantity_sold?.value || 0,
     isbn: raw.isbn || "",
@@ -52,6 +84,7 @@ export function adaptApiBook(raw: any): Book {
     current_seller: raw.current_seller || {
       id: 0,
       sku: "",
+<<<<<<< HEAD
       name: "",
       link: "",
       logo: "",
@@ -59,6 +92,15 @@ export function adaptApiBook(raw: any): Book {
       product_id: "",
       store_id: 0,
       is_best_store: false,
+=======
+      name: "Tiki Trading",
+      link: "",
+      logo: "",
+      price: price,
+      product_id: String(raw.id),
+      store_id: 0,
+      is_best_store: true,
+>>>>>>> 40115e6 (cập nhật code mới)
       is_offline_installment_supported: null
     },
     images,
