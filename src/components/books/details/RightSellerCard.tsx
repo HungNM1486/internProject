@@ -33,8 +33,8 @@ export default function RightSellerCard({ book }: { book: Bx }) {
   const handleBuyNow = async () => {
     try {
       setBuying(true);
-      console.log("BUY NOW", book, qty);
-      navigate("/checkout", { state: { book, qty } });
+      addToCart(book as Book, qty);             // <- Mua ngay cũng add trước
+      navigate("/cart", { state: { buyNow: true, bookId: String((book as any).id), qty } });
     } finally {
       setBuying(false);
     }
@@ -94,7 +94,6 @@ export default function RightSellerCard({ book }: { book: Bx }) {
       {/* Nút hành động */}
       <div className="mt-3 flex flex-col gap-2">
         <button
-          type="button"  
           onClick={handleBuyNow}
           className="h-10 rounded-md bg-rose-600 text-white hover:bg-rose-700 disabled:opacity-50"
           disabled={disabled || buying}
