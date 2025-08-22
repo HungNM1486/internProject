@@ -45,6 +45,7 @@ const App: React.FC = () => {
                 <Route path="/category/:categoryId" element={<BooksPage />} />
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/orders" element={<Orders />} />
+                <Route path="/checkout" element={<Checkout />} />
               </Routes>
             </MainLayout>
           } />
