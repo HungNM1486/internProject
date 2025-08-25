@@ -1,87 +1,88 @@
 export interface User {
-    id: string;
-    email: string;
-    fullName?: string;
-    phone?: string;
-    address?: string;
-    dateOfBirth?: string;
-    avatar?: string;
-    role?: 'user' | 'admin';
-    isEmailVerified?: boolean;
-    lastLoginAt?: string;
-    createdAt?: string;
-    updatedAt?: string;
+  id: string;
+  email: string;
+  fullName?: string;
+  phone?: string;
+  address?: string;
+  dateOfBirth?: string;
+  avatar?: string;
+  role?: 'user' | 'admin';
+  isEmailVerified?: boolean;
+  lastLoginAt?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 // Additional auth-related types
 export interface AuthUser extends User {
-    permissions?: string[];
-    preferences?: UserPreferences;
+  permissions?: string[];
+  preferences?: UserPreferences;
 }
 
 export interface UserPreferences {
-    language?: string;
-    theme?: 'light' | 'dark';
-    notifications?: {
-        email: boolean;
-        push: boolean;
-        sms: boolean;
-    };
-    privacy?: {
-        showProfile: boolean;
-        showActivity: boolean;
-    };
+  language?: string;
+  theme?: 'light' | 'dark';
+  notifications?: {
+    email: boolean;
+    push: boolean;
+    sms: boolean;
+  };
+  privacy?: {
+    showProfile: boolean;
+    showActivity: boolean;
+  };
 }
 
 export interface LoginCredentials {
-    email: string;
-    password: string;
-    rememberMe?: boolean;
+  email: string;
+  password: string;
+  rememberMe?: boolean;
 }
 
 export interface RegisterCredentials {
-    email: string;
-    password: string;
-    fullName?: string;
-    agreeToTerms: boolean;
+  email: string;
+  password: string;
+  fullName?: string;
+  agreeToTerms: boolean;
 }
 
 export interface ChangePasswordData {
-    currentPassword: string;
-    newPassword: string;
-    confirmPassword: string;
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
 }
 
 export interface ResetPasswordData {
-    token: string;
-    password: string;
-    confirmPassword: string;
+  token: string;
+  password: string;
+  confirmPassword: string;
 }
 
 export interface AuthResponse {
-    accessToken: string;
-    refreshToken?: string;
-    user: User;
-    expiresIn?: number;
+  accessToken: string;
+  refreshToken?: string;
+  user: User;
+  expiresIn?: number;
 }
 
 export interface AuthError {
-    code: string;
-    message: string;
-    field?: string;
+  code: string;
+  message: string;
+  field?: string;
 }
 
 export interface Book {
   id: string;
-  name: string;
-  short_description: string;
-  description: string;
-  price: number;
-  discount?: number; 
-  originalPrice?: number; 
-  stock: number;
-  rating: number;
-  reviewCount: number;
+  title?: string; // API có thể trả về title thay vì name
+  name?: string; // Giữ lại để tương thích ngược
+  short_description?: string;
+  description?: string;
+  price?: number;
+  discount?: number;
+  originalPrice?: number;
+  stock?: number;
+  rating?: number;
+  reviewCount?: number;
   isbn?: string;
   publisher?: string;
   publishedDate?: string;
@@ -101,7 +102,7 @@ export interface Book {
     name: string;
     is_leaf: boolean;
     slug?: string;
-  };
+  }[];
 
   current_seller: {
     id: number;
@@ -131,7 +132,7 @@ export interface Book {
   original_price: number;
 
   quantity_sold?: {
-    text: string; 
+    text: string;
     value: number;
   };
 
@@ -145,97 +146,116 @@ export interface Book {
       value: string;
     }[];
   }[];
-  
+
   createdAt?: string;
   updatedAt?: string;
 }
 
 export interface Category {
-    id: string;
-    name: string;
-    description?: string;
-    slug: string;
-    parentId?: string;
-    createdAt: string;
+  id: string;
+  name: string;
+  description?: string;
+  slug: string;
+  parentId?: string;
+  createdAt: string;
 }
 
 export interface CartItem {
-    id: string;
-    userId: string;
-    bookId: string;
-    book: Book;
-    quantity: number;
-    price: number;
-    createdAt: string;
+  id: string;
+  userId: string;
+  bookId: string;
+  book: Book;
+  quantity: number;
+  price: number;
+  createdAt: string;
 }
 
 export interface Order {
-    id: string;
-    userId: string;
-    user: User;
-    items: OrderItem[];
-    totalAmount: number;
-    status: 'pending' | 'confirmed' | 'shipping' | 'delivered' | 'cancelled';
-    shippingAddress: Address;
-    paymentMethod: 'cash' | 'card' | 'bank_transfer';
-    createdAt: string;
-    updatedAt: string;
+  id: string;
+  userId: string;
+  user: User;
+  items: OrderItem[];
+  totalAmount: number;
+  status: 'pending' | 'confirmed' | 'shipping' | 'delivered' | 'cancelled';
+  shippingAddress: Address;
+  paymentMethod: 'cod' | 'card' | 'bank_transfer';
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface OrderItem {
-    id: string;
-    orderId: string;
-    bookId: string;
-    book: Book;
-    quantity: number;
-    price: number;
+  id: string;
+  orderId: string;
+  bookId: string;
+  book: Book;
+  quantity: number;
+  price: number;
 }
 
 export interface Address {
-    fullName: string;
-    phone: string;
-    address: string;
-    ward: string;
-    district: string;
-    city: string;
+  fullName: string;
+  phone: string;
+  address: string;
+  ward: string;
+  district: string;
+  city: string;
 }
 
 export interface Review {
-    id: string;
-    userId: string;
-    user: User;
-    bookId: string;
-    rating: number;
-    comment: string;
-    createdAt: string;
+  id: string;
+  userId: string;
+  user: User;
+  bookId: string;
+  rating: number;
+  comment: string;
+  createdAt: string;
 }
 
 export interface PaginationParams {
-    page?: number;
-    limit?: number;
-    search?: string;
-    sortBy?: string;
-    sortOrder?: 'asc' | 'desc';
+  page?: number;
+  limit?: number;
+  search?: string;
+  sortBy?: string;
+  sortOrder?: 'asc' | 'desc';
 }
 
 export interface ApiResponse<T> {
-    data: T;
-    total?: number;
-    page?: number;
-    limit?: number;
-    totalPages?: number;
+  data: T;
+  total?: number;
+  page?: number;
+  limit?: number;
+  totalPages?: number;
 }
 
 // Form validation types
 export interface ValidationError {
-    field: string;
-    message: string;
+  field: string;
+  message: string;
 }
 
 export interface FormState<T> {
-    values: T;
-    errors: { [K in keyof T]?: string };
-    touched: { [K in keyof T]?: boolean };
-    isSubmitting: boolean;
-    isValid: boolean;
+  values: T;
+  errors: { [K in keyof T]?: string };
+  touched: { [K in keyof T]?: boolean };
+  isSubmitting: boolean;
+  isValid: boolean;
 }
+
+// Helper functions để lấy thông tin sách một cách an toàn
+export const getBookName = (book: Book): string => {
+  return book.title || book.name || 'Không có tên';
+};
+
+export const getBookPrice = (book: Book): number => {
+  // Xử lý cả string và number
+  const listPrice = book.list_price;
+  if (typeof listPrice === 'string') {
+    return parseFloat(listPrice) || 0;
+  }
+  if (typeof listPrice === 'number') {
+    return listPrice;
+  }
+
+  // Fallback
+  return book.price || book.current_seller?.price || 0;
+};

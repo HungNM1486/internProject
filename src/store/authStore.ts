@@ -9,7 +9,7 @@ interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
-  
+
   // Actions
   login: (email: string, password: string) => Promise<void>;
   register: (email: string, password: string) => Promise<void>;
@@ -31,17 +31,17 @@ export const authStore = create<AuthState>()(
         try {
           set({ isLoading: true, error: null });
           const response = await authService.login(email, password);
-          
+
           set({
             user: response.user,
-            token: response.accessToken,
+            token: response.access_token,
             isAuthenticated: true,
-            isLoading: false
+            isLoading: false,
           });
         } catch (error: any) {
           set({
             error: error.message || 'Đăng nhập thất bại',
-            isLoading: false
+            isLoading: false,
           });
           throw error;
         }
@@ -50,18 +50,23 @@ export const authStore = create<AuthState>()(
       register: async (email: string, password: string) => {
         try {
           set({ isLoading: true, error: null });
-          const response = await authService.register(email, password);
-          
+          const response = await authService.register({
+            username: email, // Sử dụng email làm username
+            email,
+            password,
+            confirm_password: password,
+          });
+
           set({
             user: response.user,
-            token: response.accessToken,
+            token: response.access_token,
             isAuthenticated: true,
-            isLoading: false
+            isLoading: false,
           });
         } catch (error: any) {
           set({
             error: error.message || 'Đăng ký thất bại',
-            isLoading: false
+            isLoading: false,
           });
           throw error;
         }
@@ -72,7 +77,7 @@ export const authStore = create<AuthState>()(
           user: null,
           token: null,
           isAuthenticated: false,
-          error: null
+          error: null,
         });
       },
 
@@ -85,15 +90,15 @@ export const authStore = create<AuthState>()(
         if (state.token && state.user) {
           set({ isAuthenticated: true });
         }
-      }
+      },
     }),
     {
       name: 'auth-storage',
       partialize: (state) => ({
         user: state.user,
         token: state.token,
-        isAuthenticated: state.isAuthenticated
-      })
+        isAuthenticated: state.isAuthenticated,
+      }),
     }
   )
 );

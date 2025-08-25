@@ -12,5 +12,5 @@ services:
       - .:/app
       - /app/node_modules
     environment:
-      - VITE_API_URL=http://localhost:3000
+      - VITE_API_URL=https://intern.n8n-store.xyz/api
     command: npm run dev

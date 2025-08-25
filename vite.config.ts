@@ -1,7 +1,7 @@
 // vite.config.ts
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import path from 'path'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
@@ -15,11 +15,12 @@ export default defineConfig({
     host: true, // For Docker
     proxy: {
       '/api': {
-        target: process.env.VITE_API_URL || 'http://localhost:3000',
+        target: 'https://intern.n8n-store.xyz',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '')
-      }
-    }
+        secure: false,
+        rewrite: (path) => path.replace(/^\/api/, '/api'),
+      },
+    },
   },
   build: {
     outDir: 'dist',
@@ -30,10 +31,9 @@ export default defineConfig({
           vendor: ['react', 'react-dom'],
           router: ['react-router-dom'],
           store: ['zustand'],
-          ui: ['lucide-react']
-        }
-      }
-    }
-  }
-})
-
+          ui: ['lucide-react'],
+        },
+      },
+    },
+  },
+});
