@@ -1,0 +1,253 @@
+export interface User {
+    id: string;
+    email: string;
+    fullName?: string;
+    phone?: string;
+    address?: string;
+    dateOfBirth?: string;
+    avatar?: string;
+    role?: 'user' | 'admin';
+    isEmailVerified?: boolean;
+    lastLoginAt?: string;
+    createdAt?: string;
+    updatedAt?: string;
+}
+
+// Additional auth-related types
+export interface AuthUser extends User {
+    permissions?: string[];
+    preferences?: UserPreferences;
+}
+
+export interface UserPreferences {
+    language?: string;
+    theme?: 'light' | 'dark';
+    notifications?: {
+        email: boolean;
+        push: boolean;
+        sms: boolean;
+    };
+    privacy?: {
+        showProfile: boolean;
+        showActivity: boolean;
+    };
+}
+
+export interface LoginCredentials {
+    email: string;
+    password: string;
+    rememberMe?: boolean;
+}
+
+export interface RegisterCredentials {
+    email: string;
+    password: string;
+    fullName?: string;
+    agreeToTerms: boolean;
+}
+
+export interface ChangePasswordData {
+    currentPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+}
+
+export interface ResetPasswordData {
+    token: string;
+    password: string;
+    confirmPassword: string;
+}
+
+export interface AuthResponse {
+    accessToken: string;
+    refreshToken?: string;
+    user: User;
+    expiresIn?: number;
+}
+
+export interface AuthError {
+    code: string;
+    message: string;
+    field?: string;
+}
+
+export interface Book {
+  id: string;
+  name: string;
+  short_description: string;
+  description: string;
+  price: number;
+  discount?: number; 
+  originalPrice?: number; 
+  stock: number;
+  rating: number;
+  reviewCount: number;
+  isbn?: string;
+  publisher?: string;
+  publishedDate?: string;
+  pageCount?: number;
+  language?: string;
+
+  authors: {
+    id: number;
+    name: string;
+    slug: string;
+  }[];
+
+  book_cover: string | null;
+
+  categories: {
+    id: number;
+    name: string;
+    is_leaf: boolean;
+    slug?: string;
+  };
+
+  current_seller: {
+    id: number;
+    sku: string;
+    name: string;
+    link: string;
+    logo: string;
+    price: number;
+    product_id: string;
+    store_id: number;
+    is_best_store: boolean;
+    is_offline_installment_supported: boolean | null;
+  };
+
+  images: {
+    base_url: string;
+    is_gallery: boolean;
+    label: string | null;
+    large_url: string;
+    medium_url: string;
+    small_url: string;
+    thumbnail_url: string;
+    position: number | null;
+  }[];
+
+  list_price: number;
+  original_price: number;
+
+  quantity_sold?: {
+    text: string; 
+    value: number;
+  };
+
+  rating_average: number;
+
+  specifications: {
+    name: string;
+    attributes: {
+      code: string;
+      name: string;
+      value: string;
+    }[];
+  }[];
+  
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface Category {
+  id: number;
+  parent_id?: number | null;
+  name: string;
+  type?: string | null;
+  url_key?: string;
+  url_path?: string;
+  full_url_key?: string;
+  level?: number;
+  status?: string;
+  include_in_menu?: boolean | string;
+  product_count?: number;
+  is_leaf?: boolean;
+  meta_title?: string;
+  meta_description?: string;
+  meta_keywords?: string | null;
+  thumbnail_url?: string;
+  children?: Category[];
+}
+
+
+export interface CartItem {
+    id: string;
+    userId: string;
+    bookId: string;
+    book: Book;
+    quantity: number;
+    price: number;
+    createdAt: string;
+}
+
+export interface Order {
+    id: string;
+    userId: string;
+    user: User;
+    items: OrderItem[];
+    totalAmount: number;
+    status: 'pending' | 'confirmed' | 'shipping' | 'delivered' | 'cancelled';
+    shippingAddress: Address;
+    paymentMethod: 'cash' | 'card' | 'bank_transfer';
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface OrderItem {
+    id: string;
+    orderId: string;
+    bookId: string;
+    book: Book;
+    quantity: number;
+    price: number;
+}
+
+export interface Address {
+    fullName: string;
+    phone: string;
+    address: string;
+    ward: string;
+    district: string;
+    city: string;
+}
+
+export interface Review {
+    id: string;
+    userId: string;
+    user: User;
+    bookId: string;
+    rating: number;
+    comment: string;
+    createdAt: string;
+}
+
+export interface PaginationParams {
+    page?: number;
+    limit?: number;
+    search?: string;
+    sortBy?: string;
+    sortOrder?: 'asc' | 'desc';
+}
+
+export interface ApiResponse<T> {
+    data: T;
+    total?: number;
+    page?: number;
+    limit?: number;
+    totalPages?: number;
+}
+
+// Form validation types
+export interface ValidationError {
+    field: string;
+    message: string;
+}
+
+export interface FormState<T> {
+    values: T;
+    errors: { [K in keyof T]?: string };
+    touched: { [K in keyof T]?: boolean };
+    isSubmitting: boolean;
+    isValid: boolean;
+}

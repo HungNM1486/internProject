@@ -1,0 +1,246 @@
+# API Documentation
+
+## Auth
+
+### 1. Login
+- **Endpoint:** `POST /login`
+- **Description:** User login
+- **Request Body:**
+  ```json
+  {
+    "email": "admin@gmail.com",
+    "password": "123123"
+  }
+  ```
+- **Response:**
+  - `200 OK`
+    ```json
+    {
+      "accessToken": "<JWT token>"
+    }
+    ```
+  - `400 Bad Request`: Invalid credentials
+
+---
+
+### 2. Register
+- **Endpoint:** `POST /register`
+- **Description:** Register a new user
+- **Request Body:**
+  ```json
+  {
+    "email": "user@example.com",
+    "password": "password",
+    "confirmPassword": "password",
+    "role": "user" // or "admin"
+  }
+  ```
+- **Response:**
+  - `201 Created`: User registered successfully
+  - `400 Bad Request`: Invalid input data
+
+---
+
+## Users
+
+### 3. Get All Users
+- **Endpoint:** `GET /users`
+- **Description:** Returns all users (Admin only)
+- **Headers:** `Authorization: Bearer <token>`
+- **Query Params:** `_page`, `_limit`, `_sort`, `_order`
+- **Response:**
+  - `200 OK`: Array of users
+  - `401 Unauthorized`
+  - `403 Forbidden`
+
+---
+
+### 4. Create User
+- **Endpoint:** `POST /users`
+- **Description:** Create a new user (Admin only)
+- **Headers:** `Authorization: Bearer <token>`
+- **Request Body:** User object (see schema)
+- **Response:**
+  - `201 Created`
+  - `401 Unauthorized`
+  - `403 Forbidden`
+  - `400 Bad Request`
+
+---
+
+### 5. Get User by ID
+- **Endpoint:** `GET /users/{id}`
+- **Description:** Get user by id (Admin or owner)
+- **Headers:** `Authorization: Bearer <token>`
+- **Response:**
+  - `200 OK`: User object
+  - `401 Unauthorized`
+  - `403 Forbidden`
+  - `404 Not Found`
+
+---
+
+### 6. Update User
+- **Endpoint:** `PUT /users/{id}`
+- **Description:** Update a user (Admin or owner)
+- **Headers:** `Authorization: Bearer <token>`
+- **Request Body:** User object (see schema)
+- **Response:**
+  - `200 OK`
+  - `401 Unauthorized`
+  - `403 Forbidden`
+  - `404 Not Found`
+
+---
+
+### 7. Delete User
+- **Endpoint:** `DELETE /users/{id}`
+- **Description:** Delete a user (Admin or owner)
+- **Headers:** `Authorization: Bearer <token>`
+- **Response:**
+  - `200 OK`
+  - `401 Unauthorized`
+  - `403 Forbidden`
+  - `404 Not Found`
+
+---
+
+## Books
+
+### 8. Get All Books
+- **Endpoint:** `GET /books`
+- **Description:** Returns all books
+- **Query Params:** `_page`, `_limit`, `_sort`, `_order`
+- **Response:**
+  - `200 OK`: Array of books
+  - `401 Unauthorized`
+
+---
+
+### 9. Create Book
+- **Endpoint:** `POST /books`
+- **Description:** Create a new book
+- **Headers:** `Authorization: Bearer <token>`
+- **Request Body:** Book object (see schema)
+- **Response:**
+  - `201 Created`
+  - `401 Unauthorized`
+  - `400 Bad Request`
+
+---
+
+### 10. Get Book by ID
+- **Endpoint:** `GET /books/{id}`
+- **Description:** Get book by id
+- **Response:**
+  - `200 OK`: Book object
+  - `404 Not Found`
+
+---
+
+### 11. Update Book
+- **Endpoint:** `PUT /books/{id}`
+- **Description:** Update a book
+- **Headers:** `Authorization: Bearer <token>`
+- **Request Body:** Book object (see schema)
+- **Response:**
+  - `200 OK`
+  - `401 Unauthorized`
+  - `404 Not Found`
+
+---
+
+### 12. Delete Book
+- **Endpoint:** `DELETE /books/{id}`
+- **Description:** Delete a book
+- **Headers:** `Authorization: Bearer <token>`
+- **Response:**
+  - `200 OK`
+  - `401 Unauthorized`
+  - `404 Not Found`
+
+---
+
+## Products
+
+### 13. Get All Products
+- **Endpoint:** `GET /products`
+- **Description:** Returns all products
+- **Query Params:** `_page`, `_limit`, `_sort`, `_order`
+- **Response:**
+  - `200 OK`: Array of products
+  - `401 Unauthorized`
+
+---
+
+### 14. Create Product
+- **Endpoint:** `POST /products`
+- **Description:** Create a new product
+- **Headers:** `Authorization: Bearer <token>`
+- **Request Body:** Product object (see schema)
+- **Response:**
+  - `201 Created`
+  - `401 Unauthorized`
+  - `400 Bad Request`
+
+---
+
+### 15. Get Product by ID
+- **Endpoint:** `GET /products/{id}`
+- **Description:** Get product by id
+- **Response:**
+  - `200 OK`: Product object
+  - `404 Not Found`
+
+---
+
+### 16. Update Product
+- **Endpoint:** `PUT /products/{id}`
+- **Description:** Update a product
+- **Headers:** `Authorization: Bearer <token>`
+- **Request Body:** Product object (see schema)
+- **Response:**
+  - `200 OK`
+  - `401 Unauthorized`
+  - `404 Not Found`
+
+---
+
+### 17. Delete Product
+- **Endpoint:** `DELETE /products/{id}`
+- **Description:** Delete a product
+- **Headers:** `Authorization: Bearer <token>`
+- **Response:**
+  - `200 OK`
+  - `401 Unauthorized`
+  - `404 Not Found`
+
+---
+
+## Categories
+
+### 18. Get All Categories
+- **Endpoint:** `GET /categories`
+- **Description:** Returns all categories
+- **Response:**
+  - `200 OK`: Array of categories
+
+---
+
+### 19. Create Category
+- **Endpoint:** `POST /categories`
+- **Description:** Create a new category
+- **Headers:** `Authorization: Bearer <token>`
+- **Request Body:** Category object (see schema)
+- **Response:**
+  - `201 Created`
+  - `401 Unauthorized`
+  - `400 Bad Request`
+    
+---
+
+## Notes
+
+- All endpoints requiring authentication must include the header:  
+  `Authorization: Bearer <accessToken>`
+- For request/response object schemas, refer to the OpenAPI/Swagger definitions

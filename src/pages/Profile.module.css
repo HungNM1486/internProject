@@ -1,0 +1,142 @@
+.container {
+@apply max-w-6xl mx-auto px-4 py-8;
+}
+
+.header {
+@apply mb-8;
+}
+
+.pageTitle {
+@apply text-3xl font-bold text-gray-900 mb-2;
+}
+
+.welcomeText {
+@apply text-gray-600;
+}
+
+.content {
+@apply flex flex-col lg:flex-row gap-8;
+}
+
+.sidebar {
+@apply lg:w-64 flex-shrink-0;
+}
+
+.tabList {
+@apply space-y-2 bg-white rounded-lg shadow p-4;
+}
+
+.tab {
+@apply w-full flex items-center space-x-3 px-4 py-3 text-left rounded-lg transition-all duration-200 border-none bg-transparent cursor-pointer;
+}
+
+.tab:hover {
+@apply bg-gray-50;
+}
+
+.tabActive {
+@apply bg-blue-50 text-blue-700 font-medium;
+}
+
+.tabIcon {
+@apply h-5 w-5;
+}
+
+.tabLabel {
+@apply text-sm;
+}
+
+.mainContent {
+@apply flex-1 min-w-0;
+}
+
+.comingSoon {
+@apply bg-white rounded-lg shadow p-8 text-center;
+}
+
+.comingSoon h3 {
+@apply text-xl font-semibold text-gray-900 mb-2;
+}
+
+.comingSoon p {
+@apply text-gray-600;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+.brandSection {
+    @apply hidden;
+}
+
+.contentWrapper {
+    @apply block;
+}
+
+.formSection {
+    @apply min-h-screen;
+}
+}
+
+@media (max-width: 640px) {
+.container {
+    @apply px-2 py-4;
+}
+
+.content {
+    @apply gap-4;
+}
+
+.sidebar {
+    @apply w-full;
+}
+
+.tabList {
+    @apply flex overflow-x-auto space-y-0 space-x-2 p-2;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.tabList::-webkit-scrollbar {
+    display: none;
+}
+
+.tab {
+    @apply flex-shrink-0 flex-col items-center text-center px-3 py-2 space-x-0 space-y-1;
+    min-width: 80px;
+}
+
+.tabLabel {
+    @apply text-xs;
+}
+
+.tabIcon {
+    @apply h-4 w-4;
+}
+}
+
+/* Focus states for accessibility */
+.tab:focus,
+.primaryButton:focus,
+.secondaryButton:focus,
+.helpLink:focus {
+@apply outline-2 outline-blue-600 outline-offset-2;
+}
+
+/* Loading states */
+.loadingOverlay {
+@apply absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center;
+}
+
+.loadingSpinner {
+@apply h-8 w-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin;
+}
+
+/* Success states */
+.successMessage {
+@apply bg-green-100 border border-green-200 text-green-800 px-4 py-3 rounded-lg mb-4;
+}
+
+/* Error states */
+.errorMessage {
+@apply bg-red-100 border border-red-200 text-red-800 px-4 py-3 rounded-lg mb-4;
+}

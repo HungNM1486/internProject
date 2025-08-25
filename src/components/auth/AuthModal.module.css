@@ -1,0 +1,157 @@
+.overlay {
+@apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50;
+backdrop-filter: blur(2px);
+}
+
+.modal {
+@apply bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto;
+animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-20px);
+}
+to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+}
+
+.closeButton {
+@apply absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 transition-colors duration-200;
+}
+
+.closeIcon {
+@apply w-6 h-6 text-gray-400 hover:text-gray-600;
+}
+
+.content {
+@apply p-8;
+}
+
+.formContainer {
+@apply w-full;
+}
+
+.header {
+@apply text-center mb-8;
+}
+
+.title {
+@apply text-3xl font-bold text-gray-900 mb-2;
+}
+
+.subtitle {
+@apply text-gray-600 text-base;
+}
+
+.form {
+@apply space-y-6;
+}
+
+.inputGroup {
+@apply space-y-2;
+}
+
+.label {
+@apply block text-sm font-medium text-gray-700;
+}
+
+.input {
+@apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-200;
+font-size: 16px; /* Prevents zoom on mobile */
+}
+
+.input:focus {
+@apply shadow-sm;
+box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.inputError {
+@apply border-red-500 focus:ring-red-500;
+}
+
+.inputDisabled {
+@apply bg-gray-50 text-gray-500 cursor-not-allowed;
+}
+
+.textarea {
+@apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-200 resize-none;
+font-size: 16px;
+}
+
+.textarea:focus {
+@apply shadow-sm;
+box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.errorText {
+@apply text-red-500 text-sm mt-1 block;
+}
+
+.helpText {
+@apply text-gray-500 text-sm mt-1 block;
+}
+
+.checkboxGroup {
+@apply space-y-2;
+}
+
+.checkboxLabel {
+@apply flex items-start space-x-3 cursor-pointer;
+}
+
+.checkbox {
+@apply w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 focus:ring-2 mt-0.5;
+}
+
+.checkboxText {
+@apply text-sm text-gray-700 leading-relaxed;
+}
+
+.forgotPassword {
+@apply text-right;
+}
+
+.linkButton {
+@apply text-blue-600 hover:text-blue-800 text-sm font-medium border-none bg-transparent cursor-pointer p-0 underline;
+}
+
+.submitButton {
+@apply w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 border-none cursor-pointer;
+}
+
+.submitButton:disabled {
+@apply bg-gray-300 cursor-not-allowed;
+}
+
+.loading {
+@apply bg-blue-400 cursor-not-allowed;
+}
+
+.loadingContent {
+@apply flex items-center justify-center space-x-2;
+}
+
+.spinner {
+@apply w-5 h-5 animate-spin;
+}
+
+.divider {
+@apply relative text-center my-6;
+}
+
+.divider::before {
+content: '';
+@apply absolute top-1/2 left-0 right-0 h-px bg-gray-300;
+}
+
+.divider span {
+@apply bg-white px-4 text-gray-500 text-sm;
+}
+
+.switchMode {
+@apply text-center text-sm text-gray-600;
+}

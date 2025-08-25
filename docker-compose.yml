@@ -1,0 +1,12 @@
+# docker-compose.yml - Frontend only
+services:
+  # Frontend React App
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bookstore-frontend
+    ports:
+      - '3002:80'
+    environment:
+      - VITE_API_URL=http://localhost:3000
