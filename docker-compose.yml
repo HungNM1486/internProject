@@ -9,4 +9,4 @@ services:
     ports:
       - '3002:80'
     environment:
-      - VITE_API_URL=http://localhost:3000
+      - VITE_API_URL=https://intern.n8n-store.xyz/api

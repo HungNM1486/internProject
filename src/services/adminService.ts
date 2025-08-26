@@ -26,17 +26,22 @@ interface AdminResponse<T> {
 export const adminService = {
   // Dashboard Operations
   async getDashboardStats(): Promise<DashboardStats> {
-    const response = await apiClient.get('/admin/dashboard/stats');
+    const response = await apiClient.get('/admin/dashboard/stats/');
     return response.data;
   },
 
-  async getRecentActivity(): Promise<any[]> {
-    const response = await apiClient.get('/admin/dashboard/activity');
+  async getRevenueStats(): Promise<any> {
+    const response = await apiClient.get('/admin/dashboard/revenue/');
     return response.data;
   },
 
-  // Product Management
-  async getProducts(params?: {
+  async getRecentOrders(): Promise<any> {
+    const response = await apiClient.get('/admin/dashboard/orders/');
+    return response.data;
+  },
+
+  // Book Management (Admin)
+  async getBooks(params?: {
     page?: number;
     limit?: number;
     search?: string;
@@ -44,40 +49,53 @@ export const adminService = {
     sortBy?: string;
     sortOrder?: 'asc' | 'desc';
   }): Promise<AdminResponse<Book[]>> {
-    const response = await apiClient.get('/admin/products', { params });
+    const queryParams: any = {};
+    if (params?.page) queryParams.page = params.page;
+    if (params?.limit) queryParams.page_size = params.limit;
+    if (params?.search) queryParams.search = params.search;
+    if (params?.sortBy) queryParams.ordering = params.sortBy;
+
+    const response = await apiClient.get('/books/', { params: queryParams });
+    return {
+      data: response.data.results || response.data,
+      total: response.data.count || 0,
+      page: params?.page || 1,
+      limit: params?.limit || 10,
+    };
+  },
+
+  async getBook(id: string): Promise<Book> {
+    const response = await apiClient.get(`/books/${id}/`);
     return response.data;
   },
 
-  async getProduct(id: string): Promise<Book> {
-    const response = await apiClient.get(`/admin/products/${id}`);
+  async createBook(bookData: {
+    title: string;
+    slug: string;
+    description: string;
+    short_description: string;
+    list_price: number;
+    original_price: number;
+    stock_quantity: number;
+    is_available: boolean;
+    is_featured: boolean;
+    authors: number[];
+    categories: number[];
+  }): Promise<Book> {
+    const response = await apiClient.post('/books/', bookData);
     return response.data;
   },
 
-  async createProduct(productData: Partial<Book>): Promise<Book> {
-    const response = await apiClient.post('/admin/products', productData);
+  async updateBook(id: string, bookData: Partial<Book>): Promise<Book> {
+    const response = await apiClient.put(`/books/${id}/`, bookData);
     return response.data;
   },
 
-  async updateProduct(id: string, productData: Partial<Book>): Promise<Book> {
-    const response = await apiClient.put(`/admin/products/${id}`, productData);
-    return response.data;
+  async deleteBook(id: string): Promise<void> {
+    await apiClient.delete(`/books/${id}/delete/`);
   },
 
-  async deleteProduct(id: string): Promise<void> {
-    await apiClient.delete(`/admin/products/${id}`);
-  },
-
-  async updateProductStock(id: string, stock: number): Promise<Book> {
-    const response = await apiClient.patch(`/admin/products/${id}/stock`, { stock });
-    return response.data;
-  },
-
-  async bulkUpdateProducts(updates: { id: string; data: Partial<Book> }[]): Promise<Book[]> {
-    const response = await apiClient.patch('/admin/products/bulk', { updates });
-    return response.data;
-  },
-
-  // User Management  
+  // User Management (Admin)
   async getUsers(params?: {
     page?: number;
     limit?: number;
@@ -87,40 +105,57 @@ export const adminService = {
     sortBy?: string;
     sortOrder?: 'asc' | 'desc';
   }): Promise<AdminResponse<User[]>> {
-    const response = await apiClient.get('/admin/users', { params });
-    return response.data;
+    const queryParams: any = {};
+    if (params?.page) queryParams.page = params.page;
+    if (params?.limit) queryParams.page_size = params.limit;
+    if (params?.search) queryParams.search = params.search;
+    if (params?.role) queryParams.role = params.role;
+
+    const response = await apiClient.get('/users/', { params: queryParams });
+    return {
+      data: response.data.results || response.data,
+      total: response.data.count || 0,
+      page: params?.page || 1,
+      limit: params?.limit || 10,
+    };
   },
 
   async getUser(id: string): Promise<User> {
-    const response = await apiClient.get(`/admin/users/${id}`);
+    const response = await apiClient.get(`/users/${id}/`);
+    return response.data;
+  },
+
+  async createUser(userData: {
+    email: string;
+    password: string;
+    fullName?: string;
+    phone?: string;
+    role?: 'user' | 'admin';
+  }): Promise<User> {
+    const response = await apiClient.post('/users/', userData);
     return response.data;
   },
 
   async updateUser(id: string, userData: Partial<User>): Promise<User> {
-    const response = await apiClient.put(`/admin/users/${id}`, userData);
-    return response.data;
-  },
-
-  async updateUserRole(id: string, role: 'user' | 'admin'): Promise<User> {
-    const response = await apiClient.patch(`/admin/users/${id}/role`, { role });
-    return response.data;
-  },
-
-  async blockUser(id: string, reason?: string): Promise<User> {
-    const response = await apiClient.patch(`/admin/users/${id}/block`, { reason });
-    return response.data;
-  },
-
-  async unblockUser(id: string): Promise<User> {
-    const response = await apiClient.patch(`/admin/users/${id}/unblock`);
+    const response = await apiClient.put(`/users/${id}/`, userData);
     return response.data;
   },
 
   async deleteUser(id: string): Promise<void> {
-    await apiClient.delete(`/admin/users/${id}`);
+    await apiClient.delete(`/users/${id}/`);
   },
 
-  // Order Management
+  async blockUser(id: string): Promise<User> {
+    const response = await apiClient.put(`/users/${id}/block/`, { isBlocked: true });
+    return response.data;
+  },
+
+  async unblockUser(id: string): Promise<User> {
+    const response = await apiClient.put(`/users/${id}/block/`, { isBlocked: false });
+    return response.data;
+  },
+
+  // Order Management (Admin)
   async getOrders(params?: {
     page?: number;
     limit?: number;
@@ -132,116 +167,68 @@ export const adminService = {
     sortBy?: string;
     sortOrder?: 'asc' | 'desc';
   }): Promise<AdminResponse<Order[]>> {
-    const response = await apiClient.get('/admin/orders', { params });
-    return response.data;
+    const queryParams: any = {};
+    if (params?.page) queryParams.page = params.page;
+    if (params?.limit) queryParams.page_size = params.limit;
+    if (params?.search) queryParams.search = params.search;
+    if (params?.status) queryParams.status = params.status;
+
+    const response = await apiClient.get('/orders/', { params: queryParams });
+    return {
+      data: response.data.results || response.data,
+      total: response.data.count || 0,
+      page: params?.page || 1,
+      limit: params?.limit || 10,
+    };
   },
 
   async getOrder(id: string): Promise<Order> {
-    const response = await apiClient.get(`/admin/orders/${id}`);
+    const response = await apiClient.get(`/orders/${id}/`);
     return response.data;
   },
 
-  async updateOrderStatus(id: string, status: Order['status'], notes?: string): Promise<Order> {
-    const response = await apiClient.patch(`/admin/orders/${id}/status`, { 
-      status, 
-      notes 
-    });
+  async updateOrderStatus(id: string, status: Order['status']): Promise<Order> {
+    const response = await apiClient.put(`/orders/${id}/status/`, { status });
     return response.data;
   },
 
-  async updateOrderItems(id: string, items: any[]): Promise<Order> {
-    const response = await apiClient.patch(`/admin/orders/${id}/items`, { items });
-    return response.data;
+  // Recent Activity (Admin)
+  async getRecentActivity(): Promise<any[]> {
+    const response = await apiClient.get('/admin/dashboard/activity/');
+    return response.data || [];
   },
 
-  async cancelOrder(id: string, reason: string): Promise<Order> {
-    const response = await apiClient.patch(`/admin/orders/${id}/cancel`, { reason });
-    return response.data;
-  },
-
-  async refundOrder(id: string, amount?: number, reason?: string): Promise<Order> {
-    const response = await apiClient.post(`/admin/orders/${id}/refund`, { 
-      amount, 
-      reason 
-    });
-    return response.data;
-  },
-
-  // Category Management
+  // Category Management (Admin)
   async getCategories(): Promise<any[]> {
-    const response = await apiClient.get('/admin/categories');
+    const response = await apiClient.get('/categories/');
     return response.data;
   },
 
-  async createCategory(categoryData: any): Promise<any> {
-    const response = await apiClient.post('/admin/categories', categoryData);
+  async createCategory(categoryData: {
+    name: string;
+    slug: string;
+    description?: string;
+    parent?: number | null;
+  }): Promise<any> {
+    const response = await apiClient.post('/categories/', categoryData);
     return response.data;
   },
 
   async updateCategory(id: string, categoryData: any): Promise<any> {
-    const response = await apiClient.put(`/admin/categories/${id}`, categoryData);
+    const response = await apiClient.put(`/categories/${id}/`, categoryData);
     return response.data;
   },
 
   async deleteCategory(id: string): Promise<void> {
-    await apiClient.delete(`/admin/categories/${id}`);
+    await apiClient.delete(`/categories/${id}/delete/`);
   },
 
-  // Reports & Analytics
-  async getSalesReport(params?: {
-    dateFrom?: string;
-    dateTo?: string;
-    groupBy?: 'day' | 'week' | 'month';
-  }): Promise<any> {
-    const response = await apiClient.get('/admin/reports/sales', { params });
-    return response.data;
-  },
-
-  async getUserReport(params?: {
-    dateFrom?: string;
-    dateTo?: string;
-  }): Promise<any> {
-    const response = await apiClient.get('/admin/reports/users', { params });
-    return response.data;
-  },
-
-  async getProductReport(params?: {
-    dateFrom?: string;
-    dateTo?: string;
-    category?: string;
-  }): Promise<any> {
-    const response = await apiClient.get('/admin/reports/products', { params });
-    return response.data;
-  },
-
-  // System Operations
-  async getSystemHealth(): Promise<any> {
-    const response = await apiClient.get('/admin/system/health');
-    return response.data;
-  },
-
-  async getLogs(params?: {
-    level?: 'error' | 'warn' | 'info';
-    limit?: number;
-    dateFrom?: string;
-    dateTo?: string;
-  }): Promise<any> {
-    const response = await apiClient.get('/admin/system/logs', { params });
-    return response.data;
-  },
-
-  async backupDatabase(): Promise<any> {
-    const response = await apiClient.post('/admin/system/backup');
-    return response.data;
-  },
-
-  // File Upload
-  async uploadImage(file: File, type: 'product' | 'user' | 'category'): Promise<{ url: string }> {
+  // File Upload (Admin)
+  async uploadImage(file: File): Promise<{ url: string }> {
     const formData = new FormData();
-    formData.append('file', file);
-    formData.append('type', type);
+    formData.append('image', file);
 
-    const response = await apiClient.post('/admin/upload/image', formData, {
+    const response = await apiClient.post('/admin/upload/image/', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -249,11 +236,11 @@ export const adminService = {
     return response.data;
   },
 
-  async uploadBulkProducts(file: File): Promise<{ success: number; errors: any[] }> {
+  async uploadCover(file: File): Promise<{ url: string }> {
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('cover', file);
 
-    const response = await apiClient.post('/admin/products/bulk-upload', formData, {
+    const response = await apiClient.post('/admin/upload/cover/', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -261,32 +248,25 @@ export const adminService = {
     return response.data;
   },
 
-  // Export Functions
-  async exportProducts(format: 'csv' | 'xlsx' = 'csv'): Promise<Blob> {
-    const response = await apiClient.get(`/admin/export/products?format=${format}`, {
-      responseType: 'blob',
+  async uploadMultipleImages(files: File[]): Promise<{ urls: string[] }> {
+    const formData = new FormData();
+    files.forEach((file) => {
+      formData.append('images', file);
+    });
+
+    const response = await apiClient.post('/admin/upload/multiple/', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
     });
     return response.data;
   },
 
-  async exportUsers(format: 'csv' | 'xlsx' = 'csv'): Promise<Blob> {
-    const response = await apiClient.get(`/admin/export/users?format=${format}`, {
-      responseType: 'blob',
+  async deleteImage(filename: string): Promise<void> {
+    await apiClient.delete('/admin/upload/delete/', {
+      data: { filename },
     });
-    return response.data;
   },
-
-  async exportOrders(format: 'csv' | 'xlsx' = 'csv', params?: {
-    dateFrom?: string;
-    dateTo?: string;
-    status?: string;
-  }): Promise<Blob> {
-    const response = await apiClient.get(`/admin/export/orders?format=${format}`, {
-      params,
-      responseType: 'blob',
-    });
-    return response.data;
-  }
 };
 
 export default adminService;

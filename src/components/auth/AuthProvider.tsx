@@ -5,7 +5,7 @@ interface AuthContextType {
   user: any;
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string) => Promise<void>;
+  register: (username: string, email: string, password: string) => Promise<void>;
   logout: () => void;
   isLoading: boolean;
   error: string | null;
@@ -26,7 +26,13 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const { user, isAuthenticated, login, register, logout, isLoading, error } = authStore();
+  const { user, isAuthenticated, login, register, logout, isLoading, error, initializeAuth } =
+    authStore();
+
+  // Khởi tạo auth khi component mount
+  React.useEffect(() => {
+    initializeAuth();
+  }, [initializeAuth]);
 
   const value: AuthContextType = {
     user,
@@ -35,12 +41,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     register,
     logout,
     isLoading,
-    error
+    error,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
-}; 
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
