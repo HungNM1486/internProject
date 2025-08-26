@@ -80,18 +80,6 @@ export default function BookList() {
             sm:grid-cols-3 sm:gap-4
             md:grid-cols-4
             "
-      >
-        {books.map((b) => (
-          <BookCard key={b.id} book={b} />
-        ))}
-      </div>
-
-      {/* Nút Xem thêm */}
-      {!isEnd && (
-        <div className="mt-6 flex justify-center">
-          <button className="btn btn-outline" onClick={handleLoadMore} disabled={loadingMore}>
-            {loadingMore ? 'Đang tải...' : 'Xem thêm'}
-          </button>
         </div>
       )}
     </div>

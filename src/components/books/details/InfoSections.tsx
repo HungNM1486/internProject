@@ -7,9 +7,10 @@ export function DescriptionBlock({ text }: { text: string }) {
 
   return (
     <div className="relative px-4 pb-3">
-      <div className={`text-[14px] leading-6 text-gray-700 ${!open && tooLong ? "max-h-40 overflow-hidden" : ""}`}>
-        {text || "Chưa có mô tả."}
-      </div>
+      <div 
+        className={`text-[14px] leading-6 text-gray-700 ${!open && tooLong ? "max-h-40 overflow-hidden" : ""}`}
+        dangerouslySetInnerHTML={{ __html: text || "Chưa có mô tả." }}
+      />
       {!open && tooLong && (
         <div className="pointer-events-none absolute inset-x-0 bottom-9 h-16 bg-gradient-to-t from-white to-transparent" />
       )}

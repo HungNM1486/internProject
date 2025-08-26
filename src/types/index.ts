@@ -152,15 +152,6 @@ export interface Book {
   updatedAt?: string;
 }
 
-export interface Category {
-  id: string;
-  name: string;
-  description?: string;
-  slug: string;
-  parentId?: string;
-  createdAt: string;
-}
-
 export interface CartItem {
   id: string;
   userId: string;
