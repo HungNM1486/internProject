@@ -55,7 +55,7 @@ export const adminService = {
     if (params?.search) queryParams.search = params.search;
     if (params?.sortBy) queryParams.ordering = params.sortBy;
 
-    const response = await apiClient.get('/admin/books/', { params: queryParams });
+    const response = await apiClient.get('/books/', { params: queryParams });
     return {
       data: response.data.results || response.data,
       total: response.data.count || 0,
@@ -65,7 +65,7 @@ export const adminService = {
   },
 
   async getBook(id: string): Promise<Book> {
-    const response = await apiClient.get(`/admin/books/${id}/`);
+    const response = await apiClient.get(`/books/${id}/`);
     return response.data;
   },
 
@@ -82,17 +82,17 @@ export const adminService = {
     authors: number[];
     categories: number[];
   }): Promise<Book> {
-    const response = await apiClient.post('/admin/books/', bookData);
+    const response = await apiClient.post('/books/', bookData);
     return response.data;
   },
 
   async updateBook(id: string, bookData: Partial<Book>): Promise<Book> {
-    const response = await apiClient.put(`/admin/books/${id}/`, bookData);
+    const response = await apiClient.put(`/books/${id}/`, bookData);
     return response.data;
   },
 
   async deleteBook(id: string): Promise<void> {
-    await apiClient.delete(`/admin/books/${id}/delete/`);
+    await apiClient.delete(`/books/${id}/delete/`);
   },
 
   // User Management (Admin)
@@ -111,7 +111,7 @@ export const adminService = {
     if (params?.search) queryParams.search = params.search;
     if (params?.role) queryParams.role = params.role;
 
-    const response = await apiClient.get('/admin/users/', { params: queryParams });
+    const response = await apiClient.get('/users/', { params: queryParams });
     return {
       data: response.data.results || response.data,
       total: response.data.count || 0,
@@ -121,7 +121,37 @@ export const adminService = {
   },
 
   async getUser(id: string): Promise<User> {
-    const response = await apiClient.get(`/admin/users/${id}/`);
+    const response = await apiClient.get(`/users/${id}/`);
+    return response.data;
+  },
+
+  async createUser(userData: {
+    email: string;
+    password: string;
+    fullName?: string;
+    phone?: string;
+    role?: 'user' | 'admin';
+  }): Promise<User> {
+    const response = await apiClient.post('/users/', userData);
+    return response.data;
+  },
+
+  async updateUser(id: string, userData: Partial<User>): Promise<User> {
+    const response = await apiClient.put(`/users/${id}/`, userData);
+    return response.data;
+  },
+
+  async deleteUser(id: string): Promise<void> {
+    await apiClient.delete(`/users/${id}/`);
+  },
+
+  async blockUser(id: string): Promise<User> {
+    const response = await apiClient.put(`/users/${id}/block/`, { isBlocked: true });
+    return response.data;
+  },
+
+  async unblockUser(id: string): Promise<User> {
+    const response = await apiClient.put(`/users/${id}/block/`, { isBlocked: false });
     return response.data;
   },
 
@@ -143,7 +173,7 @@ export const adminService = {
     if (params?.search) queryParams.search = params.search;
     if (params?.status) queryParams.status = params.status;
 
-    const response = await apiClient.get('/admin/orders/', { params: queryParams });
+    const response = await apiClient.get('/orders/', { params: queryParams });
     return {
       data: response.data.results || response.data,
       total: response.data.count || 0,
@@ -153,18 +183,24 @@ export const adminService = {
   },
 
   async getOrder(id: string): Promise<Order> {
-    const response = await apiClient.get(`/admin/orders/${id}/`);
+    const response = await apiClient.get(`/orders/${id}/`);
     return response.data;
   },
 
   async updateOrderStatus(id: string, status: Order['status']): Promise<Order> {
-    const response = await apiClient.put(`/admin/orders/${id}/status/`, { status });
+    const response = await apiClient.put(`/orders/${id}/status/`, { status });
     return response.data;
+  },
+
+  // Recent Activity (Admin)
+  async getRecentActivity(): Promise<any[]> {
+    const response = await apiClient.get('/admin/dashboard/activity/');
+    return response.data || [];
   },
 
   // Category Management (Admin)
   async getCategories(): Promise<any[]> {
-    const response = await apiClient.get('/admin/categories/');
+    const response = await apiClient.get('/categories/');
     return response.data;
   },
 
@@ -174,17 +210,17 @@ export const adminService = {
     description?: string;
     parent?: number | null;
   }): Promise<any> {
-    const response = await apiClient.post('/admin/categories/', categoryData);
+    const response = await apiClient.post('/categories/', categoryData);
     return response.data;
   },
 
   async updateCategory(id: string, categoryData: any): Promise<any> {
-    const response = await apiClient.put(`/admin/categories/${id}/`, categoryData);
+    const response = await apiClient.put(`/categories/${id}/`, categoryData);
     return response.data;
   },
 
   async deleteCategory(id: string): Promise<void> {
-    await apiClient.delete(`/admin/categories/${id}/delete/`);
+    await apiClient.delete(`/categories/${id}/delete/`);
   },
 
   // File Upload (Admin)

@@ -1,100 +1,356 @@
 .headerActions {
-@apply flex items-center space-x-3;
+  @apply flex items-center space-x-3;
 }
 
 .secondaryButton {
-@apply inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition-colors duration-200 border-none cursor-pointer;
+  @apply inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition-colors duration-200 border-none cursor-pointer;
 }
 
 .errorContainer {
-@apply text-center py-12;
+  @apply text-center py-12;
 }
 
 .errorContainer h2 {
-@apply text-xl font-semibold text-red-600 mb-2;
+  @apply text-xl font-semibold text-red-600 mb-2;
 }
 
 .errorContainer p {
-@apply text-gray-600 mb-4;
+  @apply text-gray-600 mb-4;
 }
 
 .statChange {
-@apply text-xs font-medium mt-1;
+  @apply text-xs font-medium mt-1;
 }
 
 .statChange.up {
-@apply text-green-600;
+  @apply text-green-600;
 }
 
 .statChange.down {
-@apply text-red-600;
+  @apply text-red-600;
 }
 
 .recentActivity {
-@apply bg-white rounded-lg shadow p-6 mb-8;
+  @apply bg-white rounded-lg shadow p-6 mb-8;
 }
 
 .sectionHeader {
-@apply flex justify-between items-center mb-4;
+  @apply flex justify-between items-center mb-4;
 }
 
 .viewAllButton {
-@apply text-blue-600 hover:text-blue-800 text-sm font-medium border-none bg-transparent cursor-pointer;
+  @apply text-blue-600 hover:text-blue-800 text-sm font-medium border-none bg-transparent cursor-pointer;
 }
 
 .activityLoading {
-@apply flex justify-center py-8;
+  @apply flex justify-center py-8;
 }
 
 .activityList {
-@apply space-y-4;
+  @apply space-y-4;
 }
 
 .activityItem {
-@apply flex items-start space-x-3 p-3 hover:bg-gray-50 rounded-lg;
+  @apply flex items-start space-x-3 p-3 hover:bg-gray-50 rounded-lg;
 }
 
 .activityIcon {
-@apply text-2xl;
+  @apply text-2xl;
 }
 
 .activityContent {
-@apply flex-1;
+  @apply flex-1;
 }
 
 .activityText {
-@apply text-sm text-gray-900 mb-1;
+  @apply text-sm text-gray-900 mb-1;
 }
 
 .activityTime {
-@apply text-xs text-gray-500;
+  @apply text-xs text-gray-500;
 }
 
 .noActivity {
-@apply text-center py-8 text-gray-500;
+  @apply text-center py-8 text-gray-500;
 }
 
 .chartSection {
-@apply bg-white rounded-lg shadow p-6;
+  @apply bg-white rounded-lg shadow p-6;
 }
 
 .chartContainer {
-@apply mt-4;
+  @apply mt-4;
 }
 
 .simpleChart {
-@apply flex items-end space-x-2 h-64;
+  @apply flex items-end space-x-2 h-64;
 }
 
 .chartBar {
-@apply flex-1 flex flex-col items-center;
+  @apply flex-1 flex flex-col items-center;
 }
 
 .bar {
-@apply w-full bg-blue-500 rounded-t;
-min-height: 4px;
+  @apply w-full bg-blue-500 rounded-t;
+  min-height: 4px;
 }
 
 .chartLabel {
-@apply text-xs text-gray-600 mt-2;
+  @apply text-xs text-gray-600 mt-2;
+}
+
+/* Admin Pages Common Styles */
+.container {
+  @apply p-6;
+}
+
+.header {
+  @apply flex justify-between items-center mb-6;
+}
+
+.pageTitle {
+  @apply text-2xl font-bold text-gray-900;
+}
+
+.primaryButton {
+  @apply inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200 border-none cursor-pointer;
+}
+
+.buttonIcon {
+  @apply w-4 h-4 mr-2;
+}
+
+.toolbar {
+  @apply flex flex-col sm:flex-row gap-4 mb-6;
+}
+
+.searchBox {
+  @apply relative flex-1;
+}
+
+.searchIcon {
+  @apply absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400;
+}
+
+.searchInput {
+  @apply w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+}
+
+.filterSelect {
+  @apply px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+}
+
+.tableContainer {
+  @apply bg-white rounded-lg shadow overflow-hidden;
+}
+
+.table {
+  @apply w-full;
+}
+
+.table th {
+  @apply px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50;
+}
+
+.table td {
+  @apply px-6 py-4 whitespace-nowrap text-sm text-gray-900 border-t border-gray-200;
+}
+
+.productInfo {
+  @apply flex items-center space-x-3;
+}
+
+.productImage {
+  @apply w-12 h-16 object-cover rounded;
+}
+
+.productTitle {
+  @apply font-medium text-gray-900;
+}
+
+.productDescription {
+  @apply text-sm text-gray-500;
+}
+
+.currentPrice {
+  @apply font-medium text-gray-900;
+}
+
+.originalPrice {
+  @apply text-sm text-gray-500 line-through ml-2;
+}
+
+.stockBadge {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+
+.inStock {
+  @apply bg-green-100 text-green-800;
+}
+
+.lowStock {
+  @apply bg-yellow-100 text-yellow-800;
+}
+
+.rating {
+  @apply flex items-center space-x-1;
+}
+
+.reviewCount {
+  @apply text-xs text-gray-500;
+}
+
+.statusBadge {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+
+.active {
+  @apply bg-green-100 text-green-800;
+}
+
+.inactive {
+  @apply bg-red-100 text-red-800;
+}
+
+.actionButtons {
+  @apply flex space-x-2;
+}
+
+.editButton,
+.deleteButton,
+.viewButton,
+.confirmButton {
+  @apply p-2 text-gray-400 hover:text-gray-600 transition-colors duration-200;
+}
+
+.actionIcon {
+  @apply w-4 h-4;
+}
+
+.pagination {
+  @apply flex items-center justify-between mt-6;
+}
+
+.paginationButton {
+  @apply px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.paginationInfo {
+  @apply text-sm text-gray-700;
+}
+
+.loadingContainer {
+  @apply flex justify-center items-center py-12;
+}
+
+.summary {
+  @apply mt-6 text-center text-sm text-gray-600;
+}
+
+.orderInfo {
+  @apply space-y-1;
+}
+
+.orderId {
+  @apply font-medium text-gray-900;
+}
+
+.orderDate {
+  @apply text-sm text-gray-500;
+}
+
+.customerInfo {
+  @apply space-y-1;
+}
+
+.customerName {
+  @apply font-medium text-gray-900;
+}
+
+.customerEmail {
+  @apply text-sm text-gray-500;
+}
+
+.itemCount {
+  @apply text-sm text-gray-600;
+}
+
+.totalAmount {
+  @apply font-medium text-gray-900;
+}
+
+.paymentMethod {
+  @apply text-sm text-gray-600;
+}
+
+.userInfo {
+  @apply flex items-center space-x-3;
+}
+
+.userAvatar {
+  @apply w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-medium text-sm;
+}
+
+.userName {
+  @apply font-medium text-gray-900;
+}
+
+.userId {
+  @apply text-sm text-gray-500;
+}
+
+.roleBadge {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+
+.adminRole {
+  @apply bg-purple-100 text-purple-800;
+}
+
+.userRole {
+  @apply bg-gray-100 text-gray-800;
+}
+
+.blockButton {
+  @apply p-2 text-red-400 hover:text-red-600 transition-colors duration-200;
+}
+
+/* Status-specific styles */
+.pending {
+  @apply bg-yellow-100 text-yellow-800;
+}
+
+.confirmed {
+  @apply bg-blue-100 text-blue-800;
+}
+
+.shipping {
+  @apply bg-purple-100 text-purple-800;
+}
+
+.delivered {
+  @apply bg-green-100 text-green-800;
+}
+
+.cancelled {
+  @apply bg-red-100 text-red-800;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .toolbar {
+    @apply flex-col;
+  }
+
+  .searchBox {
+    @apply flex-none;
+  }
+
+  .tableContainer {
+    @apply overflow-x-auto;
+  }
+
+  .table {
+    @apply min-w-full;
+  }
 }

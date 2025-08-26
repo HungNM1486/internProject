@@ -13,26 +13,28 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onClose, onSwitchToLogin })
   const [isLoading, setIsLoading] = useState(false);
   const { register } = authStore();
 
-  const { values, errors, touched, handleChange, handleBlur, validateForm, reset } = useFormValidation({
-    initialValues: { 
-      fullName: '', 
-      email: '', 
-      password: '', 
-      confirmPassword: '',
-      agreeToTerms: false 
-    },
-    validationRules: registerValidationRules
-  });
+  const { values, errors, touched, handleChange, handleBlur, validateForm, reset } =
+    useFormValidation({
+      initialValues: {
+        username: '',
+        fullName: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        agreeToTerms: false,
+      },
+      validationRules: registerValidationRules,
+    });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
-    
+
     setIsLoading(true);
-    
+
     try {
-      await register(values.email, values.password);
+      await register(values.username, values.email, values.password);
       onClose();
       reset();
     } catch (error: any) {
@@ -51,7 +53,29 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onClose, onSwitchToLogin })
 
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.inputGroup}>
-          <label htmlFor="fullName" className={styles.label}>Họ và tên</label>
+          <label htmlFor="username" className={styles.label}>
+            Tên đăng nhập
+          </label>
+          <input
+            id="username"
+            type="text"
+            name="username"
+            value={values.username}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            className={`${styles.input} ${errors.username && touched.username ? styles.inputError : ''}`}
+            placeholder="Nhập tên đăng nhập"
+            disabled={isLoading}
+          />
+          {errors.username && touched.username && (
+            <span className={styles.errorText}>{errors.username}</span>
+          )}
+        </div>
+
+        <div className={styles.inputGroup}>
+          <label htmlFor="fullName" className={styles.label}>
+            Họ và tên
+          </label>
           <input
             id="fullName"
             type="text"
@@ -69,7 +93,9 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onClose, onSwitchToLogin })
         </div>
 
         <div className={styles.inputGroup}>
-          <label htmlFor="email" className={styles.label}>Email</label>
+          <label htmlFor="email" className={styles.label}>
+            Email
+          </label>
           <input
             id="email"
             type="email"
@@ -87,7 +113,9 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onClose, onSwitchToLogin })
         </div>
 
         <div className={styles.inputGroup}>
-          <label htmlFor="password" className={styles.label}>Mật khẩu</label>
+          <label htmlFor="password" className={styles.label}>
+            Mật khẩu
+          </label>
           <input
             id="password"
             type="password"
@@ -105,7 +133,9 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onClose, onSwitchToLogin })
         </div>
 
         <div className={styles.inputGroup}>
-          <label htmlFor="confirmPassword" className={styles.label}>Xác nhận mật khẩu</label>
+          <label htmlFor="confirmPassword" className={styles.label}>
+            Xác nhận mật khẩu
+          </label>
           <input
             id="confirmPassword"
             type="password"
@@ -136,8 +166,8 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onClose, onSwitchToLogin })
               Tôi đồng ý với{' '}
               <button type="button" className={styles.linkButton}>
                 Điều khoản sử dụng
-              </button>
-              {' '}và{' '}
+              </button>{' '}
+              và{' '}
               <button type="button" className={styles.linkButton}>
                 Chính sách bảo mật
               </button>
@@ -150,14 +180,32 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onClose, onSwitchToLogin })
 
         <button
           type="submit"
-          disabled={isLoading || !values.email || !values.password || !values.fullName || !values.agreeToTerms}
+          disabled={
+            isLoading ||
+            !values.username ||
+            !values.email ||
+            !values.password ||
+            !values.fullName ||
+            !values.agreeToTerms
+          }
           className={`${styles.submitButton} ${isLoading ? styles.loading : ''}`}
         >
           {isLoading ? (
             <span className={styles.loadingContent}>
               <svg className={styles.spinner} viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" opacity="0.25"/>
-                <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                  fill="none"
+                  opacity="0.25"
+                />
+                <path
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                />
               </svg>
               Đang tạo tài khoản...
             </span>
@@ -172,11 +220,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onClose, onSwitchToLogin })
 
         <div className={styles.switchMode}>
           <span>Đã có tài khoản? </span>
-          <button 
-            type="button"
-            onClick={onSwitchToLogin}
-            className={styles.linkButton}
-          >
+          <button type="button" onClick={onSwitchToLogin} className={styles.linkButton}>
             Đăng nhập ngay
           </button>
         </div>

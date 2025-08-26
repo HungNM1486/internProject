@@ -8,6 +8,7 @@ export interface User {
   avatar?: string;
   role?: 'user' | 'admin';
   isEmailVerified?: boolean;
+  isBlocked?: boolean;
   lastLoginAt?: string;
   createdAt?: string;
   updatedAt?: string;

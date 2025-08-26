@@ -12,7 +12,7 @@ interface AuthState {
 
   // Actions
   login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string) => Promise<void>;
+  register: (username: string, email: string, password: string) => Promise<void>;
   logout: () => void;
   clearError: () => void;
   initializeAuth: () => void;
@@ -47,11 +47,11 @@ export const authStore = create<AuthState>()(
         }
       },
 
-      register: async (email: string, password: string) => {
+      register: async (username: string, email: string, password: string) => {
         try {
           set({ isLoading: true, error: null });
           const response = await authService.register({
-            username: email, // Sử dụng email làm username
+            username,
             email,
             password,
             confirm_password: password,

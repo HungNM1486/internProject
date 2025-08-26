@@ -1,5 +1,6 @@
 import { apiClient } from './api';
 import { Book, ApiResponse, PaginationParams } from '../types';
+import { validateBookData } from '../utils/validation';
 
 export const bookService = {
   async getBooks(params?: PaginationParams): Promise<ApiResponse<Book[]>> {
@@ -22,8 +23,22 @@ export const bookService = {
   },
 
   async getBookById(id: string): Promise<Book> {
-    const response = await apiClient.get(`/books/${id}/`);
-    return response.data;
+    try {
+      const response = await apiClient.get(`/books/${id}/`);
+
+      // Kiểm tra dữ liệu trả về
+      if (!validateBookData(response.data)) {
+        throw new Error('Dữ liệu sách không hợp lệ từ API');
+      }
+
+      return response.data;
+    } catch (error: any) {
+      console.error('Error in getBookById:', error);
+      if (error.response?.status === 404) {
+        throw new Error('Không tìm thấy sách');
+      }
+      throw new Error(error.message || 'Lỗi khi lấy thông tin sách');
+    }
   },
 
   async searchBooks(query: string): Promise<ApiResponse<Book[]>> {

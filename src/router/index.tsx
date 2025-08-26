@@ -1,7 +1,8 @@
-// src/router/index.tsx
 import { createBrowserRouter, Outlet } from 'react-router-dom';
-import { lazy } from 'react';
 import { MainLayout } from '../components/layout/MainLayout';
+import { AdminRoute } from '../components/auth';
+import { CartProvider } from '../components/cart/CartContext';
+import { AuthProvider } from '../components/auth/AuthProvider';
 
 // Import pages directly for testing
 import Home from '../pages/Home';
@@ -14,59 +15,94 @@ import Cart from '../pages/Cart';
 import Checkout from '../pages/Checkout';
 import Orders from '../pages/Orders';
 import Admin from '../pages/Admin';
+import Dashboard from '../pages/admin/Dashboard';
+import Products from '../pages/admin/Products';
+import AdminOrders from '../pages/admin/Orders';
+import Users from '../pages/admin/Users';
 import NotFound from '../pages/NotFound';
 
 export const router = createBrowserRouter([
+  // Admin routes - separate from MainLayout and protected
+  {
+    path: '/admin',
+    element: (
+      <AuthProvider>
+        <CartProvider>
+          <Admin />
+        </CartProvider>
+      </AuthProvider>
+    ),
+    children: [
+      {
+        path: '',
+        element: <Dashboard />,
+      },
+      {
+        path: 'products',
+        element: <Products />,
+      },
+      {
+        path: 'orders',
+        element: <AdminOrders />,
+      },
+      {
+        path: 'users',
+        element: <Users />,
+      },
+    ],
+  },
   {
     path: '/',
-    element: <MainLayout><Outlet /></MainLayout>,
+    element: (
+      <AuthProvider>
+        <CartProvider>
+          <MainLayout>
+            <Outlet />
+          </MainLayout>
+        </CartProvider>
+      </AuthProvider>
+    ),
     errorElement: <NotFound />,
     children: [
       // Public routes
       {
         path: '',
-        element: <Home />
+        element: <Home />,
       },
       {
         path: 'books',
-        element: <Books />
+        element: <Books />,
       },
       {
         path: 'books/:id',
-        element: <BookDetail />
+        element: <BookDetail />,
       },
       {
         path: 'login',
-        element: <Login />
+        element: <Login />,
       },
       {
         path: 'register',
-        element: <Register />
+        element: <Register />,
       },
-      
+
       // Protected routes
       {
         path: 'profile',
-        element: <Profile />
+        element: <Profile />,
       },
       {
         path: 'cart',
-        element: <Cart />
+        element: <Cart />,
       },
       {
         path: 'checkout',
-        element: <Checkout />
+        element: <Checkout />,
       },
       {
         path: 'orders',
-        element: <Orders />
+        element: <Orders />,
       },
-      
-      // Admin routes
-      {
-        path: 'admin',
-        element: <Admin />
-      }
-    ]
-  }
+    ],
+  },
 ]);

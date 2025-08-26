@@ -7,6 +7,7 @@ import ImageGallery from '@/components/books/details/ImageGallery';
 import RightSellerCard from '@/components/books/details/RightSellerCard';
 import { SpecsTable, DescriptionBlock } from '@/components/books/details/InfoSections';
 import SimilarBooks from '@/components/books/details/SimilarBooks';
+import CartDebug from '@/components/cart/CartDebug';
 
 export default function BookDetail() {
   const { id } = useParams<{ id: string }>();
@@ -48,10 +49,10 @@ export default function BookDetail() {
         let adaptedList: Book[] = [];
 
         // Thử lấy theo categoryId trước
-        if (book.categories?.id) {
+        if (book.categories && book.categories.length > 0 && book.categories[0]?.id) {
           try {
-            console.log('Trying to load by categoryId:', book.categories.id);
-            response = await bookService.getBooksByCategory(String(book.categories.id));
+            console.log('Trying to load by categoryId:', book.categories[0].id);
+            response = await bookService.getBooksByCategory(String(book.categories[0].id));
             if (response && response.data) {
               adaptedList = response.data
                 .map(adaptApiBook)
@@ -113,6 +114,9 @@ export default function BookDetail() {
 
   return (
     <div className="container mx-auto px-4 py-5">
+      {/* Debug component */}
+      <CartDebug />
+
       {/* Breadcrumb mảnh */}
       <nav className="mb-3 text-[13px] text-gray-500">
         <Link to="/" className="hover:underline">
@@ -123,7 +127,7 @@ export default function BookDetail() {
           Nhà Sách Tiki
         </Link>
         <span className="mx-1.5">›</span>
-        <span className="text-gray-700">{book.name}</span>
+        <span className="text-gray-700">{book.name || book.title || 'Không có tên'}</span>
       </nav>
 
       {/* 3 cột giống mock: 4 | 5 | 3 */}
@@ -131,7 +135,7 @@ export default function BookDetail() {
         <section className="col-span-12 lg:col-span-4">
           <ImageGallery
             images={book.images.map((img: any) => img.large_url || img.medium_url || img.base_url)}
-            title={book.name}
+            title={book.name || book.title || 'Không có tên'}
           />
         </section>
 
@@ -163,15 +167,21 @@ export default function BookDetail() {
             {/* giá đỏ + % xám + gạch giá gốc nhỏ kế bên */}
             <div className="mt-2 flex items-center gap-2">
               <div className="text-[20px] text-rose-600 font-normal">
-                {Intl.NumberFormat('vi-VN').format(book.price)}đ
+                {Intl.NumberFormat('vi-VN').format(book.price || book.list_price || 0)}đ
               </div>
-              {book.originalPrice && book.originalPrice > book.price && (
+              {book.originalPrice && book.originalPrice > (book.price || book.list_price || 0) && (
                 <>
                   <span className="text-gray-400 line-through text-[13px]">
                     {Intl.NumberFormat('vi-VN').format(book.originalPrice)}đ
                   </span>
                   <span className="text-[12px] text-gray-600">
-                    -{Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100)}%
+                    -
+                    {Math.round(
+                      ((book.originalPrice - (book.price || book.list_price || 0)) /
+                        book.originalPrice) *
+                        100
+                    )}
+                    %
                   </span>
                 </>
               )}
@@ -191,7 +201,9 @@ export default function BookDetail() {
             <h2 className="px-4 pt-3 pb-2 text-[15px] font-semibold text-gray-900">
               Mô tả sản phẩm
             </h2>
-            <DescriptionBlock text={book.description} />
+            <DescriptionBlock
+              text={book.description || book.short_description || 'Chưa có mô tả'}
+            />
           </div>
 
           {/* THÊM PHẦN SIMILAR BOOKS */}

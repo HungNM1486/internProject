@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { bookService } from '../services/bookService';
 import type { Book, PaginationParams } from '../types';
+import { validateBookData } from '../utils/validation';
 
 interface BookState {
   books: Book[];
@@ -10,7 +11,7 @@ interface BookState {
   totalPages: number;
   isLoading: boolean;
   error: string | null;
-  
+
   // Actions
   fetchBooks: (params?: PaginationParams) => Promise<void>;
   fetchBookById: (id: string) => Promise<void>;
@@ -32,18 +33,18 @@ export const bookStore = create<BookState>((set) => ({
     try {
       set({ isLoading: true, error: null });
       const response = await bookService.getBooks(params);
-      
+
       set({
         books: response.data,
         totalBooks: response.total || 0,
         currentPage: response.page || 1,
         totalPages: Math.ceil((response.total || 0) / (params?.limit || 10)),
-        isLoading: false
+        isLoading: false,
       });
     } catch (error: any) {
       set({
         error: error.message || 'Không thể tải danh sách sách',
-        isLoading: false
+        isLoading: false,
       });
     }
   },
@@ -52,15 +53,21 @@ export const bookStore = create<BookState>((set) => ({
     try {
       set({ isLoading: true, error: null });
       const book = await bookService.getBookById(id);
-      
+
+      // Kiểm tra dữ liệu sách có đầy đủ không
+      if (!validateBookData(book)) {
+        throw new Error('Dữ liệu sách không hợp lệ');
+      }
+
       set({
         currentBook: book,
-        isLoading: false
+        isLoading: false,
       });
     } catch (error: any) {
+      console.error('Error fetching book:', error);
       set({
         error: error.message || 'Không thể tải thông tin sách',
-        isLoading: false
+        isLoading: false,
       });
     }
   },
@@ -69,16 +76,16 @@ export const bookStore = create<BookState>((set) => ({
     try {
       set({ isLoading: true, error: null });
       const response = await bookService.searchBooks(query);
-      
+
       set({
         books: response.data,
         totalBooks: response.total || 0,
-        isLoading: false
+        isLoading: false,
       });
     } catch (error: any) {
       set({
         error: error.message || 'Tìm kiếm thất bại',
-        isLoading: false
+        isLoading: false,
       });
     }
   },
@@ -87,19 +94,19 @@ export const bookStore = create<BookState>((set) => ({
     try {
       set({ isLoading: true, error: null });
       const response = await bookService.getBooksByCategory(categoryId);
-      
+
       set({
         books: response.data,
         totalBooks: response.total || 0,
-        isLoading: false
+        isLoading: false,
       });
     } catch (error: any) {
       set({
         error: error.message || 'Lọc sách theo danh mục thất bại',
-        isLoading: false
+        isLoading: false,
       });
     }
   },
 
-  clearError: () => set({ error: null })
-})); 
+  clearError: () => set({ error: null }),
+}));

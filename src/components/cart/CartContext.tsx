@@ -64,20 +64,61 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       }
 
       const response = await cartService.getCart();
+      console.log('Cart response:', response);
 
       // Fetch book details for each cart item
       const cartItemsWithBooks = await Promise.all(
-        response.items.map(async (item: any) => {
+        response.items.map(async (item: any, index: number) => {
           try {
-            const book = await bookService.getBookById(item.book_id || item.bookId);
-            return {
-              bookId: item.book_id || item.bookId,
+            console.log(`Processing cart item ${index}:`, item);
+
+            // API có thể trả về book object trực tiếp hoặc book_id
+            let book;
+            let bookId;
+
+            if (item.book && item.book.id && item.book.title) {
+              // Nếu API đã trả về book object đầy đủ
+              book = item.book;
+              bookId = item.book.id;
+              console.log(`Item ${index}: Using complete book object from response`);
+            } else if (item.book && item.book.id) {
+              // Nếu API trả về book object nhưng thiếu thông tin
+              bookId = item.book.id;
+              console.log(
+                `Item ${index}: Book object incomplete, fetching full details for ID: ${bookId}`
+              );
+              book = await bookService.getBookById(bookId);
+            } else if (item.book_id || item.bookId) {
+              // Nếu API chỉ trả về book_id
+              bookId = item.book_id || item.bookId;
+              console.log(`Item ${index}: Fetching book by ID: ${bookId}`);
+              book = await bookService.getBookById(bookId);
+            } else {
+              // Fallback: thử tìm book_id trong các trường khác
+              const possibleBookId =
+                item.id || item.book?.id || item.product_id || item.book_id || item.bookId;
+              if (possibleBookId) {
+                console.log(`Item ${index}: Using fallback book ID: ${possibleBookId}`);
+                bookId = possibleBookId;
+                book = await bookService.getBookById(possibleBookId);
+              } else {
+                console.error(`Item ${index}: No book information found:`, item);
+                console.error(`Item ${index}: Available fields:`, Object.keys(item));
+                return null;
+              }
+            }
+
+            const result = {
+              bookId: bookId,
               book,
-              quantity: item.quantity,
+              quantity: item.quantity || 1,
               price: item.price || getUnitPrice(book),
             };
+
+            console.log(`Item ${index}: Processed successfully:`, result);
+            return result;
           } catch (err) {
-            console.error('Failed to fetch book details:', err);
+            console.error(`Item ${index}: Failed to fetch book details:`, err);
             return null;
           }
         })
@@ -103,14 +144,29 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const addToCart = async (book: Book, qty = 1) => {
+    console.log('CartContext.addToCart called:', { book, qty });
+    console.log('Book object keys:', Object.keys(book));
+    console.log('Book product_id:', (book as any).product_id);
+    console.log('Book id:', (book as any).id);
+    console.log('Full book object:', JSON.stringify(book, null, 2));
     try {
       setError(null);
-      const bookId = String((book as any).id ?? '');
-      if (!bookId) return;
+      // Thử sử dụng product_id trước, nếu không có thì dùng id
+      // Có thể backend mong đợi product_id thay vì UUID
+      const bookId = String((book as any).product_id ?? (book as any).id ?? '');
+      console.log('Extracted bookId:', bookId);
+      if (!bookId) {
+        console.error('No bookId found');
+        return;
+      }
 
+      console.log('Calling cartService.addToCart...');
       await cartService.addToCart(bookId, qty);
+      console.log('cartService.addToCart successful, refreshing cart...');
       await refreshCart();
+      console.log('Cart refreshed successfully');
     } catch (err: any) {
+      console.error('addToCart error:', err);
       setError(err?.message || 'Không thể thêm vào giỏ hàng');
       throw err;
     }
